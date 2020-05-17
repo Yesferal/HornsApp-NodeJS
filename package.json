@@ -21,11 +21,13 @@
   "homepage": "https://github.com/Yesferal/Hornsapp-Api#readme",
   "devDependencies": {
     "@types/express": "^4.17.6",
+    "@types/mongoose": "^5.7.20",
     "concurrently": "^5.2.0",
     "nodemon": "^2.0.4",
     "typescript": "^3.9.2"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.9.14"
   }
 }

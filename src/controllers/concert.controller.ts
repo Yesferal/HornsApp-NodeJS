@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import { BaseController } from './base.controller';
+import { concertModel } from '../models';
+import { IConcert } from '../models/concert.model';
 
 export class ConcertController extends BaseController {
     public async findAll(
@@ -7,7 +9,7 @@ export class ConcertController extends BaseController {
         response: Response
     ): Promise<void> {
         try {
-            const items = await "ConcertController.findAll()";
+            const items: IConcert[] = await concertModel.find();
         
             response.status(200).send(items);
           } catch (e) {
