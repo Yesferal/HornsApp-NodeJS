@@ -1,0 +1,21 @@
+{
+  "name": "hornsapp-api",
+  "version": "0.0.1",
+  "description": "This is an API about concerts at Lima. This API is made with NodeJS, MongoDB  and Typescript.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yesferal/Hornsapp-Api.git"
+  },
+  "keywords": [],
+  "author": "Yesferal Cueva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yesferal/Hornsapp-Api/issues"
+  },
+  "homepage": "https://github.com/Yesferal/Hornsapp-Api#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.6"
+  }
+}
