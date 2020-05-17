@@ -17,5 +17,8 @@
   "homepage": "https://github.com/Yesferal/Hornsapp-Api#readme",
   "devDependencies": {
     "@types/express": "^4.17.6"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }
