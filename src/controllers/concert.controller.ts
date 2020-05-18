@@ -17,10 +17,16 @@ export class ConcertController extends BaseController {
           }
     }
     
-    public async find(
+    public async findById(
         request: Request, 
         response: Response
-        ): Promise<void> {
-        throw new Error("Method not implemented.");
+    ): Promise<void> {
+        try {
+            const item = await concertModel.findById(request.params.id);
+        
+            response.status(200).send(item);
+        } catch (e) {
+            response.status(404).send(e.message);
+        }
     }
 }

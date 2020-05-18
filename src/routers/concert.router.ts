@@ -6,3 +6,4 @@ export const router = express.Router({
 });
 
 router.get('/all', concertController.findAll)
+router.get('/:id', concertController.findById)

@@ -6,3 +6,4 @@ export const router = express.Router({
 });
 
 router.get('/all', bandController.findAll)
+router.get('/:id', bandController.findById)

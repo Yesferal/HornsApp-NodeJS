@@ -4,11 +4,17 @@ import { bandModel } from '../models';
 import { IBand } from '../models/band.model';
 
 export class BandController extends BaseController {
-    public async find(
+    public async findById(
         request: Request, 
         response: Response
     ): Promise<void> {
-        throw new Error("Method not implemented.");
+        try {
+            const item = await bandModel.findById(request.params.id);
+        
+            response.status(200).send(item);
+        } catch (e) {
+            response.status(404).send(e.message);
+        }
     }
 
     public async findAll(
