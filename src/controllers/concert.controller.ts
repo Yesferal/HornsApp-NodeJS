@@ -16,7 +16,6 @@ export class ConcertController extends BaseController {
             response.status(404).send(e.message);
           }
     }
-
     
     public async find(
         request: Request, 

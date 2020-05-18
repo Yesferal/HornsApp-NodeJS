@@ -19,4 +19,4 @@ const BandSchema: Schema = new Schema({
     concerts: [{ type: Schema.Types.ObjectId, ref: 'Concert', require: true}]
 });
   
-export default mongoose.model<IBand>('Band', BandSchema);
+export const bandModel = mongoose.model<IBand>('Band', BandSchema);
