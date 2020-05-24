@@ -1,12 +1,11 @@
 import express from 'express';
-import { DEV_PORT, DEV_DB_URL, DEV_SECRET } from './config/constants';
 import mongoose from "mongoose";
 import { concertRouter, bandRouter } from './routers';
 import { Middleware }  from './middleware/middleware'
 
-const PORT = process.env.PORT || DEV_PORT
-const DB_URL = process.env.DB_URL || DEV_DB_URL
-const SECRET = process.env.SECRET || DEV_SECRET
+const PORT = process.env.PORT || ''
+const DB_URL = process.env.DB_URL || ''
+const SECRET = process.env.SECRET || ''
 
 var middleware = new Middleware(SECRET)
 
