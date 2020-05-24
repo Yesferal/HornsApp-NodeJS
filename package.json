@@ -8,7 +8,8 @@
     "build:dev": "tsc --watch --preserveWatchOutput",
     "dev": "concurrently \"npm:build:dev\" \"npm:start:dev\"",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "debug": "tsc && node --inspect --require dotenv/config dist/index.js"
   },
   "repository": {
     "type": "git",

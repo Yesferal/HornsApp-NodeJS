@@ -121,5 +121,5 @@ dist
 # Stript to initialize MongoDB content
 .myScript
 
-# Constants to Dev
-src/config
+# VisualCode
+launch.json
