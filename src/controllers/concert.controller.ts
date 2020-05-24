@@ -22,7 +22,10 @@ export class ConcertController extends BaseController {
         response: Response
     ): Promise<void> {
         try {
-            const item = await concertModel.findById(request.params.id);
+            const item = await concertModel
+                .findById(request.params.id)
+                .populate('bands')
+                .exec();;
         
             response.status(200).send(item);
         } catch (e) {

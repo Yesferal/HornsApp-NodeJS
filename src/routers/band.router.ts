@@ -5,5 +5,5 @@ export const router = express.Router({
     strict: true
 });
 
-router.get('/all', bandController.findAll)
+router.get('/', bandController.findAll)
 router.get('/:id', bandController.findById)
