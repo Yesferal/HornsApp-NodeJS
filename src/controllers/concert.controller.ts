@@ -25,7 +25,9 @@ export class ConcertController extends BaseController {
             const item = await concertModel
                 .findById(request.params.id)
                 .populate('bands')
-                .exec();;
+                .populate('local')
+                .populate('state')
+                .exec();
         
             response.status(200).send(item);
         } catch (e) {
