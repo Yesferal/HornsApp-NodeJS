@@ -32,6 +32,7 @@ jobs:
     - name: Install
       run: |
         npm install
+        npm run build
 
     - name: Add remote origin
       run: |
