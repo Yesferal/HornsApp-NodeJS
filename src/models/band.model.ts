@@ -16,6 +16,8 @@ const BandSchema: Schema = new Schema({
     logoImage: { type: String, require: true },
     membersImage: { type: String, require: true },
     formerIn: { type: Number, require: true },
+    genre: { type: String, require: true },
+    country: { type: String, requiere: true },
     concerts: [{ type: Schema.Types.ObjectId, ref: 'Concert', require: true}]
 });
   

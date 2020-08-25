@@ -12,7 +12,6 @@ const ConcertSchema: Schema = new Schema({
     socialNetworks: [{ type: String }],
     headlinerImage: { type: String },
     posterImage: { type: String },
-    ticketingDate: { type: Date },
     ticketingUrl: { type: String },
     trailerUrl: { type: String },
     local : { type: Schema.Types.ObjectId, ref: 'Local' },

@@ -9,7 +9,10 @@ export class ConcertController extends BaseController {
         response: Response
     ): Promise<void> {
         try {
-            const items: IConcert[] = await concertModel.find();
+            const currentDate = new Date()
+            const items: IConcert[] = await concertModel.find({ 
+                dateTime: { $gte: currentDate }
+            }).sort({ dateTime: 'asc'})
         
             response.status(200).send(items);
           } catch (e) {
