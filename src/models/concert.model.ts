@@ -14,6 +14,7 @@ const ConcertSchema: Schema = new Schema({
     posterImage: { type: String },
     ticketingUrl: { type: String },
     trailerUrl: { type: String },
+    category: { type: String, enum: ['LIVE', 'VIRTUAL']},
     local : { type: Schema.Types.ObjectId, ref: 'Local' },
     state : { type: Schema.Types.ObjectId, ref: 'State', require: true },
     bands : [{ type: Schema.Types.ObjectId, ref: 'Band', require: true}]
