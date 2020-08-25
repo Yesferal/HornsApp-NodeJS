@@ -12,6 +12,7 @@ const ConcertSchema: Schema = new Schema({
     socialNetworks: [{ type: String }],
     headlinerImage: { type: String },
     posterImage: { type: String },
+    ticketingHost: { type: String },
     ticketingUrl: { type: String },
     trailerUrl: { type: String },
     category: { type: String, enum: ['LIVE', 'VIRTUAL']},
