@@ -16,7 +16,7 @@ const ConcertSchema: Schema = new Schema({
     ticketingUrl: { type: String },
     trailerUrl: { type: String },
     genre: {type: String},
-    tag: [{ type: String, enum: ['LIVE', 'VIRTUAL', 'METAL', 'ROCK']}],
+    tags: [{ type: String, enum: ['LIVE', 'VIRTUAL', 'METAL', 'ROCK']}],
     venue : { type: Schema.Types.ObjectId, ref: 'Venue' },
     state : { type: Schema.Types.ObjectId, ref: 'State', require: true },
     bands : [{ type: Schema.Types.ObjectId, ref: 'Band', require: true}]
