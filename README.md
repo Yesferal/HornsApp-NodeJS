@@ -30,7 +30,7 @@ $ npm run dev
 ```
 Then open your local browser and try accessing.
 ```
-https://localhost:8080/band/
+https://localhost:8080/concert/
 ```
 
 ---

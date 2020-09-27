@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
 import { BaseController } from './base.controller';
-import { localModel } from '../models';
+import { venueModel } from '../models';
 
-export class LocalController extends BaseController {
+export class VenueController extends BaseController {
     public async findAll(
         request: Request, 
         response: Response
     ): Promise<void> {
         try {
-            const items = await localModel
+            const items = await venueModel
                 .find()
                 .exec();
         
@@ -27,7 +27,7 @@ export class LocalController extends BaseController {
         response: Response
     ): Promise<void> {
         try {
-            const item = await localModel
+            const item = await venueModel
                 .findById(request.params.id)
                 .exec();
         

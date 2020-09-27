@@ -1,11 +1,11 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface ILocal extends Document {
+export interface IVenue extends Document {
     name: String,
     description: String
 }
 
-const LocalSchema = new Schema({
+const VenueSchema = new Schema({
     name: { type: String, require: true, minlength: 1, maxlength: 25 },
     descrption: { type: String, require: true, minlength: 1, maxlength: 350 },
     latitude: { type: Number },
@@ -13,4 +13,4 @@ const LocalSchema = new Schema({
     imageUrl: { type: String }
 })
 
-export const localModel = mongoose.model<ILocal>('Local', LocalSchema);
+export const venueModel = mongoose.model<IVenue>('Venue', VenueSchema);

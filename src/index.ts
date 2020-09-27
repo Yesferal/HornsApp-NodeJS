@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from "mongoose";
-import { concertRouter, bandRouter, localRouter, stateRouter } from './routers';
+import { concertRouter, bandRouter, venueRouter, stateRouter } from './routers';
 import { Middleware }  from './middleware/middleware'
 
 const PORT = process.env.PORT || ''
@@ -18,7 +18,7 @@ const app = express();
 app.use(express.json());
 app.use('/concert', middleware.verifyAuthorization, concertRouter);
 app.use('/band', middleware.verifyAuthorization, bandRouter);
-app.use('/local', middleware.verifyAuthorization, localRouter);
+app.use('/venue', middleware.verifyAuthorization, venueRouter);
 app.use('/state', middleware.verifyAuthorization, stateRouter);
 
 app.listen(PORT, () => {

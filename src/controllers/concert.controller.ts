@@ -11,8 +11,8 @@ export class ConcertController extends BaseController {
         try {
             const currentDate = new Date()
             const items: IConcert[] = await concertModel.find({ 
-                dateTime: { $gte: currentDate }
-            }).sort({ dateTime: 'asc'})
+                dateTime: { $gte: currentDate } 
+            })
         
             response.status(200).send(items);
           } catch (e) {
@@ -28,7 +28,7 @@ export class ConcertController extends BaseController {
             const item = await concertModel
                 .findById(request.params.id)
                 .populate('bands')
-                .populate('local')
+                .populate('venue')
                 .populate('state')
                 .exec();
         
