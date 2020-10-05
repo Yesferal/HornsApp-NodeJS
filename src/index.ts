@@ -21,6 +21,9 @@ app.use('/band', middleware.verifyAuthorization, bandRouter);
 app.use('/venue', middleware.verifyAuthorization, venueRouter);
 app.use('/state', middleware.verifyAuthorization, stateRouter);
 
+// Only to keep our free Heroku App alive
+app.get('/heroku', (req, res) => { return res.send('Hello, I am alive'); });
+
 app.listen(PORT, () => {
     console.log(`Listening on Port: http://localhost:${PORT}`);
 });
