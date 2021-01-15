@@ -1,28 +1,28 @@
 # Horns App
 
-This is an API about concerts at Lima. This API is made with NodeJS, MongoDB  and Typescript. Here you will obtain:
+This is an API about concerts at Lima. This API is made with NodeJS, Express, MongoDB, Typescript and is deployed in Heroku. Here you will obtain:
 
 1. Concerts that will happened soon
 2. Bands' information
 3. News about this bands & concerts.
 4. The last bands' videos released.
 
----
-
 ## Installation
-First, this project need Git, Node JS and MongoDB previously installed, the steps for installation depend on OS you have.
+First, this project needs Git and Node JS previously installed, the steps for installation depend on the OS you have.
 
 Then, you should clone the repository.
 ```
 $ git clone git@github.com:Yesferal/Hornsapp-Api.git
 $ cd Hornsapp-Api
 ```
-Finally, you need to install `express` that provides a set of features for web, `concurrently` to run script simultaneously, `nodemon` for a automaticatlly server restart and `mongoose` to model application data (MongoDB).
+
+Also you have to request the `.env` file to the project admin. This file contains information that the project needs to run perfectly. 
+
+Finally, you need to install the project dependencies like `express`, `nodemon`, `mongoose` or `typescript`.
 ```
 $ npm install
 ``` 
 
----
 ## Usage
 Open a terminal and run.
 ```
