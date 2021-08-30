@@ -2,6 +2,9 @@ import express from 'express';
 import mongoose from "mongoose";
 import { concertRouter, bandRouter, venueRouter, stateRouter } from './routers';
 import { Middleware }  from './middleware/middleware'
+import * as socketio from 'socket.io';
+import * as http from 'http';
+import * as path from "path"
 
 const PORT = process.env.PORT || ''
 const DB_URL = process.env.DB_URL || ''
@@ -24,6 +27,32 @@ app.use('/state', middleware.verifyAuthorization, stateRouter);
 // Only to keep our free Heroku App alive
 app.get('/heroku', (req, res) => { return res.send('Hello, I am alive'); });
 
-app.listen(PORT, () => {
-    console.log(`Listening on Port: http://localhost:${PORT}`);
+app.get("/", (req: any, res: any) => {
+    res.sendFile(path.resolve("./src/index.html"))
+});
+
+// Socket
+const server: http.Server = http.createServer(app)
+const io: socketio.Server = new socketio.Server()
+io.attach(server)
+
+io.on('connection', (socket: socketio.Socket) => {
+    
+    console.log(`Connection : SocketId = ${socket.id}`)
+
+    socket.on("message", function (message: any) {
+        console.log(message)
+    })
+    
+    socket.emit('updateDrawer', JSON.stringify("First testing socket io emitted!"))
+})
+
+app.use('/updateDrawer', middleware.verifyAuthorization, (req, res) => {
+    io.emit('updateDrawer', JSON.stringify("Another testing socket io, updated!"))
+
+    return res.send('Drawer Updated!')
+})
+
+server.listen(PORT, () => {
+    console.log(`Http Server listening on Port: http://localhost:${PORT}`)
 });

@@ -1,0 +1,39 @@
+<!-- ./client/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+</head>
+
+<body>
+    <button onClick="sendMsg()">Hit Me</button>
+
+<script src="https://cdn.socket.io/3.1.3/socket.io.min.js"
+    integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh"
+    crossorigin="anonymous"></script>
+        <script>
+        const socket = io.connect();
+
+        function sendMsg() {
+            socket.emit("message", "HELLO FIREFOX");
+        }
+
+        socket.on("connect_error", (err) => {
+                console.log(`connect_error due to ${err}`);
+            });
+
+            socket.on('connect', function () {
+                    console.log('connected!');
+                });
+
+        socket.on("updateDrawer", function (data) {
+            console.log("Message from server: "+data)
+        })
+    </script>
+</body>
+
+</html>
