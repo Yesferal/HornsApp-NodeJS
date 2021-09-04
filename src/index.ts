@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from "mongoose";
-import { concertRouter, bandRouter, venueRouter, stateRouter } from './routers';
+import { concertRouter, bandRouter, venueRouter, stateRouter } from './routers'
+import { drawerController } from './controllers'
 import { Middleware }  from './middleware/middleware'
 import * as socketio from 'socket.io';
 import * as http from 'http';
@@ -36,21 +37,24 @@ const server: http.Server = http.createServer(app)
 const io: socketio.Server = new socketio.Server()
 io.attach(server)
 
-io.on('connection', (socket: socketio.Socket) => {
+io.on('connection', async (socket: socketio.Socket) => {
     
     console.log(`Connection : SocketId = ${socket.id}`)
 
     socket.on("message", function (message: any) {
         console.log(message)
     })
-    
-    socket.emit('updateDrawer', JSON.stringify("First testing socket io emitted!"))
+
+    const drawer = await drawerController.findLast()
+
+    socket.emit('updateDrawer', JSON.stringify(drawer))
 })
 
-app.use('/updateDrawer', middleware.verifyAuthorization, (req, res) => {
-    io.emit('updateDrawer', JSON.stringify("Another testing socket io, updated!"))
+app.use('/updateDrawer', middleware.verifyAuthorization, async (req, res) => {
+    const drawer = await drawerController.findLast()
+    io.emit('updateDrawer', JSON.stringify(drawer))
 
-    return res.send('Drawer Updated!')
+    return res.status(200).json(drawer)
 })
 
 server.listen(PORT, () => {
