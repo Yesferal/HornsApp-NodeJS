@@ -34,10 +34,6 @@ jobs:
         npm install
         npm run build
 
-    - name: Add remote origin
+    - name: Trigger remote host deployment
       run: |
-        git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_STAGING }}.git
-    
-    - name: Deploy to Heroku
-      run: |
-        git push heroku HEAD:master -f
+        curl -v ${{ secrets.HOST_URL }}
