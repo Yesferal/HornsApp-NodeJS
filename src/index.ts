@@ -41,20 +41,35 @@ io.on('connection', async (socket: socketio.Socket) => {
     
     console.log(`Connection : SocketId = ${socket.id}`)
 
+    const versionCode = Number(socket.handshake.query.versionCode?.toString())
+    const platform = socket.handshake.query.platform?.toString()
+    if (versionCode && platform) {
+        const drawer = await drawerController.findBy(versionCode, platform)
+        if (drawer) {
+            socket.emit('updateDrawer', JSON.stringify(drawer))
+        }
+    }
+
     socket.on("message", function (message: any) {
-        console.log(message)
+        console.log("Message: " + message)
+        console.log("Queries: " + JSON.stringify(socket.handshake.query))
     })
-
-    const drawer = await drawerController.findLast()
-
-    socket.emit('updateDrawer', JSON.stringify(drawer))
 })
 
 app.use('/updateDrawer', middleware.verifyAuthorization, async (req, res) => {
-    const drawer = await drawerController.findLast()
-    io.emit('updateDrawer', JSON.stringify(drawer))
+    const versionCode = Number(req.query.versionCode?.toString())
+    const platform = req.query.platform?.toString()
 
-    return res.status(200).json(drawer)
+    if (versionCode && platform) {
+        const drawer = await drawerController.findBy(versionCode, platform)
+        if (drawer) {
+            io.emit('updateDrawer', JSON.stringify(drawer))
+
+            return res.status(200).json(drawer)
+        }
+    }
+
+    return res.status(400).json({ error: "No json drawer available" })
 })
 
 server.listen(PORT, () => {
