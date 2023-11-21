@@ -1,6 +1,6 @@
 import express from 'express'
 import mongoose from "mongoose"
-import { concertRouter, bandRouter, venueRouter, stateRouter } from './routers'
+import { concertRouter, bandRouter, venueRouter, stateRouter, reviewRouter } from './routers'
 import { drawerController } from './controllers'
 import { Middleware } from './middleware/middleware'
 import * as socketio from 'socket.io'
@@ -23,6 +23,7 @@ app.use(express.json())
 app.use('/concert', middleware.verifyAuthorization, concertRouter)
 app.use('/band', middleware.verifyAuthorization, bandRouter)
 app.use('/venue', middleware.verifyAuthorization, venueRouter)
+app.use('/review', middleware.verifyAuthorization, reviewRouter)
 app.use('/state', middleware.verifyAuthorization, stateRouter)
 
 // Only to keep our free Heroku App alive
