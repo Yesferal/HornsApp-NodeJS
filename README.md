@@ -20,13 +20,13 @@ Also you have to request the `.env` file to the project admin. This file contain
 
 Finally, you need to install the project dependencies like `express`, `nodemon`, `mongoose` or `typescript`.
 ```
-$ npm install
+npm install
 ``` 
 
 ## Usage
 Open a terminal and run.
 ```
-$ npm run dev
+npm run dev
 ```
 Then open your local browser and try accessing.
 ```
