@@ -29,8 +29,25 @@ const ReviewScheme: Schema = new Schema({
             en: { type: String },
             es: { type: String }
         },
-        imageUrl: { type: String }
-    }]
+        description: {
+            en: { type: String },
+            es: { type: String }
+        },
+        icon: { type: String },
+        imageUrl: { type: String },
+        navigation: {
+            key: {
+                type: String
+            },
+            parameters: {
+                type: Map,
+                of: String
+            }
+        }
+    }],
+    type: {
+        type: String
+    },
 })
 
 export const reviewModel = mongoose.model<IReview>('Review', ReviewScheme)

@@ -24,12 +24,24 @@ const ConcertSchema: Schema = new Schema({
         key: {
             type: String
         },
-        name: {
+        title: {
+            en: { type: String },
+            es: { type: String }
+        },
+        subtitle: {
             en: { type: String },
             es: { type: String }
         },
         icon: { type: String },
-        url: { type: String }
+        navigation: {
+            key: {
+                type: String
+            },
+            parameters: {
+                type: Map,
+                of: String
+            }
+        }
     }],
     tags: [{ type: String }],
     venue: { type: Schema.Types.ObjectId, ref: 'Venue' },

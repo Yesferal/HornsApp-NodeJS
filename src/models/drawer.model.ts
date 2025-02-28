@@ -16,6 +16,12 @@ interface ITitle {
 }
 
 const DrawerScheme: Schema = new Schema({
+    platform: {
+        type: String
+    },
+    versionCode: {
+        type: Number
+    },
     screens: [{
         key: {
             type: String
@@ -23,6 +29,46 @@ const DrawerScheme: Schema = new Schema({
         title: {
             en: { type: String },
             es: { type: String }
+        }
+    }],
+    newest: [{
+        key: {
+            type: String
+        },
+        title: {
+            en: { type: String },
+            es: { type: String }
+        },
+        subtitle: {
+            en: { type: String },
+            es: { type: String }
+        },
+        description: {
+            en: { type: String },
+            es: { type: String }
+        },
+        icon: { type: String },
+        backgroundColor: { type: String },
+        condition: {
+            key: {
+                type: String
+            },
+            defaultValues: [{ type: String }],
+            filterBy: {
+                type: String
+            },
+            count: {
+                type: Number
+            },
+        },
+        navigation: {
+            key: {
+                type: String
+            },
+            parameters: {
+                type: Map,
+                of: String
+            }
         }
     }],
     categories: [{
