@@ -35,6 +35,7 @@ const ReviewScheme: Schema = new Schema({
         },
         icon: { type: String },
         imageUrl: { type: String },
+        height: { type: Number },
         navigation: {
             key: {
                 type: String

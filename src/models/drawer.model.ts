@@ -48,6 +48,9 @@ const DrawerScheme: Schema = new Schema({
             es: { type: String }
         },
         icon: { type: String },
+        imageUrl: { type: String },
+        height: { type: Number },
+        textColor: { type: String },
         backgroundColor: { type: String },
         condition: {
             key: {
