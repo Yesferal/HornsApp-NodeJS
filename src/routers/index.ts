@@ -6,6 +6,7 @@ import { router as venueRouter } from './venue.router'
 import { router as adminVenueRouter } from './admin/venue.router'
 import { router as stateRouter } from './state.router'
 import { router as reviewRouter } from './review.router';
+import { router as adminReviewRouter } from './admin/review.router';
 
 export {
     concertRouter,
@@ -15,5 +16,6 @@ export {
     venueRouter,
     adminVenueRouter,
     stateRouter,
-    reviewRouter
+    reviewRouter,
+    adminReviewRouter,
 };

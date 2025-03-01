@@ -21,21 +21,37 @@ const ReviewScheme: Schema = new Schema({
         key: {
             type: String
         },
-        title: {
-            en: { type: String },
-            es: { type: String }
+        data: {
+            title: {
+                en: { type: String },
+                es: { type: String }
+            },
+            subtitle: {
+                en: { type: String },
+                es: { type: String }
+            },
+            description: {
+                en: { type: String },
+                es: { type: String }
+            },
+            icon: { type: String },
+            imageUrl: { type: String },
+            height: { type: Number },
+            textColor: { type: String },
+            backgroundColor: { type: String }
         },
-        subtitle: {
-            en: { type: String },
-            es: { type: String }
+        condition: {
+            key: {
+                type: String
+            },
+            defaultValues: [{ type: String }],
+            filterBy: {
+                type: String
+            },
+            count: {
+                type: Number
+            },
         },
-        description: {
-            en: { type: String },
-            es: { type: String }
-        },
-        icon: { type: String },
-        imageUrl: { type: String },
-        height: { type: Number },
         navigation: {
             key: {
                 type: String
@@ -46,9 +62,13 @@ const ReviewScheme: Schema = new Schema({
             }
         }
     }],
-    type: {
+    key: {
         type: String
     },
+    title: {
+        en: { type: String },
+        es: { type: String }
+    }
 })
 
 export const reviewModel = mongoose.model<IReview>('Review', ReviewScheme)

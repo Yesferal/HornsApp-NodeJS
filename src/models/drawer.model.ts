@@ -35,23 +35,25 @@ const DrawerScheme: Schema = new Schema({
         key: {
             type: String
         },
-        title: {
-            en: { type: String },
-            es: { type: String }
+        data: {
+            title: {
+                en: { type: String },
+                es: { type: String }
+            },
+            subtitle: {
+                en: { type: String },
+                es: { type: String }
+            },
+            description: {
+                en: { type: String },
+                es: { type: String }
+            },
+            icon: { type: String },
+            imageUrl: { type: String },
+            height: { type: Number },
+            textColor: { type: String },
+            backgroundColor: { type: String }
         },
-        subtitle: {
-            en: { type: String },
-            es: { type: String }
-        },
-        description: {
-            en: { type: String },
-            es: { type: String }
-        },
-        icon: { type: String },
-        imageUrl: { type: String },
-        height: { type: Number },
-        textColor: { type: String },
-        backgroundColor: { type: String },
         condition: {
             key: {
                 type: String

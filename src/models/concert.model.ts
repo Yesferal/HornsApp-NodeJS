@@ -24,15 +24,17 @@ const ConcertSchema: Schema = new Schema({
         key: {
             type: String
         },
-        title: {
-            en: { type: String },
-            es: { type: String }
+        data: {
+            title: {
+                en: { type: String },
+                es: { type: String }
+            },
+            subtitle: {
+                en: { type: String },
+                es: { type: String }
+            },
+            icon: { type: String }
         },
-        subtitle: {
-            en: { type: String },
-            es: { type: String }
-        },
-        icon: { type: String },
         navigation: {
             key: {
                 type: String
