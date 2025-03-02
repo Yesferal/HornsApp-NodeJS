@@ -10,7 +10,7 @@ const StateShema = new Schema({
         en: { type: String },
         es: { type: String }
     },
-    descrption: {
+    description: {
         en: {
             type: String,
             maxlength: 200

@@ -11,13 +11,13 @@ export interface IBand extends Document {
 
 const BandSchema: Schema = new Schema({
     name: { type: String, require: true, minlength: 1, maxlength: 50 },
-    images: {
-        logo: { type: String, require: true },
-        members: { type: String, require: true }
-    },
     about: {
         en: { type: String },
         es: { type: String }
+    },
+    images: {
+        logo: { type: String, require: true },
+        members: { type: String, require: true }
     },
     country: {
         en: { type: String },

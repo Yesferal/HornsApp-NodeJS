@@ -10,7 +10,7 @@ const VenueSchema = new Schema({
         en: { type: String },
         es: { type: String }
     },
-    descrption: {
+    description: {
         en: { type: String },
         es: { type: String }
     },

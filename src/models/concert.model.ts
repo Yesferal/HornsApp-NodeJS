@@ -12,6 +12,7 @@ const ConcertSchema: Schema = new Schema({
         es: { type: String }
     },
     dateTime: { type: Date },
+    totalDays: { type: Number },
     headliner: {
         name: { type: String },
         url: { type: String, require: true },
