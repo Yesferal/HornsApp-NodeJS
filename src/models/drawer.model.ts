@@ -26,9 +26,11 @@ const DrawerScheme: Schema = new Schema({
         key: {
             type: String
         },
-        title: {
-            en: { type: String },
-            es: { type: String }
+        data: {
+            title: {
+                en: { type: String },
+                es: { type: String }
+            }
         }
     }],
     newest: [{
@@ -80,10 +82,24 @@ const DrawerScheme: Schema = new Schema({
         key: {
             type: String
         },
-        title: {
-            en: { type: String },
-            es: { type: String }
-        }
+        data: {
+            title: {
+                en: { type: String },
+                es: { type: String }
+            }
+        },
+        condition: {
+            key: {
+                type: String
+            },
+            defaultValues: [{ type: String }],
+            filterBy: {
+                type: String
+            },
+            count: {
+                type: Number
+            },
+        },
     }]
 })
 
