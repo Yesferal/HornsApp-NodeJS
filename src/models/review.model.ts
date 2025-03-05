@@ -44,11 +44,11 @@ const ReviewScheme: Schema = new Schema({
             key: {
                 type: String
             },
-            defaultValues: [{ type: String }],
-            filterBy: {
+            values: [{ type: String }],
+            filter: {
                 type: String
             },
-            count: {
+            take: {
                 type: Number
             },
         },
