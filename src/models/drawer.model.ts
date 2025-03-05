@@ -19,7 +19,10 @@ const DrawerScheme: Schema = new Schema({
     platform: {
         type: String
     },
-    versionCode: {
+    doc_version: {
+        type: Number
+    },
+    app_version: {
         type: Number
     },
     screens: [{
