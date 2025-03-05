@@ -57,8 +57,10 @@ const ReviewScheme: Schema = new Schema({
                 type: String
             },
             parameters: {
-                type: Map,
-                of: String
+                param_parcelable_view_data: {
+                    type: Map,
+                    of: String
+                }
             }
         }
     }],
