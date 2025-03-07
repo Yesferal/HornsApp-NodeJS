@@ -7,7 +7,7 @@ import { router as adminVenueRouter } from './admin/venue.router'
 import { router as stateRouter } from './state.router'
 import { router as reviewRouter } from './review.router';
 import { router as adminReviewRouter } from './admin/review.router'
-import { router as adminDrawerRouter } from './admin/drawer.router';
+import { router as adminAppRenderRouter } from './admin/app.render.router';
 
 export {
     concertRouter,
@@ -19,5 +19,5 @@ export {
     stateRouter,
     reviewRouter,
     adminReviewRouter,
-    adminDrawerRouter
+    adminAppRenderRouter
 };

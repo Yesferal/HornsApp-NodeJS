@@ -1,16 +1,16 @@
 import { Request, Response } from 'express'
-import { drawerModel } from '../models'
-import { IDrawer } from '../models/drawer.model'
+import { appRenderModel } from '../models'
+import { IAppRender } from '../models/app.render.model'
 
-export class DrawerController {
+export class AppRenderController {
 
-    public async findBy(versionCode: number, platform: string): Promise<IDrawer | undefined> {
+    public async findBy(appVersion: number, platform: string): Promise<IAppRender | undefined> {
         try {
-            const item = await drawerModel
+            const item = await appRenderModel
                 .findOne({
-                    versionCode: versionCode,
+                    appVersion: appVersion,
                     platform: platform
-                }) as IDrawer
+                }) as IAppRender
 
 
             return item
@@ -27,7 +27,7 @@ export class DrawerController {
         response: Response
     ): Promise<void> {
         try {
-            const items = await drawerModel.find()
+            const items = await appRenderModel.find()
 
             response.status(200).send(items)
         } catch (e) {
@@ -40,7 +40,7 @@ export class DrawerController {
         response: Response
     ): Promise<void> {
         try {
-            const item = await drawerModel
+            const item = await appRenderModel
                 .findById(request.params.id)
                 .exec()
 
@@ -56,7 +56,7 @@ export class DrawerController {
         next: () => any
     ): Promise<void> {
         try {
-            const item = await drawerModel
+            const item = await appRenderModel
                 .create(request.body)
 
             console.log(item)
@@ -71,7 +71,7 @@ export class DrawerController {
         response: Response
     ): Promise<void> {
         try {
-            const item = await drawerModel
+            const item = await appRenderModel
                 .findByIdAndUpdate(request.params.id, {
                     $set: request.body,
                 }, {
@@ -101,7 +101,7 @@ export class DrawerController {
         next: () => any
     ): Promise<void> {
         try {
-            const data = await drawerModel.findByIdAndRemove(request.params.id)
+            const data = await appRenderModel.findByIdAndRemove(request.params.id)
             response.status(200).json({
                 msg: data,
             })

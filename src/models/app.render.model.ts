@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose'
 
-export interface IDrawer extends Document {
+export interface IAppRender extends Document {
     screens: IType[],
     categories: IType[]
 }
@@ -15,7 +15,7 @@ interface ITitle {
     es: string
 }
 
-const DrawerScheme: Schema = new Schema({
+const AppRenderScheme: Schema = new Schema({
     platform: {
         type: String
     },
@@ -109,4 +109,4 @@ const DrawerScheme: Schema = new Schema({
     }]
 })
 
-export const drawerModel = mongoose.model<IDrawer>('Drawer', DrawerScheme)
+export const appRenderModel = mongoose.model<IAppRender>('AppRender', AppRenderScheme)
