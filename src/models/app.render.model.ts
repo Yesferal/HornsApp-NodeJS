@@ -109,4 +109,4 @@ const AppRenderScheme: Schema = new Schema({
     }]
 })
 
-export const appRenderModel = mongoose.model<IAppRender>('AppRender', AppRenderScheme)
+export const appRenderModel = mongoose.model<IAppRender>('App_Render', AppRenderScheme)
