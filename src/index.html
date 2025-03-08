@@ -16,7 +16,7 @@
     integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh"
     crossorigin="anonymous"></script>
         <script>
-        const socket = io.connect({ query: "versionCode=1&platform=web" });
+        const socket = io.connect({ query: "appVersion=28&platform=android" });
 
         function sendMsg() {
             socket.emit("message", "HELLO WEB");

@@ -51,11 +51,11 @@ io.on('connection', async (socket: socketio.Socket) => {
 
     console.log(`Connection : SocketId = ${socket.id}`)
 
-    const versionCode = Number(socket.handshake.query.versionCode?.toString())
+    const appVersion = Number(socket.handshake.query.appVersion?.toString())
     const platform = socket.handshake.query.platform?.toString()
-    if (versionCode && platform) {
-        socket.join(getSocketRoom(versionCode, platform))
-        const appRender = await appRenderController.findBy(versionCode, platform)
+    if (appVersion && platform) {
+        socket.join(getSocketRoom(appVersion, platform))
+        const appRender = await appRenderController.findBy(appVersion, platform)
         if (appRender) {
             socket.emit('updateAppRender', JSON.stringify(appRender))
         }
@@ -76,7 +76,8 @@ app.use('/updateAppRender', middleware.verifyAuthorization, async (req, res) => 
         if (appRender) {
             const room = getSocketRoom(appVersion, platform)
             io.to(room).emit('updateAppRender', JSON.stringify(appRender))
-            console.log(`Send updateAppRender to Room ${getSocketRoom(appVersion, platform)}`)
+            const number = io.sockets.adapter.rooms.get(room)?.size
+            console.log(`Send UpdateAppRender to Room: ${getSocketRoom(appVersion, platform)}. Clients: [${number}]`)
 
             return res.status(200).json(appRender)
         }
