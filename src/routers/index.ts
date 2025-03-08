@@ -5,8 +5,8 @@ import { router as adminBandRouter } from './admin/band.router';
 import { router as venueRouter } from './venue.router'
 import { router as adminVenueRouter } from './admin/venue.router'
 import { router as stateRouter } from './state.router'
-import { router as reviewRouter } from './review.router';
-import { router as adminReviewRouter } from './admin/review.router'
+import { router as screenRenderRouter } from './screen.render.router';
+import { router as adminScreenRenderRouter } from './admin/screen.render.router';
 import { router as adminAppRenderRouter } from './admin/app.render.router';
 
 export {
@@ -17,7 +17,7 @@ export {
     venueRouter,
     adminVenueRouter,
     stateRouter,
-    reviewRouter,
-    adminReviewRouter,
+    screenRenderRouter,
+    adminScreenRenderRouter,
     adminAppRenderRouter
 };

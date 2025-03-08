@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { BaseController } from './base.controller'
-import { reviewModel } from '../models'
+import { screenRenderModel } from '../models/render/screen.render.model'
 
 export class ReviewController extends BaseController {
     public async findAll(
@@ -8,7 +8,7 @@ export class ReviewController extends BaseController {
         response: Response
     ): Promise<void> {
         try {
-            const items = await reviewModel
+            const items = await screenRenderModel
                 .find()
                 .exec()
 
@@ -27,7 +27,7 @@ export class ReviewController extends BaseController {
         response: Response
     ): Promise<void> {
         try {
-            const item = await reviewModel
+            const item = await screenRenderModel
                 .findById(request.params.id)
                 .exec()
 
@@ -47,7 +47,7 @@ export class ReviewController extends BaseController {
         next: () => any
     ): Promise<void> {
         try {
-            const item = await reviewModel
+            const item = await screenRenderModel
                 .create(request.body)
 
             console.log(item)
@@ -62,7 +62,7 @@ export class ReviewController extends BaseController {
         response: Response
     ): Promise<void> {
         try {
-            const item = await reviewModel
+            const item = await screenRenderModel
                 .findByIdAndUpdate(request.params.id, {
                     $set: request.body,
                 }, {
@@ -92,7 +92,7 @@ export class ReviewController extends BaseController {
         next: () => any
     ): Promise<void> {
         try {
-            const data = await reviewModel.findByIdAndRemove(request.params.id)
+            const data = await screenRenderModel.findByIdAndRemove(request.params.id)
             response.status(200).json({
                 msg: data,
             })

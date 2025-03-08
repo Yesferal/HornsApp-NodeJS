@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { appRenderModel } from '../models'
-import { IAppRender } from '../models/app.render.model'
+import { IAppRender } from '../models/render/app.render.model'
 
 export class AppRenderController {
 
