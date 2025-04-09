@@ -54,9 +54,10 @@ io.on('connection', async (socket: socketio.Socket) => {
 
     const appVersion = Number(socket.handshake.query.appVersion?.toString())
     const platform = socket.handshake.query.platform?.toString()
-    if (appVersion && platform) {
-        socket.join(getSocketRoom(appVersion, platform))
-        const appRender = await appRenderController.findBy(appVersion, platform)
+    const appId = socket.handshake.query.appId?.toString()
+    if (appVersion && platform && appId) {
+        socket.join(getSocketRoom(appVersion, platform, appId))
+        const appRender = await appRenderController.findBy(appVersion, platform, appId)
         if (appRender) {
             socket.emit('updateAppRender', JSON.stringify(appRender))
         }
@@ -71,14 +72,15 @@ io.on('connection', async (socket: socketio.Socket) => {
 app.use('/updateAppRender', middleware.verifyAuthorization, async (req, res) => {
     const appVersion = Number(req.query.appVersion?.toString())
     const platform = req.query.platform?.toString()
+    const appId = req.query.appId?.toString()
 
-    if (appVersion && platform) {
-        const appRender = await appRenderController.findBy(appVersion, platform)
+    if (appVersion && platform && appId) {
+        const appRender = await appRenderController.findBy(appVersion, platform, appId)
         if (appRender) {
-            const room = getSocketRoom(appVersion, platform)
+            const room = getSocketRoom(appVersion, platform, appId)
             io.to(room).emit('updateAppRender', JSON.stringify(appRender))
             const number = io.sockets.adapter.rooms.get(room)?.size
-            console.log(`Send UpdateAppRender to Room: ${getSocketRoom(appVersion, platform)}. Clients: [${number}]`)
+            console.log(`Send UpdateAppRender to Room: ${getSocketRoom(appVersion, platform, appId)}. Clients: [${number}]`)
 
             return res.status(200).json(appRender)
         }
@@ -87,8 +89,8 @@ app.use('/updateAppRender', middleware.verifyAuthorization, async (req, res) => 
     return res.status(400).json({ error: "No json AppRender available" })
 })
 
-function getSocketRoom(versionCode: number, platform: string): string {
-    return versionCode + "+" + platform
+function getSocketRoom(versionCode: number, platform: string, appId: string): string {
+    return "Platform: " + platform + " -> App: " + appId + " - VersionCode: " + versionCode
 }
 
 server.listen(PORT, () => {

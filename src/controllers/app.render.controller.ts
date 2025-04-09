@@ -4,12 +4,13 @@ import { IAppRender } from '../models/render/app.render.model'
 
 export class AppRenderController {
 
-    public async findBy(appVersion: number, platform: string): Promise<IAppRender | undefined> {
+    public async findBy(appVersion: number, platform: string, appId: string): Promise<IAppRender | undefined> {
         try {
             const item = await appRenderModel
                 .findOne({
                     appVersion: appVersion,
-                    platform: platform
+                    platform: platform,
+                    appId: appId,
                 }) as IAppRender
 
 
