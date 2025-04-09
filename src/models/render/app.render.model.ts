@@ -14,6 +14,9 @@ const AppRenderScheme: Schema = new Schema({
     platform: {
         type: String
     },
+    appId: {
+        type: String
+    },
     docVersion: {
         type: Number
     },
