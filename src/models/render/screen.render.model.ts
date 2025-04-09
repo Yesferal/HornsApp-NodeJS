@@ -2,6 +2,7 @@
 
 import mongoose, { Schema, Document } from 'mongoose'
 import { ViewRenderScheme } from './view.render.model'
+import { DataRenderScheme } from './data.render.model'
 
 export interface IScreenRender extends Document {
     views: IType[]
@@ -11,14 +12,12 @@ interface IType {
     key: string
 }
 
-const ScreenRenderScheme: Schema = new Schema({
+export const ScreenRenderScheme: Schema = new Schema({
     key: {
         type: String
     },
-    title: {
-        en: { type: String },
-        es: { type: String }
-    },
+    data: { type: DataRenderScheme },
+    id: { type: String },
     views: [{ type: ViewRenderScheme }],
 })
 
