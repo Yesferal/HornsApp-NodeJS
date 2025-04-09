@@ -1,6 +1,6 @@
 import express from 'express'
 import mongoose from "mongoose"
-import { concertRouter, adminConcertRouter, bandRouter, adminBandRouter, venueRouter, adminVenueRouter, stateRouter, adminAppRenderRouter, adminScreenRenderRouter, screenRenderRouter } from './routers'
+import { concertRouter, adminConcertRouter, bandRouter, adminBandRouter, venueRouter, adminVenueRouter, stateRouter, adminAppRenderRouter, adminScreenRenderRouter, screenRenderRouter, lineupRouter } from './routers'
 import { appRenderController } from './controllers'
 import { Middleware } from './middleware/middleware'
 import * as socketio from 'socket.io'
@@ -27,6 +27,7 @@ app.use('/concert', middleware.verifyAuthorization, concertRouter)
 app.use('/band', middleware.verifyAuthorization, bandRouter)
 app.use('/venue', middleware.verifyAuthorization, venueRouter)
 app.use('/screen_render', middleware.verifyAuthorization, screenRenderRouter)
+app.use('/lineup', middleware.verifyAuthorization, lineupRouter)
 
 app.use('/admin_concert', middleware.verifyAdminAuthorization, adminConcertRouter)
 app.use('/admin_band', middleware.verifyAdminAuthorization, adminBandRouter)
