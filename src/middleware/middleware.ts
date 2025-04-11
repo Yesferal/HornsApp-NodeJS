@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 export class Middleware {
 
-    constructor(private secret: String, private adminSecret: String) {}
+    constructor(private secrets: String[], private adminSecret: String) {}
 
     verifyAuthorization = (
         request: Request, 
@@ -13,7 +13,7 @@ export class Middleware {
         if (!authorization) {
             return response.status(400).json({message: "No authorization."})
         }
-        if (authorization !== this.secret) {
+        if (!this.secrets.some(s => s === authorization)) {
             return response.status(403).json({message: "Invalid authorization."})        
         }
 

@@ -10,10 +10,11 @@ import cors from 'cors'
 
 const PORT = process.env.PORT || ''
 const DB_URL = process.env.DB_URL || ''
-const SECRET = process.env.SECRET || ''
+const HORNS_APP_ANDROID_SECRET = process.env.HORNS_APP_ANDROID_SECRET || ''
+const MUVIN_ANDROID_SECRET = process.env.MUVIN_ANDROID_SECRET || ''
 const ADMIN_SECRET = process.env.ADMIN_SECRET || ''
 
-var middleware = new Middleware(SECRET, ADMIN_SECRET)
+var middleware = new Middleware([HORNS_APP_ANDROID_SECRET, MUVIN_ANDROID_SECRET], ADMIN_SECRET)
 
 mongoose
     .connect(DB_URL, { useNewUrlParser: true, dbName: 'hornsAppDB', useUnifiedTopology: true })
