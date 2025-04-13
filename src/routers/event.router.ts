@@ -5,5 +5,5 @@ export const router = express.Router({
     strict: true
 });
 
-router.get('/', eventController.findAllUpcomingConcerts)
+router.get('/', eventController.findAllUpcoming)
 router.get('/:id', eventController.findById)

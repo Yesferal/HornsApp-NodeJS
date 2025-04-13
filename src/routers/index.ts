@@ -1,5 +1,6 @@
 import { router as concertRouter } from './concert.router'
-import { router as adminConcertRouter } from './admin/concert.router';
+import { router as eventRouter } from './event.router'
+import { router as adminEventRouter } from './admin/event.router';
 import { router as bandRouter } from './band.router'
 import { router as adminBandRouter } from './admin/band.router';
 import { router as venueRouter } from './venue.router'
@@ -11,8 +12,9 @@ import { router as adminScreenRenderRouter } from './admin/screen.render.router'
 import { router as adminAppRenderRouter } from './admin/app.render.router';
 
 export {
-    concertRouter,
-    adminConcertRouter,
+    concertRouter, // FIXME: Remove it eventually
+    eventRouter,
+    adminEventRouter,
     bandRouter,
     adminBandRouter,
     venueRouter,

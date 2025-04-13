@@ -1,11 +1,11 @@
 import mongoose, { Schema, Document } from 'mongoose'
 
-export interface IConcert extends Document {
+export interface IEvent extends Document {
     name: String,
     description: String
 }
 
-const ConcertSchema: Schema = new Schema({
+const EventSchema: Schema = new Schema({
     name: { type: String, require: true },
     about: {
         en: { type: String },
@@ -51,7 +51,8 @@ const ConcertSchema: Schema = new Schema({
     tags: [{ type: String }],
     venue: { type: Schema.Types.ObjectId, ref: 'Venue' },
     state: { type: Schema.Types.ObjectId, ref: 'State', require: true },
-    bands: [{ type: Schema.Types.ObjectId, ref: 'Band', require: true }]
+    bands: [{ type: Schema.Types.ObjectId, ref: 'Band', require: true }],
+    lineup: { type: Schema.Types.ObjectId, ref: 'Lineup' },
 })
 
-export const concertModel = mongoose.model<IConcert>('Concert', ConcertSchema)
+export const eventModel = mongoose.model<IEvent>('Event', EventSchema)

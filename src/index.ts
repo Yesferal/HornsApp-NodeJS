@@ -1,6 +1,6 @@
 import express from 'express'
 import mongoose from "mongoose"
-import { concertRouter, adminConcertRouter, bandRouter, adminBandRouter, venueRouter, adminVenueRouter, stateRouter, adminAppRenderRouter, adminScreenRenderRouter, screenRenderRouter, lineupRouter } from './routers'
+import { concertRouter, eventRouter, adminEventRouter, bandRouter, adminBandRouter, venueRouter, adminVenueRouter, stateRouter, adminAppRenderRouter, adminScreenRenderRouter, screenRenderRouter, lineupRouter } from './routers'
 import { appRenderController } from './controllers'
 import { Middleware } from './middleware/middleware'
 import * as socketio from 'socket.io'
@@ -25,12 +25,13 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 app.use('/concert', middleware.verifyAuthorization, concertRouter)
+app.use('/event', middleware.verifyAuthorization, eventRouter)
 app.use('/band', middleware.verifyAuthorization, bandRouter)
 app.use('/venue', middleware.verifyAuthorization, venueRouter)
 app.use('/screen_render', middleware.verifyAuthorization, screenRenderRouter)
 app.use('/lineup', middleware.verifyAuthorization, lineupRouter)
 
-app.use('/admin_concert', middleware.verifyAdminAuthorization, adminConcertRouter)
+app.use('/admin_event', middleware.verifyAdminAuthorization, adminEventRouter)
 app.use('/admin_band', middleware.verifyAdminAuthorization, adminBandRouter)
 app.use('/admin_venue', middleware.verifyAdminAuthorization, adminVenueRouter)
 app.use('/admin_state', middleware.verifyAdminAuthorization, stateRouter)

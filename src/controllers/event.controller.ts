@@ -1,15 +1,15 @@
 import { Request, Response } from 'express'
 import { BaseController } from './base.controller'
-import { concertModel } from '../models'
-import { IConcert } from '../models/concert.model'
+import { eventModel } from '../models'
+import { IEvent } from '../models/event.model'
 
-export class ConcertController extends BaseController {
+export class EventController extends BaseController {
     public async findAll(
         request: Request,
         response: Response
     ): Promise<void> {
         try {
-            const items: IConcert[] = await concertModel.find()
+            const items: IEvent[] = await eventModel.find()
 
             response.status(200).send(items)
         } catch (e) {
@@ -23,8 +23,25 @@ export class ConcertController extends BaseController {
     ): Promise<void> {
         try {
             const currentDate = new Date()
-            const items: IConcert[] = await concertModel.find({
+            const items: IEvent[] = await eventModel.find({
                 dateTime: { $gte: currentDate }
+            })
+
+            response.status(200).send(items)
+        } catch (e) {
+            response.status(404).send(e.message)
+        }
+    }
+
+    public async findAllUpcomingConcerts(
+        request: Request,
+        response: Response
+    ): Promise<void> {
+        try {
+            const currentDate = new Date()
+            const items: IEvent[] = await eventModel.find({
+                dateTime: { $gte: currentDate },
+                tags: { $in: ["HORNSAPP"] }
             })
 
             response.status(200).send(items)
@@ -38,11 +55,12 @@ export class ConcertController extends BaseController {
         response: Response
     ): Promise<void> {
         try {
-            const item = await concertModel
+            const item = await eventModel
                 .findById(request.params.id)
                 .populate('bands')
                 .populate('venue')
                 .populate('state')
+                .populate('lineup')
                 .exec()
 
             response.status(200).send(item)
@@ -57,7 +75,7 @@ export class ConcertController extends BaseController {
         next: () => any
     ): Promise<void> {
         try {
-            const item = await concertModel
+            const item = await eventModel
                 .create(request.body)
 
             console.log(item)
@@ -72,7 +90,7 @@ export class ConcertController extends BaseController {
         response: Response
     ): Promise<void> {
         try {
-            const item = await concertModel
+            const item = await eventModel
                 .findByIdAndUpdate(request.params.id, {
                     $set: request.body,
                 }, {
@@ -102,7 +120,7 @@ export class ConcertController extends BaseController {
         next: () => any
     ): Promise<void> {
         try {
-            const data = await concertModel.findByIdAndRemove(request.params.id)
+            const data = await eventModel.findByIdAndRemove(request.params.id)
             response.status(200).json({
                 msg: data,
             })
