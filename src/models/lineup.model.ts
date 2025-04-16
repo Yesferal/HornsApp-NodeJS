@@ -14,7 +14,7 @@ const LineupSchema = new Schema({
             stages: [
                 {
                     title: { type: String },
-                    events: [
+                    activities: [
                         {
                             id: { type: String },
                             title: { type: String },

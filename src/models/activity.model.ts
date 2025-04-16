@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose'
 import { IEvent } from './event.model'
 
-export interface IBand extends Document {
+export interface IActivity extends Document {
     name: String,
     logoImage: String,
     membersImage: String,
@@ -9,7 +9,7 @@ export interface IBand extends Document {
     concerts: IEvent['_id']
 }
 
-const BandSchema: Schema = new Schema({
+const ActivitySchema: Schema = new Schema({
     name: { type: String, require: true, minlength: 1, maxlength: 50 },
     about: {
         en: { type: String },
@@ -25,7 +25,7 @@ const BandSchema: Schema = new Schema({
     },
     formerIn: { type: Number },
     genres: [{ type: String }],
-    concerts: [{ type: Schema.Types.ObjectId, ref: 'Event' }]
+    events: [{ type: Schema.Types.ObjectId, ref: 'Event' }]
 })
 
-export const bandModel = mongoose.model<IBand>('Band', BandSchema)
+export const activityModel = mongoose.model<IActivity>('Activity', ActivitySchema)

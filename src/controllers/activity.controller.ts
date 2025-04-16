@@ -1,14 +1,14 @@
 import { Request, Response } from 'express'
 import { BaseController } from './base.controller'
-import { bandModel } from '../models'
+import { activityModel } from '../models'
 
-export class BandController extends BaseController {
+export class ActivityController extends BaseController {
     public async findAll(
         request: Request,
         response: Response
     ): Promise<void> {
         try {
-            const items = await bandModel.find()
+            const items = await activityModel.find()
 
             response.status(200).send(items)
         } catch (e) {
@@ -21,9 +21,9 @@ export class BandController extends BaseController {
         response: Response
     ): Promise<void> {
         try {
-            const item = await bandModel
+            const item = await activityModel
                 .findById(request.params.id)
-                .populate('concerts')
+                .populate('events')
                 .exec()
 
             response.status(200).send(item)
@@ -38,7 +38,7 @@ export class BandController extends BaseController {
         next: () => any
     ): Promise<void> {
         try {
-            const item = await bandModel
+            const item = await activityModel
                 .create(request.body)
 
             console.log(item)
@@ -53,7 +53,7 @@ export class BandController extends BaseController {
         response: Response
     ): Promise<void> {
         try {
-            const item = await bandModel
+            const item = await activityModel
                 .findByIdAndUpdate(request.params.id, {
                     $set: request.body,
                 }, {
@@ -83,7 +83,7 @@ export class BandController extends BaseController {
         next: () => any
     ): Promise<void> {
         try {
-            const data = await bandModel.findByIdAndRemove(request.params.id)
+            const data = await activityModel.findByIdAndRemove(request.params.id)
             response.status(200).json({
                 msg: data,
             })

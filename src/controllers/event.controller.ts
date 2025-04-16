@@ -57,10 +57,9 @@ export class EventController extends BaseController {
         try {
             const item = await eventModel
                 .findById(request.params.id)
-                .populate('bands')
+                .populate('activities')
                 .populate('venue')
                 .populate('state')
-                .populate('lineup')
                 .exec()
 
             response.status(200).send(item)

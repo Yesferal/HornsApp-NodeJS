@@ -1,8 +1,8 @@
 import { router as concertRouter } from './concert.router'
 import { router as eventRouter } from './event.router'
 import { router as adminEventRouter } from './admin/event.router';
-import { router as bandRouter } from './band.router'
-import { router as adminBandRouter } from './admin/band.router';
+import { router as activityRouter } from './activity.router'
+import { router as adminActivityRouter } from './admin/activity.router';
 import { router as venueRouter } from './venue.router'
 import { router as lineupRouter } from './lineup.router'
 import { router as adminVenueRouter } from './admin/venue.router'
@@ -15,8 +15,8 @@ export {
     concertRouter, // FIXME: Remove it eventually
     eventRouter,
     adminEventRouter,
-    bandRouter,
-    adminBandRouter,
+    activityRouter,
+    adminActivityRouter,
     venueRouter,
     lineupRouter,
     adminVenueRouter,

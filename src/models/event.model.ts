@@ -51,7 +51,7 @@ const EventSchema: Schema = new Schema({
     tags: [{ type: String }],
     venue: { type: Schema.Types.ObjectId, ref: 'Venue' },
     state: { type: Schema.Types.ObjectId, ref: 'State', require: true },
-    bands: [{ type: Schema.Types.ObjectId, ref: 'Band', require: true }],
+    activities: [{ type: Schema.Types.ObjectId, ref: 'Activity', require: true }],
     lineup: { type: Schema.Types.ObjectId, ref: 'Lineup' },
 })
 
