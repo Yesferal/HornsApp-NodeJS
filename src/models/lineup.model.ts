@@ -16,7 +16,7 @@ const LineupSchema = new Schema({
                     title: { type: String },
                     activities: [
                         {
-                            id: { type: String },
+                            id: { type: Schema.Types.ObjectId, ref: 'Activity' },
                             title: { type: String },
                             subtitle: { type: String },
                             start: { type: Date },
