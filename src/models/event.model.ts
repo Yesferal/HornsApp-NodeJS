@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose'
+import { ViewRenderScheme } from './render/view.render.model'
 
 export interface IEvent extends Document {
     name: String,
@@ -21,33 +22,7 @@ const EventSchema: Schema = new Schema({
         name: { type: String },
         url: { type: String }
     },
-    links: [{
-        key: {
-            type: String
-        },
-        data: {
-            title: {
-                en: { type: String },
-                es: { type: String }
-            },
-            subtitle: {
-                en: { type: String },
-                es: { type: String }
-            },
-            icon: { type: String }
-        },
-        navigation: {
-            key: {
-                type: String
-            },
-            parameters: {
-                param_parcelable_view_data: {
-                    type: Map,
-                    of: String
-                }
-            }
-        }
-    }],
+    links: [{ type: ViewRenderScheme }],
     tags: [{ type: String }],
     venue: { type: Schema.Types.ObjectId, ref: 'Venue' },
     state: { type: Schema.Types.ObjectId, ref: 'State', require: true },
