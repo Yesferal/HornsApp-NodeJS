@@ -2,7 +2,7 @@
 
 import mongoose, { Schema, Document } from 'mongoose'
 import { ViewRenderScheme } from './view.render.model'
-import { DataRenderScheme } from './data.render.model'
+import { LocalizedStringSchema } from '../util/localized.string.model'
 
 export interface IScreenRender extends Document {
     views: IType[]
@@ -14,7 +14,7 @@ interface IType {
 
 export const ScreenRenderScheme: Schema = new Schema({
     key: { type: String },
-    data: { type: DataRenderScheme },
+    title: { type: LocalizedStringSchema },
     views: [{ type: ViewRenderScheme }],
 })
 
