@@ -13,11 +13,8 @@ interface IType {
 }
 
 export const ScreenRenderScheme: Schema = new Schema({
-    key: {
-        type: String
-    },
+    key: { type: String },
     data: { type: DataRenderScheme },
-    id: { type: String },
     views: [{ type: ViewRenderScheme }],
 })
 

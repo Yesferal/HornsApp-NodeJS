@@ -2,7 +2,6 @@
 
 import mongoose, { Schema, Document } from 'mongoose'
 import { ViewRenderScheme } from './view.render.model'
-import { ScreenRenderScheme } from './screen.render.model'
 
 export interface IAppRender extends Document {
     platform: string,
@@ -23,7 +22,7 @@ const AppRenderScheme: Schema = new Schema({
     appVersion: {
         type: Number
     },
-    screens: [{ type: ScreenRenderScheme }],
+    screens: [{ type: Schema.Types.ObjectId, ref: 'Screen_Render' }],
     categories: [{ type: ViewRenderScheme }]
 })
 

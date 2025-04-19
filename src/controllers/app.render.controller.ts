@@ -43,6 +43,7 @@ export class AppRenderController {
         try {
             const item = await appRenderModel
                 .findById(request.params.id)
+                .populate('screens')
                 .exec()
 
             response.status(200).send(item)
