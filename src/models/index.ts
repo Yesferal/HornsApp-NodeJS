@@ -5,6 +5,7 @@ import { stateModel } from './state.model'
 import { lineupModel } from './lineup.model'
 import { screenRenderModel } from './render/screen.render.model'
 import { appRenderModel } from './render/app.render.model'
+import { categoryModel } from './category.model'
 
 export {
     eventModel,
@@ -14,4 +15,5 @@ export {
     appRenderModel,
     screenRenderModel,
     lineupModel,
+    categoryModel,
 };

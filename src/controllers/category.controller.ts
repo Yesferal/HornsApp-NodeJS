@@ -1,38 +1,26 @@
+/* Copyright © 2025 HornsApp. All rights reserved. */
+
 import { Request, Response } from 'express'
-import { appRenderModel } from '../models'
-import { IAppRender } from '../models/render/app.render.model'
+import { BaseController } from './base.controller'
+import { categoryModel } from '../models/category.model'
 
-export class AppRenderController {
-
-    public async findBy(appVersion: number, platform: string, appId: string): Promise<IAppRender | undefined> {
-        try {
-            const item = await appRenderModel
-                .findOne({
-                    appVersion: appVersion,
-                    platform: platform,
-                    appId: appId,
-                }) as IAppRender
-
-
-            return item
-        } catch (e) {
-            return undefined
-        }
-    }
-
-    /**
-     * ADMIN CRUD
-     */
+export class CategoryController extends BaseController {
     public async findAll(
         request: Request,
         response: Response
     ): Promise<void> {
         try {
-            const items = await appRenderModel.find()
+            const items = await categoryModel
+                .find()
+                .exec()
 
-            response.status(200).send(items)
+            response
+                .status(200)
+                .send(items)
         } catch (e) {
-            response.status(404).send(e.message)
+            response
+                .status(404)
+                .send(e.message)
         }
     }
 
@@ -41,15 +29,17 @@ export class AppRenderController {
         response: Response
     ): Promise<void> {
         try {
-            const item = await appRenderModel
+            const item = await categoryModel
                 .findById(request.params.id)
-                .populate('screens')
-                .populate('categories')
                 .exec()
 
-            response.status(200).send(item)
+            response
+                .status(200)
+                .send(item)
         } catch (e) {
-            response.status(404).send(e.message)
+            response
+                .status(404)
+                .send(e.message)
         }
     }
 
@@ -59,7 +49,7 @@ export class AppRenderController {
         next: () => any
     ): Promise<void> {
         try {
-            const item = await appRenderModel
+            const item = await categoryModel
                 .create(request.body)
 
             console.log(item)
@@ -74,7 +64,7 @@ export class AppRenderController {
         response: Response
     ): Promise<void> {
         try {
-            const item = await appRenderModel
+            const item = await categoryModel
                 .findByIdAndUpdate(request.params.id, {
                     $set: request.body,
                 }, {
@@ -104,7 +94,7 @@ export class AppRenderController {
         next: () => any
     ): Promise<void> {
         try {
-            const data = await appRenderModel.findByIdAndRemove(request.params.id)
+            const data = await categoryModel.findByIdAndRemove(request.params.id)
             response.status(200).json({
                 msg: data,
             })

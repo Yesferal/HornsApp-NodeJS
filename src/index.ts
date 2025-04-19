@@ -1,6 +1,6 @@
 import express from 'express'
 import mongoose from "mongoose"
-import { concertRouter, eventRouter, adminEventRouter, activityRouter, adminActivityRouter, venueRouter, adminVenueRouter, stateRouter, adminAppRenderRouter, adminScreenRenderRouter, screenRenderRouter, lineupRouter } from './routers'
+import { concertRouter, eventRouter, adminEventRouter, activityRouter, adminActivityRouter, venueRouter, adminVenueRouter, adminAppRenderRouter, adminScreenRenderRouter, screenRenderRouter, lineupRouter, adminStateRouter, adminCategoryRouter } from './routers'
 import { appRenderController } from './controllers'
 import { Middleware } from './middleware/middleware'
 import * as socketio from 'socket.io'
@@ -34,7 +34,8 @@ app.use('/lineup', middleware.verifyAuthorization, lineupRouter)
 app.use('/admin_event', middleware.verifyAdminAuthorization, adminEventRouter)
 app.use('/admin_activity', middleware.verifyAdminAuthorization, adminActivityRouter)
 app.use('/admin_venue', middleware.verifyAdminAuthorization, adminVenueRouter)
-app.use('/admin_state', middleware.verifyAdminAuthorization, stateRouter)
+app.use('/admin_state', middleware.verifyAdminAuthorization, adminStateRouter)
+app.use('/admin_category', middleware.verifyAdminAuthorization, adminCategoryRouter)
 app.use('/admin_screen_render', middleware.verifyAdminAuthorization, adminScreenRenderRouter)
 app.use('/admin_app_render', middleware.verifyAdminAuthorization, adminAppRenderRouter)
 

@@ -23,7 +23,7 @@ const AppRenderScheme: Schema = new Schema({
         type: Number
     },
     screens: [{ type: Schema.Types.ObjectId, ref: 'Screen_Render' }],
-    categories: [{ type: ViewRenderScheme }]
+    categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }]
 })
 
 export const appRenderModel = mongoose.model<IAppRender>('App_Render', AppRenderScheme)
