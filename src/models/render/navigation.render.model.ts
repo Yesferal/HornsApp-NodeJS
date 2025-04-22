@@ -10,6 +10,7 @@ export const NavigationRenderScheme: Schema = new Schema({
         param_parcelable_view_data: {
             type: Map,
             of: String
-        }
+        },
+        param_android_uri: { type: String }
     }
 })
