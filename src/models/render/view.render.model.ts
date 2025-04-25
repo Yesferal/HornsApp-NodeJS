@@ -15,8 +15,10 @@ export const ViewRenderScheme: Schema = new Schema({
         key: {
             type: String
         },
-        values: [{ type: String }],
-        filter: { type: String },
+        filterBy: {
+            events: [{ type: String }],
+            categories: [{ type: String }]
+        },
         sort: { type: String },
         take: { type: Number },
     },

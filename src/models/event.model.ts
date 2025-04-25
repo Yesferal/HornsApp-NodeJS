@@ -23,7 +23,7 @@ const EventSchema: Schema = new Schema({
         url: { type: String }
     },
     links: [{ type: ViewRenderScheme }],
-    tags: [{ type: String }],
+    categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
     venue: { type: Schema.Types.ObjectId, ref: 'Venue' },
     state: { type: Schema.Types.ObjectId, ref: 'State', require: true },
     activities: [{ type: Schema.Types.ObjectId, ref: 'Activity', require: true }],
