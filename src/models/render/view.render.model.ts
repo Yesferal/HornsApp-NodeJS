@@ -15,11 +15,11 @@ export const ViewRenderScheme: Schema = new Schema({
         key: {
             type: String
         },
-        filterBy: {
+        filter: {
             events: [{ type: String }],
             categories: [{ type: String }]
         },
-        sort: { type: String },
+        sort: [{ type: String }],
         take: { type: Number },
     },
     navigation: { type: NavigationRenderScheme }
