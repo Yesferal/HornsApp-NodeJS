@@ -16,9 +16,11 @@ export class StateController extends BaseController {
                 .status(200)
                 .send(items);
         } catch (e) {
-            response
+            if (e instanceof Error) {
+                response
                 .status(404)
                 .send(e.message);
+            }
         }
     }
     
@@ -35,9 +37,11 @@ export class StateController extends BaseController {
                 .status(200)
                 .send(item);
         } catch (e) {
-            response
+            if (e instanceof Error) {
+                response
                 .status(404)
                 .send(e.message);
+            }
         }
     }
 }

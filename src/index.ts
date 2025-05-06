@@ -17,7 +17,7 @@ const ADMIN_SECRET = process.env.ADMIN_SECRET || ''
 var middleware = new Middleware([HORNS_APP_ANDROID_SECRET, MUVIN_ANDROID_SECRET], ADMIN_SECRET)
 
 mongoose
-    .connect(DB_URL, { useNewUrlParser: true, dbName: 'hornsAppDB', useUnifiedTopology: true })
+    .connect(DB_URL, { dbName: 'hornsAppDB' })
     .then(() => console.log("Connected to MongoDB..."))
     .catch(error => console.error(`Could not connect to MongoDB: ${error}`))
 

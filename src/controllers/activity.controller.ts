@@ -12,7 +12,9 @@ export class ActivityController extends BaseController {
 
             response.status(200).send(items)
         } catch (e) {
-            response.status(404).send(e.message)
+            if (e instanceof Error) {
+                response.status(404).send(e.message)
+            }
         }
     }
 
@@ -28,7 +30,9 @@ export class ActivityController extends BaseController {
 
             response.status(200).send(item)
         } catch (e) {
-            response.status(404).send(e.message)
+            if (e instanceof Error) {
+                response.status(404).send(e.message)
+            }
         }
     }
 
@@ -59,21 +63,15 @@ export class ActivityController extends BaseController {
                 }, {
                     new: true, // Return new object instead of the original
                     upsert: true // True value turn this update into an upsert
-                }, function (err, model) {
-                    console.log(`Error: ${err}`)
-                    if (!model) {
-                        const e = new Error(`Data with ${request.params.id} not found.`)
-                        throw e
-                    } else {
-                        return model
-                    }
                 })
 
             console.log(`item updated: ${item}`)
             console.log(`request.body updated: ${JSON.stringify(request.body)}`)
             response.status(200).send(item)
         } catch (e) {
-            response.status(404).send(e.message)
+            if (e instanceof Error) {
+                response.status(404).send(e.message)
+            }
         }
     }
 
@@ -83,7 +81,7 @@ export class ActivityController extends BaseController {
         next: () => any
     ): Promise<void> {
         try {
-            const data = await activityModel.findByIdAndRemove(request.params.id)
+            const data = await activityModel.findByIdAndDelete(request.params.id)
             response.status(200).json({
                 msg: data,
             })
