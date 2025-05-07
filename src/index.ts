@@ -28,7 +28,7 @@ app.use('/concert', middleware.verifyAuthorization, concertRouter)
 app.use('/event', middleware.verifyAuthorization, eventRouter)
 app.use('/activity', middleware.verifyAuthorization, activityRouter)
 app.use('/venue', middleware.verifyAuthorization, venueRouter)
-app.use('/screen_render', middleware.verifyAuthorization, screenRenderRouter)
+app.use('/screen', middleware.verifyAuthorization, screenRenderRouter)
 app.use('/lineup', middleware.verifyAuthorization, lineupRouter)
 
 app.use('/admin_event', middleware.verifyAdminAuthorization, adminEventRouter)
@@ -36,7 +36,7 @@ app.use('/admin_activity', middleware.verifyAdminAuthorization, adminActivityRou
 app.use('/admin_venue', middleware.verifyAdminAuthorization, adminVenueRouter)
 app.use('/admin_state', middleware.verifyAdminAuthorization, adminStateRouter)
 app.use('/admin_category', middleware.verifyAdminAuthorization, adminCategoryRouter)
-app.use('/admin_screen_render', middleware.verifyAdminAuthorization, adminScreenRenderRouter)
+app.use('/admin_screen', middleware.verifyAdminAuthorization, adminScreenRenderRouter)
 app.use('/admin_app_render', middleware.verifyAdminAuthorization, adminAppRenderRouter)
 
 // Only to keep our free Heroku App alive
