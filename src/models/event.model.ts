@@ -22,6 +22,7 @@ const EventSchema: Schema = new Schema({
         name: { type: String },
         url: { type: String }
     },
+    isLiveMusicEvent: { type: Boolean },
     links: [{ type: ViewRenderScheme }],
     categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
     venue: { type: Schema.Types.ObjectId, ref: 'Venue' },

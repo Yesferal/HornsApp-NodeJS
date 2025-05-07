@@ -45,7 +45,7 @@ export class EventController extends BaseController {
             const currentDate = new Date()
             const items: IEvent[] = await eventModel.find({
                 dateTime: { $gte: currentDate },
-                tags: { $in: ["HORNSAPP"] }
+                isLiveMusicEvent: true
             })
 
             response.status(200).send(items)
