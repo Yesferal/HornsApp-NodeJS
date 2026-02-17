@@ -14,6 +14,11 @@ interface IType {
 
 export const ScreenRenderScheme: Schema = new Schema({
     key: { type: String },
+    appId: { type: String },
+    docVersion: {
+        type: Number
+    },
+    lastUpdate: Date,
     title: { type: LocalizedStringSchema },
     views: [{ type: ViewRenderScheme }],
 })
