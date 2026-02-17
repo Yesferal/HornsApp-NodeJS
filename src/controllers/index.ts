@@ -7,6 +7,7 @@ import { ReviewController } from './review.controller';
 import { LineupController } from './lineup.controller'
 import { CategoryController } from './category.controller'
 import { ScreenGeneratorController } from './screen.generator.controller'
+import { CardController } from './card.controller';
 
 const eventController = new EventController();
 const activityController = new ActivityController();
@@ -17,6 +18,7 @@ const reviewController = new ReviewController()
 const lineupController = new LineupController()
 const categoryController = new CategoryController();
 const screenGeneratorController = new ScreenGeneratorController();
+const cardController = new CardController();
 
 export {
     eventController,
@@ -28,4 +30,5 @@ export {
     lineupController,
     categoryController,
     screenGeneratorController,
+    cardController,
 };

@@ -1,6 +1,6 @@
 import express from 'express'
 import mongoose from "mongoose"
-import { concertRouter, eventRouter, adminEventRouter, activityRouter, adminActivityRouter, venueRouter, adminVenueRouter, adminAppRenderRouter, adminScreenRenderRouter, screenRenderRouter, lineupRouter, adminStateRouter, adminCategoryRouter } from './routers'
+import { concertRouter, eventRouter, adminEventRouter, activityRouter, adminActivityRouter, venueRouter, adminVenueRouter, adminAppRenderRouter, adminScreenRenderRouter, screenRenderRouter, lineupRouter, adminStateRouter, adminCategoryRouter, adminCardRenderRouter } from './routers'
 import { appRenderController, screenGeneratorController } from './controllers'
 import { Middleware } from './middleware/middleware'
 import * as socketio from 'socket.io'
@@ -38,6 +38,7 @@ app.use('/admin_state', middleware.verifyAdminAuthorization, adminStateRouter)
 app.use('/admin_category', middleware.verifyAdminAuthorization, adminCategoryRouter)
 app.use('/admin_screen', middleware.verifyAdminAuthorization, adminScreenRenderRouter)
 app.use('/admin_app_render', middleware.verifyAdminAuthorization, adminAppRenderRouter)
+app.use('/admin_card', middleware.verifyAdminAuthorization, adminCardRenderRouter)
 
 // Only to keep our free Heroku App alive
 app.get('/heroku', (req, res) => { return res.send('Hello, I am alive') })
