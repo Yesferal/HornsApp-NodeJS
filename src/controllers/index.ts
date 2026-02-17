@@ -6,6 +6,7 @@ import { AppRenderController } from './app.render.controller'
 import { ReviewController } from './review.controller';
 import { LineupController } from './lineup.controller'
 import { CategoryController } from './category.controller'
+import { ScreenGeneratorController } from './screen.generator.controller'
 
 const eventController = new EventController();
 const activityController = new ActivityController();
@@ -15,6 +16,7 @@ const appRenderController = new AppRenderController()
 const reviewController = new ReviewController()
 const lineupController = new LineupController()
 const categoryController = new CategoryController();
+const screenGeneratorController = new ScreenGeneratorController();
 
 export {
     eventController,
@@ -25,4 +27,5 @@ export {
     reviewController,
     lineupController,
     categoryController,
+    screenGeneratorController,
 };

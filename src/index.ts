@@ -1,7 +1,7 @@
 import express from 'express'
 import mongoose from "mongoose"
 import { concertRouter, eventRouter, adminEventRouter, activityRouter, adminActivityRouter, venueRouter, adminVenueRouter, adminAppRenderRouter, adminScreenRenderRouter, screenRenderRouter, lineupRouter, adminStateRouter, adminCategoryRouter } from './routers'
-import { appRenderController } from './controllers'
+import { appRenderController, screenGeneratorController } from './controllers'
 import { Middleware } from './middleware/middleware'
 import * as socketio from 'socket.io'
 import * as http from 'http'
@@ -95,6 +95,10 @@ app.use('/updateAppRender', middleware.verifyAuthorization, async (req, res) => 
 function getSocketRoom(versionCode: number, platform: string, appId: string): string {
     return "Platform: " + platform + " -> App: " + appId + " - VersionCode: " + versionCode
 }
+
+// TODO: Create a clock job
+//screenGeneratorController.autoGenerateScreen()
+
 
 server.listen(PORT, () => {
     console.log(`Http Server listening on Port: http://localhost:${PORT}`)

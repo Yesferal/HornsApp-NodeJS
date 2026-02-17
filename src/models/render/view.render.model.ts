@@ -4,6 +4,9 @@ import { Schema } from 'mongoose'
 import { NavigationRenderScheme } from './navigation.render.model'
 import { DataRenderScheme } from './data.render.model'
 import { StyleRenderScheme } from './style.render.model'
+import { InferSchemaType } from "mongoose"
+
+export type ViewRender = InferSchemaType<typeof ViewRenderScheme>
 
 export const ViewRenderScheme: Schema = new Schema({
     key: {
