@@ -2,6 +2,7 @@
 import { screenRenderModel } from '../models/render/screen.render.model'
 import { ViewRender } from '../models/render/view.render.model'
 import { categoryModel, ICategory } from '../models/category.model'
+import { cardViewModel } from '../models/render/view.render.model'
 
 export class ScreenGeneratorController {
 
@@ -11,8 +12,8 @@ export class ScreenGeneratorController {
         const screenRenderObject = {
             key: "RENDER_SCREEN",
             title: {
-                en: appName + ": Auto Generate Home",
-                es: appName + ": Auto Generate Inicio"
+                en: appName + ": AGD Home",
+                es: appName + ": AGD Inicio"
             },
             views: views
         }
@@ -25,7 +26,7 @@ export class ScreenGeneratorController {
             .exec() as ICategory[]
         const upcomingImageCards = this.builUpcomingImageCardViews(categories)
         const upcomingCards = this.buildUpcomingCardViews(categories)
-        const infoCards = this.buildInfoCardViews(20)
+        const infoCards = await this.buildInfoCardViews(20)
 
         const result: ViewRender[] = []
 
@@ -42,7 +43,7 @@ export class ScreenGeneratorController {
             if (upcomingImageCards[i]) result.push(upcomingImageCards[i])
             if (socialCards[i]) result.push(socialCards[i])
             if (infoCards[i]) result.push(infoCards[i])
-            if (upcomingCards[i]) result.push(upcomingCards[i])
+            if (upcomingCards[maxLength - (i+1)]) result.push(upcomingCards[maxLength - (i+1)])
             if (adCards[i]) result.push(adCards[i])
         }
 
@@ -257,8 +258,13 @@ export class ScreenGeneratorController {
         return adView
     }
 
-    private buildInfoCardViews(maxLength: number): ViewRender[] {
-        return []
+    private async buildInfoCardViews(maxLength: number): Promise<ViewRender[]> {
+        const cards = await cardViewModel
+            .find()
+            .limit(maxLength)
+            .exec()
+
+        return cards
     }
 
     private builUpcomingImageCardViews(categories: ICategory[]): ViewRender[] {

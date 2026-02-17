@@ -1,6 +1,6 @@
 /* Copyright © 2025 HornsApp. All rights reserved. */
 
-import { Schema } from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 import { NavigationRenderScheme } from './navigation.render.model'
 import { DataRenderScheme } from './data.render.model'
 import { StyleRenderScheme } from './style.render.model'
@@ -27,3 +27,5 @@ export const ViewRenderScheme: Schema = new Schema({
     },
     navigation: { type: NavigationRenderScheme }
 })
+
+export const cardViewModel = mongoose.model<ViewRender>('Card', ViewRenderScheme)

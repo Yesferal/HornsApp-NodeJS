@@ -16,6 +16,7 @@ export interface ICategory extends Document  {
     es: string
   }
 }
+
 export const CategoryRenderScheme: Schema = new Schema({
     key: {
         type: String
