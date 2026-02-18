@@ -47,7 +47,7 @@ export class ScreenGeneratorController {
 
         // Section: Headers - Unique 
         result.push(this.buildEventRow())
-        result.push(this.buildUpcomingColumnView("Upcoming", "Próximos", "calendar"))
+        result.push(this.buildUpcomingColumnView("Upcoming", "Próximos", [], "calendar"))
         result.push(this.buildAd(50, "FIRST_NEWEST_LIST"))
 
         // Section: Body - Bucle
@@ -85,7 +85,7 @@ export class ScreenGeneratorController {
         return rowView
     }
 
-    private buildUpcomingColumnView(titleEn: string, titleEs: string, icon?: string | null): ViewRender {
+    private buildUpcomingColumnView(titleEn: string, titleEs: string, categories: string[], icon?: string | null): ViewRender {
         const columnUpcomingView: ViewRender = {
             key: "COLUMN_VIEW",
             data: {
@@ -97,6 +97,9 @@ export class ScreenGeneratorController {
             },
             children: {
                 key: "UPCOMING_CARD_VIEW",
+                filter: {
+                    categories: categories
+                },
                 take: 4
             },
             navigation: {
@@ -203,7 +206,7 @@ export class ScreenGeneratorController {
                 backgroundColor: "#F61B83"
             },
             navigation: {
-                key: "FAVORITE"
+                key: "FAVORITE_SCREEN"
             }
         }
 
@@ -309,7 +312,7 @@ export class ScreenGeneratorController {
 
     private buildUpcomingCardViews(categories: ICategory[]): ViewRender[] {
         return categories.map(categories => {
-            return this.buildUpcomingColumnView(categories.name.en, categories.name.es, null) as ViewRender
+            return this.buildUpcomingColumnView(categories.name.en, categories.name.es, [categories._id.toString()], null) as ViewRender
         })
     }
 }
