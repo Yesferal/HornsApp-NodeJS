@@ -30,6 +30,8 @@ export class ScreenGeneratorController {
                 new: true,
             }
         )
+            .lean()
+            .exec()
     }
 
     private async buildViews(): Promise<ViewRender[]> {
