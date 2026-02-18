@@ -11,7 +11,10 @@ export class AppRenderController {
                     appVersion: appVersion,
                     platform: platform,
                     appId: appId,
-                }) as IAppRender
+                })
+                .populate('screens')
+                .populate('categories')
+                .exec() as IAppRender
 
 
             return item
