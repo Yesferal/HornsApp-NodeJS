@@ -29,7 +29,15 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-  
+
+    - name: Create Firebase Service Account file
+      run: |
+        mkdir -p "$FIREBASE_KEY_PATH"
+        echo "$FIREBASE_SERVICE_ACCOUNT" > "$FIREBASE_KEY_PATH/serviceAccount.json"
+      env:
+        FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        FIREBASE_KEY_PATH: ${{ secrets.FIREBASE_KEY_PATH }}
+
     - name: Install
       run: |
         npm install
