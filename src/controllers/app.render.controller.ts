@@ -4,6 +4,29 @@ import { IAppRender } from '../models/render/app.render.model'
 
 export class AppRenderController {
 
+    public findByAppParams = async (
+        request: Request,
+        response: Response
+    ): Promise<void> => {
+        try {
+            const appVersion = Number(request.query.appVersion?.toString())
+            const platform = request.query.platform?.toString()
+            const appId = request.query.appId?.toString()
+
+            if (appVersion && platform && appId) {
+                const item = await this.findBy(appVersion, platform, appId)
+
+                response.status(200).send(item)
+            } else {
+                response.status(400).json({ error: "No json AppRender available" })
+            }
+        } catch (e) {
+            if (e instanceof Error) {
+                response.status(404).send(e.message)
+            }
+        }
+    }
+
     public async findBy(appVersion: number, platform: string, appId: string): Promise<IAppRender | undefined> {
         try {
             const item = await appRenderModel

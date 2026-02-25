@@ -1,6 +1,6 @@
 import express from 'express'
 import mongoose from "mongoose"
-import { concertRouter, eventRouter, adminEventRouter, activityRouter, adminActivityRouter, venueRouter, adminVenueRouter, adminAppRenderRouter, adminScreenRenderRouter, screenRenderRouter, lineupRouter, adminStateRouter, adminCategoryRouter, adminCardRenderRouter } from './routers'
+import { concertRouter, eventRouter, adminEventRouter, activityRouter, adminActivityRouter, venueRouter, adminVenueRouter, appRenderRouter, adminAppRenderRouter, adminScreenRenderRouter, screenRenderRouter, lineupRouter, adminStateRouter, adminCategoryRouter, adminCardRenderRouter } from './routers'
 import { appRenderController, screenGeneratorController } from './controllers'
 import { Middleware } from './middleware/middleware'
 import * as socketio from 'socket.io'
@@ -30,6 +30,7 @@ app.use('/activity', middleware.verifyAuthorization, activityRouter)
 app.use('/venue', middleware.verifyAuthorization, venueRouter)
 app.use('/screen', middleware.verifyAuthorization, screenRenderRouter)
 app.use('/lineup', middleware.verifyAuthorization, lineupRouter)
+app.use('/app_render', middleware.verifyAuthorization, appRenderRouter)
 
 app.use('/admin_event', middleware.verifyAdminAuthorization, adminEventRouter)
 app.use('/admin_activity', middleware.verifyAdminAuthorization, adminActivityRouter)
@@ -71,6 +72,29 @@ io.on('connection', async (socket: socketio.Socket) => {
         console.log("Message: " + message)
         console.log("Queries: " + JSON.stringify(socket.handshake.query))
     })
+})
+
+import { sendPushToTopic } from './framework/firebase/firebase.config'
+
+app.use('/sendPushToAppRenderUpdate', middleware.verifyAuthorization, async (req, res) => {
+    const appVersion = Number(req.query.appVersion?.toString())
+    const platform = req.query.platform?.toString()
+    const appId = req.query.appId?.toString()
+
+    if (appVersion && platform && appId) {
+        const data = {
+            type: "APP_RENDER_UPDATE",
+            appVersion: String(appVersion),
+            platform: platform,
+            appId: appId
+        }
+        await sendPushToTopic(`${platform}-app-render`, data)
+        console.log(`Send Notification to UpdateAppRender`)
+
+        return res.status(200).json(data)
+    }
+
+    return res.status(400).json({ error: "No json AppRender available" })
 })
 
 app.use('/updateAppRender', middleware.verifyAuthorization, async (req, res) => {

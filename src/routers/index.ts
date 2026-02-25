@@ -10,6 +10,7 @@ import { router as adminCategoryRouter } from './admin/category.router'
 import { router as lineupRouter } from './lineup.router'
 import { router as screenRenderRouter } from './screen.render.router';
 import { router as adminScreenRenderRouter } from './admin/screen.render.router';
+import { router as appRenderRouter } from './app.render.router';
 import { router as adminAppRenderRouter } from './admin/app.render.router';
 import { router as adminCardRenderRouter } from './admin/card.render.router';
 
@@ -26,6 +27,7 @@ export {
     adminCategoryRouter,
     screenRenderRouter,
     adminScreenRenderRouter,
+    appRenderRouter,
     adminAppRenderRouter,
     adminCardRenderRouter,
 };

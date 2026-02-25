@@ -123,3 +123,9 @@ dist
 
 # VisualCode
 launch.json
+
+## MY SECTION
+
+# Keys
+keys/*
+
