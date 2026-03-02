@@ -36,14 +36,13 @@ export class AppRenderController {
             const item = await appRenderModel
                 .findOne({
                     appId: appId,
-                    appVersion: { $lte: appVersion },   // less than or equal
+                    appVersion: { $gte: appVersion },   // greater than or equal
                     platform: { $in: [platform] }       // platform exists in array
                 })
-                .sort({ appVersion: -1 })             // highest version first
+                .sort({ appVersion: 1 })              // lowest valid version first
                 .populate('screens')
                 .populate('categories')
                 .exec() as IAppRender
-
 
             return item
         } catch (e) {
