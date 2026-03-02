@@ -76,19 +76,21 @@ io.on('connection', async (socket: socketio.Socket) => {
 
 import { sendPushToTopic } from './framework/firebase/firebase.config'
 
-app.use('/sendPushToAppRenderUpdate', middleware.verifyAuthorization, async (req, res) => {
+app.use('/sendPushToAppRenderUpdate', middleware.verifyAdminAuthorization, async (req, res) => {
     const appVersion = Number(req.query.appVersion?.toString())
     const platform = req.query.platform?.toString()
     const appId = req.query.appId?.toString()
+    const maxRefreshDelay = Number(req.query.maxRefreshDelay?.toString())
 
     if (appVersion && platform && appId) {
         const data = {
             type: "APP_RENDER_UPDATE",
             appVersion: String(appVersion),
             platform: platform,
-            appId: appId
+            appId: appId,
+            maxRefreshDelay: String(maxRefreshDelay)
         }
-        await sendPushToTopic(`${platform}-app-render`, data)
+        await sendPushToTopic(`${platform}-${appId}-app-render`, data)
         console.log(`Send Notification to UpdateAppRender`)
 
         return res.status(200).json(data)

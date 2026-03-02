@@ -2,7 +2,7 @@
 import admin from "firebase-admin"
 import { readFileSync } from "fs"
 
-const FIREBASE_KEY_PATH = process.env.FIREBASE_KEY_PATH || "../../../keys/muvin/serviceAccount.json"
+const FIREBASE_KEY_PATH = process.env.FIREBASE_KEY_PATH || "keys/muvin/serviceAccount.json"
 const serviceAccount = JSON.parse(
   readFileSync(FIREBASE_KEY_PATH, "utf-8")
 );

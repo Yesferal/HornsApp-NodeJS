@@ -16,7 +16,11 @@ export class AppRenderController {
             if (appVersion && platform && appId) {
                 const item = await this.findBy(appVersion, platform, appId)
 
-                response.status(200).send(item)
+                if (item) {
+                    response.status(200).send(item)
+                } else {
+                    response.status(400).json({ error: "No json AppRender available" })
+                }
             } else {
                 response.status(400).json({ error: "No json AppRender available" })
             }
@@ -31,10 +35,11 @@ export class AppRenderController {
         try {
             const item = await appRenderModel
                 .findOne({
-                    appVersion: appVersion,
-                    platform: platform,
                     appId: appId,
+                    appVersion: { $lte: appVersion },   // less than or equal
+                    platform: { $in: [platform] }       // platform exists in array
                 })
+                .sort({ appVersion: -1 })             // highest version first
                 .populate('screens')
                 .populate('categories')
                 .exec() as IAppRender
