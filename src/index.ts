@@ -78,19 +78,18 @@ import { sendPushToTopic } from './framework/firebase/firebase.config'
 
 app.use('/sendPushToAppRenderUpdate', middleware.verifyAdminAuthorization, async (req, res) => {
     const appVersion = Number(req.query.appVersion?.toString())
-    const platform = req.query.platform?.toString()
+    const topic = req.query.topic?.toString()
     const appId = req.query.appId?.toString()
     const maxRefreshDelay = Number(req.query.maxRefreshDelay?.toString())
 
-    if (appVersion && platform && appId) {
+    if (appVersion && topic && appId) {
         const data = {
             type: "APP_RENDER_UPDATE",
             appVersion: String(appVersion),
-            platform: platform,
             appId: appId,
             maxRefreshDelay: String(maxRefreshDelay)
         }
-        await sendPushToTopic(`${platform}-${appId}-app-render`, data)
+        await sendPushToTopic(topic, data)
         console.log(`Send Notification to UpdateAppRender`)
 
         return res.status(200).json(data)
