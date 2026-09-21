@@ -4,7 +4,7 @@
 |--|--|
 | **Last sync** | 2026-09-21 |
 | **Window** | 2026-09-21 → 2027-12-31 (default: today → 31 Dec next year) |
-| **Next** | **sync lima events** |
+| **Next** | `/sync-lima-events` |
 
 Tracked: this file (`scripts/lima-events-sync/LAST-SYNC-REPORT.md`). `*.json` under `lima-events-sync/` stay local (gitignored).
 
@@ -14,13 +14,12 @@ Tracked: this file (`scripts/lima-events-sync/LAST-SYNC-REPORT.md`). `*.json` un
 
 | | |
 |--|--|
-| Sources | Teleticket · Ticketmaster PE · Joinnus |
-| Already in DB (§4c before run) | 45 upcoming (BritPop → The Jacksons + Callao Media Maratón) |
-| **New this run** | **10** Confirmed → `events-2026-09-21.json` |
+| Sources | Teleticket (primary this run) |
+| Already in DB (§4c before run) | 55 upcoming (incl. prior same-day pack: Jaze, Hardwell, Karol G, …) |
+| **New this run** | **6** Confirmed → `events-2026-09-21.json` |
 | New categories / venues / states / activities | none |
-| Watchlist cleared | W01 Super Arte → **Dec 12** Ticketmaster · W02 Jaze → **Oct 28+29** Joinnus · W16 Hardwell → **Nov 13** Teleticket |
-| Needs your OK | §3: W15 Anime Perú Fest (no solid 2026 date) |
-| Note | Scope = **Lima + Callao**. Urban / EDM / K-pop → `isLiveMusicEvent: false` (Muvin). |
+| Needs your OK | §3: W15 Anime Perú Fest (EntradaLibre still 2025 only) |
+| Note | Prior pack cleared at start (assumed imported). Urban / regional → `isLiveMusicEvent: false`. |
 
 ---
 
@@ -31,7 +30,7 @@ Previous JSON packs were cleared at sync start (assumed already imported).
 
 | File | Status |
 |------|--------|
-| `events-2026-09-21.json` | **Import** — 10 Confirmed (Jaze×2, Taemin, Hardwell, CA7RIEL, Super Arte, Karol G, Ha*Ash, Sin Bandera, Oreja) |
+| `events-2026-09-21.json` | **Import** — 6 Confirmed (Zayn, Grupo Frontera, Humbe, Bunbury, Dimash, BABYMETAL) |
 
 ---
 
@@ -41,7 +40,7 @@ Only **open** rows stay here.
 
 | ID | Event | Tentative | Why blocked | Recheck | Status |
 |----|-------|-----------|-------------|---------|--------|
-| W15 | Anime Perú Fest 2026 | ~Oct | No solid 2026 date on Group A ticketing | EntradaLibre / IG | open |
+| W15 | Anime Perú Fest 2026 | ~Oct | EntradaLibre page still 2025; no 2026 Group A date | EntradaLibre / IG | open |
 
 **Statuses:** `open` · `approved` → next sync writes JSON · `rejected` · `imported` (then removed) · `closed`
 
@@ -128,7 +127,7 @@ Names + oids. Agent extracts oids from dumps / new JSON — you don’t type the
 ### 4c. Events — `name` · `date` · `venue` · `state` · `oid`
 
 Dedupe: **name + date(day)**; headliner only as tie-break (see skill). Venue is for display/link, not the hard key. Today + future only, sorted by date.
-Rows marked *new* come from `events-2026-09-21.json` (append after you import).
+Rows marked *new* come from this run’s `events-2026-09-21.json`.
 
 | name | date | venue | state | oid |
 |------|------|-------|-------|-----|
@@ -158,35 +157,41 @@ Rows marked *new* come from `events-2026-09-21.json` (append after you import).
 | Queen Sinfónico | 2026-10-10 | Teatro Centro Español | Announced | `b02f183d1c736a490141face` |
 | This Is Michael | 2026-10-10 | Parque de la Exposición | Confirmed | `fb20f425e801ae5884bf241e` |
 | Gruesome | 2026-10-13 | Yield Rock | Confirmed | `699286386725336cb5f12035` |
+| Zayn — The Konnakol Tour *new* | 2026-10-14 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70201` |
 | Kidd Voodoo | 2026-10-16 | CC Barranco | Announced | `07a5c7a13cdff51c75145f73` |
+| Grupo Frontera — Triste Pero Bien *new* | 2026-10-17 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70202` |
 | Run For Your Lives | 2026-10-17 | Estadio Nacional | Confirmed | `6992825f6725336cb5f11ffb` |
 | Zelda Symphonic Legends | 2026-10-22 | Teatro Manuel A. Segura | Announced | `a100c5f9f5da439b330364e9` |
 | Río Roma | 2026-10-24 | Costa 21 | Announced | `ed1701eefcfad288d5d6b7d4` |
 | Media Maratón del Callao & 10K | 2026-10-25 | La Punta, Callao | Announced | `5c0e9f1bf041fa894763d30f` |
-| Jaze — QNEPT Tour II *new* | 2026-10-28 | CC Barranco | Confirmed | `68d1a001a1b2c3d4e5f70103` |
+| Jaze — QNEPT Tour II | 2026-10-28 | CC Barranco | Confirmed | `68d1a001a1b2c3d4e5f70103` |
 | Hombres G | 2026-10-29 | Estadio Nacional | Confirmed | `32bb8834a6bc5aac6eb96b89` |
-| Jaze — QNEPT Tour II *new* | 2026-10-29 | CC Barranco | Confirmed | `68d1a001a1b2c3d4e5f70104` |
+| Jaze — QNEPT Tour II | 2026-10-29 | CC Barranco | Confirmed | `68d1a001a1b2c3d4e5f70104` |
 | Hombres G | 2026-10-30 | Estadio Nacional | Confirmed | `ff87daadbb81d75f9bd78155` |
 | Ken-Y Round 2 | 2026-10-30 | Arena 1 | Announced | `5aa0d3b10750f89092021fc3` |
 | Jesse y Joy | 2026-10-31 | Costa 21 | Confirmed | `7504b778cbeb59b55fd90c0e` |
 | Reggaetón Lima Festival 7 | 2026-10-31 | Costa 21 | Confirmed | `d19ae6c10dd1ec7a0b601890` |
 | Expofolk 5.ª | 2026-10-31 | Parque de la Exposición | Announced | `a90aeec114509ffb83c13a13` |
-| Taemin — LiMiNaL World Tour *new* | 2026-11-06 | Estadio Monumental de Ate | Confirmed | `68d1a001a1b2c3d4e5f7010a` |
+| Humbe — Dueño de los Cielos *new* | 2026-11-01 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70203` |
+| Taemin — LiMiNaL World Tour | 2026-11-06 | Estadio Monumental de Ate | Confirmed | `68d1a001a1b2c3d4e5f7010a` |
 | Myriam Hernández | 2026-11-06 | Parque de la Exposición | Confirmed | `ea02c022e0146ef47db5973c` |
-| Hardwell — South America World Tour *new* | 2026-11-13 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70102` |
+| Bunbury — Nuevas Mutaciones Tour *new* | 2026-11-07 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70206` |
+| Hardwell — South America World Tour | 2026-11-13 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70102` |
 | Airbag | 2026-11-14 | Estadio San Marcos | Confirmed | `ee36cb510db6a1bd6c6702af` |
 | The Strokes | 2026-11-20 | Estadio San Marcos | Confirmed | `a68fa8d78639172f5c416743` |
 | The Hayley Williams Show | 2026-11-21 | Costa 21 | Announced | `25bf35051ec12ee970245358` |
-| CA7RIEL & Paco Amoroso — Free Spirits *new* | 2026-11-27 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70109` |
+| CA7RIEL & Paco Amoroso — Free Spirits | 2026-11-27 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70109` |
 | Lima Latin Pop Fest Vol. 3 | 2026-11-28 | Costa 21 | Announced | `77eb20f1a2e05db4b5a28402` |
 | Flor Bertotti | 2026-11-29 | Gran Teatro Nacional | Announced | `32e2609dc4f3ee2c417a3cd6` |
+| Dimash — Dimensions World Tour *new* | 2026-12-01 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70204` |
 | Maná | 2026-12-02 | Costa 21 | Confirmed | `cd9897f94ec7bbbb42b20398` |
-| Super Arte — Lenny Tavárez & Justin Quiles *new* | 2026-12-12 | Arena 1 | Confirmed | `68d1a001a1b2c3d4e5f70101` |
+| BABYMETAL *new* | 2026-12-07 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70205` |
+| Super Arte — Lenny Tavárez & Justin Quiles | 2026-12-12 | Arena 1 | Confirmed | `68d1a001a1b2c3d4e5f70101` |
 | The Jacksons | 2026-12-15 | Costa 21 | Confirmed | `c02f1311ff0199a114894162` |
-| Karol G — Tropitour *new* | 2027-01-22 | Estadio San Marcos | Confirmed | `68d1a001a1b2c3d4e5f70105` |
-| Ha*Ash — No Me Hablen de Amor *new* | 2027-03-05 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70108` |
-| Sin Bandera — Escenas Tour 25 años *new* | 2027-03-06 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70107` |
-| La Oreja de Van Gogh — Tantas Cosas *new* | 2027-03-14 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70106` |
+| Karol G — Tropitour | 2027-01-22 | Estadio San Marcos | Confirmed | `68d1a001a1b2c3d4e5f70105` |
+| Ha*Ash — No Me Hablen de Amor | 2027-03-05 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70108` |
+| Sin Bandera — Escenas Tour 25 años | 2027-03-06 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70107` |
+| La Oreja de Van Gogh — Tantas Cosas | 2027-03-14 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70106` |
 
 ### 4d. Activities — `name` · `oid`
 

@@ -33,6 +33,23 @@ Then open your local browser and try accessing.
 https://localhost:8080/concert/
 ```
 
+## Lima events sync (ops)
+
+Weekly additive import of Lima / Callao events into MongoDB via Compass JSON.
+
+| | |
+|--|--|
+| **Cursor skill** | `.cursor/skills/sync-lima-events/` |
+| **How to run** | In **Agent** chat type `/sync-lima-events` (skill is opt-in; it does not auto-load) |
+| **Report** | [`scripts/lima-events-sync/LAST-SYNC-REPORT.md`](scripts/lima-events-sync/LAST-SYNC-REPORT.md) — inventory, watchlist, last pack |
+| **Import pack** | `scripts/lima-events-sync/output/*.json` (gitignored) |
+
+**Compass order:** states → categories → venues → activities → events.
+
+After you paste a pack, say **imported** in chat (or the next `/sync-lima-events` assumes the prior `output/*.json` was imported and deletes it).
+
+More detail: [`scripts/lima-events-sync/README.md`](scripts/lima-events-sync/README.md).
+
 ---
 ## License
 ```

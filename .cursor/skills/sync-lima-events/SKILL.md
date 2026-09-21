@@ -5,7 +5,7 @@ description: >-
   Use when the user says "sync events", "Cursor sync events for apps",
   "weekly events", recreate last-sync-report, or asks to
   refresh Lima / Callao concerts, fests, runs, or theater for HornsApp / Muvin.
-disable-model-invocation: false
+disable-model-invocation: true
 ---
 
 # Sync Lima events (HornsApp / Muvin)
@@ -362,5 +362,6 @@ Ticketing: event-page URL or name-only with `url: ""` — never a homepage (see 
 
 ## Triggers
 
-“sync events”, “sync lima events”, “Cursor sync events for apps”, “weekly events sync”,  
-“rebuild last-sync-report”, “recreate last-sync-report”.
+**Primary (required while `disable-model-invocation: true`):** `/sync-lima-events` in Agent chat.
+
+Also recognized in the skill description if invocation is ever re-enabled: “sync events”, “sync lima events”, “Cursor sync events for apps”, “weekly events sync”, “rebuild last-sync-report”, “recreate last-sync-report”.
