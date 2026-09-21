@@ -39,10 +39,11 @@ export class EventController extends BaseController {
         }
     }
 
-    public async findAllUpcoming(
+    /** Arrow so Express keeps `this` when the method is passed as a route handler. */
+    public findAllUpcoming = async (
         request: Request,
         response: Response
-    ): Promise<void> {
+    ): Promise<void> => {
         try {
             const currentDate = new Date()
             const filter = await this.clientEventFilter({
@@ -58,10 +59,11 @@ export class EventController extends BaseController {
         }
     }
 
-    public async findAllUpcomingConcerts(
+    /** Arrow so Express keeps `this` when the method is passed as a route handler. */
+    public findAllUpcomingConcerts = async (
         request: Request,
         response: Response
-    ): Promise<void> {
+    ): Promise<void> => {
         try {
             const currentDate = new Date()
             const filter = await this.clientEventFilter({
