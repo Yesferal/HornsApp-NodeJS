@@ -1,9 +1,29 @@
 import { Request, Response } from 'express'
 import { BaseController } from './base.controller'
-import { eventModel } from '../models'
+import { categoryModel, eventModel } from '../models'
 import { IEvent } from '../models/event.model'
+import { IN_REVIEW_CATEGORY_KEY } from '../constants/categories'
 
 export class EventController extends BaseController {
+    /** Exclude events tagged IN_REVIEW from client list responses. Detail by id is allowed. */
+    private async clientEventFilter(
+        extra: Record<string, unknown> = {}
+    ): Promise<Record<string, unknown>> {
+        const inReview = await categoryModel
+            .findOne({ key: IN_REVIEW_CATEGORY_KEY })
+            .select('_id')
+            .lean()
+
+        if (!inReview?._id) {
+            return { ...extra }
+        }
+
+        return {
+            ...extra,
+            categories: { $nin: [inReview._id] },
+        }
+    }
+
     public async findAll(
         request: Request,
         response: Response
@@ -25,9 +45,10 @@ export class EventController extends BaseController {
     ): Promise<void> {
         try {
             const currentDate = new Date()
-            const items: IEvent[] = await eventModel.find({
-                dateTime: { $gte: currentDate }
+            const filter = await this.clientEventFilter({
+                dateTime: { $gte: currentDate },
             })
+            const items: IEvent[] = await eventModel.find(filter)
 
             response.status(200).send(items)
         } catch (e) {
@@ -43,10 +64,11 @@ export class EventController extends BaseController {
     ): Promise<void> {
         try {
             const currentDate = new Date()
-            const items: IEvent[] = await eventModel.find({
+            const filter = await this.clientEventFilter({
                 dateTime: { $gte: currentDate },
-                isLiveMusicEvent: true
+                isLiveMusicEvent: true,
             })
+            const items: IEvent[] = await eventModel.find(filter)
 
             response.status(200).send(items)
         } catch (e) {
