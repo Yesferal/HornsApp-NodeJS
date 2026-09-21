@@ -129,3 +129,7 @@ launch.json
 # Keys
 keys/*
 
+# Lima events sync: Compass JSON stays local; LAST-SYNC-REPORT.md is tracked one level up
+scripts/lima-events-sync/input
+scripts/lima-events-sync/output
+# tracked: scripts/lima-events-sync/LAST-SYNC-REPORT.md
