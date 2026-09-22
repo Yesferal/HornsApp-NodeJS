@@ -19,7 +19,7 @@ Tracked: this file (`scripts/lima-events-sync/LAST-SYNC-REPORT.md`). `*.json` un
 | **New this run** | **6** Confirmed → `events-2026-09-21.json` |
 | New categories / venues / states / activities | none |
 | Needs your OK | §3: W15 Anime Perú Fest (EntradaLibre still 2025 only) |
-| Note | Prior pack cleared at start (assumed imported). Urban / regional → `isLiveMusicEvent: false`. |
+| Note | Prior pack cleared at start (assumed imported). Urban / regional → `isLiveMusicEvent: false`. Venue `imageUrl` in §4b (38/38) for event poster fallback. |
 
 ---
 
@@ -81,48 +81,50 @@ Names + oids. Agent extracts oids from dumps / new JSON — you don’t type the
 | CRAFT | `68ce2001a1b2c3d4e5f60206` |
 | IN_REVIEW | `68cf4001a1b2c3d4e5f60401` |
 
-### 4b. Venues — `name` · `oid`
+### 4b. Venues — `name` · `oid` · `imageUrl`
 
-| name | oid |
-|------|-----|
-| Agua Dulce Beach, Chorrillos | `699e058a9e62c48e8be7b029` |
-| Arena 1 | `5f4579bef64840ec4b382c6a` |
-| Arena Bar | `645343dbaae3a86c7beb775e` |
-| Asociación Peruano China (APCH) | `68ce0001a1b2c3d4e5f60009` |
-| CC Barranco | `5e8a68e063b0f505de950181` |
-| CC Embassy | `5f456a3af64840ec4b382c69` |
-| CC Festiva | `5fd6d8699cc97b061bc02243` |
-| CC Leguía | `643eb8b9b76f0e727ce05e4a` |
-| Club Cultural Lima | `68ce0001a1b2c3d4e5f60004` |
-| Costa 21 | `67be4416e7cef6acc7a629ef` |
-| Estadio Monumental de Ate | `6451a4c7aae3a86c7beb7730` |
-| Estadio Municipal Chipoco, Barranco | `680e6c98fd23ead6b0ca6cd4` |
-| Estadio Nacional | `6242ac79d6f0f34fa510a08c` |
-| Estadio San Marcos | `5e8a68e063b0f505de950180` |
-| Gran Teatro Nacional | `645335e3aae3a86c7beb7747` |
-| ICPNA Miraflores | `68ce0001a1b2c3d4e5f60005` |
-| La Noche de Barranco | `681ab7db4d065d0a489de313` |
-| La Punta, Callao | `b6d1540c8e8c1fdba6c4506b` |
-| Lurin Live | `67e80d47b7596ab3a93ee9dd` |
-| MALI | `680e64b6fd23ead6b0ca6c49` |
-| No anunciado | `63e7b5bb5b520b8feeb889b7` |
-| Parque de la Exposición | `63e47ef3a2364c17d03756ea` |
-| Parque Kennedy | `680e556dfd23ead6b0ca6c07` |
-| Parque Las Lomas, San Borja | `68ce0001a1b2c3d4e5f60008` |
-| Parque Los Heroes | `699269c76725336cb5f11e89` |
-| Parque Mariscal Ramón Castilla | `699273da6725336cb5f11ede` |
-| Parque Pentagonito | `67fb8035842ed656c38da88e` |
-| Plaza de Armas, Lima | `681d2ece32cfcf770e5a5cc7` |
-| Sargento Pimienta | `68ce0001a1b2c3d4e5f60001` |
-| Teatro Británico | `68ce0001a1b2c3d4e5f60007` |
-| Teatro Centro Español | `75535bfee2fa690575e1b569` |
-| Teatro Kantaro | `64bcd027a22189a26979c710` |
-| Teatro Manuel A. Segura | `68ce0001a1b2c3d4e5f60002` |
-| Teatro Marsano | `68ce0001a1b2c3d4e5f60006` |
-| Teatro NOS PUCP | `680e7230fd23ead6b0ca76ae` |
-| Universidad de Lima | `68ce0001a1b2c3d4e5f60003` |
-| Vichama Conciertos | `681ac91ac443cf7a1821a080` |
-| Yield Rock | `63d9d704627ffe83a2e34381` |
+Event poster fallback when ticketer/headliner image is missing (skill image flow). Keep in sync with admin / `input/hornsAppDB.venues.json`.
+
+| name | oid | imageUrl |
+|------|-----|----------|
+| Agua Dulce Beach, Chorrillos | `699e058a9e62c48e8be7b029` | `https://portal.andina.pe/EDPfotografia3/Thumbnail/2023/01/07/000924460W.jpg` |
+| Arena 1 | `5f4579bef64840ec4b382c6a` | `https://static.wixstatic.com/media/01f0f2_fa6bde2dc7c14587b54afadecf376d04%7Emv2.jpg/v1/fit/w_2500,h_1330,al_c/01f0f2_fa6bde2dc7c14587b54afadecf376d04%7Emv2.jpg` |
+| Arena Bar | `645343dbaae3a86c7beb775e` | `https://indiehoy.com/wp-content/uploads/2018/11/Centro-de-Convenciones-Barranco-Arena-1280x720.jpg` |
+| Asociación Peruano China (APCH) | `68ce0001a1b2c3d4e5f60009` | `https://apch.com.pe/wp-content/uploads/2024/12/descarga.jpg` |
+| CC Barranco | `5e8a68e063b0f505de950181` | `https://indiehoy.com/wp-content/uploads/2014/09/cc-barranco-lima.jpg` |
+| CC Embassy | `5f456a3af64840ec4b382c69` | `https://indiehoy.com/wp-content/uploads/2016/03/Centro-de-Convenciones-Embassy.jpg` |
+| CC Festiva | `5fd6d8699cc97b061bc02243` | `https://indiehoy.com/wp-content/uploads/2015/09/Centro-Convenciones-Festiva.jpg` |
+| CC Leguía | `643eb8b9b76f0e727ce05e4a` | `https://i.ytimg.com/vi/vgZzADlQ2ng/maxresdefault.jpg` |
+| Club Cultural Lima | `68ce0001a1b2c3d4e5f60004` | `https://clubculturaldeportivolima.pe/assets/img/all-images/service/service-grill3.png` |
+| Costa 21 | `67be4416e7cef6acc7a629ef` | `https://www.costa21.pe/uploads/countries/principal/11a2c5722669850612813a9.jpg` |
+| Estadio Monumental de Ate | `6451a4c7aae3a86c7beb7730` | `https://portal.andina.pe/EDPfotografia3/Thumbnail/2019/11/23/000635804W.jpg` |
+| Estadio Municipal Chipoco, Barranco | `680e6c98fd23ead6b0ca6cd4` | `https://thumbs.dreamstime.com/b/barranco-estadio-chipoco-imagen-a%C3%A9rea-lima-per%C3%BA-de-octubre-ciudad-durante-la-pandemia-covid-los-domingos-el-transporte-privado-198691426.jpg` |
+| Estadio Nacional | `6242ac79d6f0f34fa510a08c` | `https://portal.andina.pe/EDPfotografia3/Thumbnail/2021/10/27/000819093W.jpg` |
+| Estadio San Marcos | `5e8a68e063b0f505de950180` | `https://f.rpp-noticias.io/2024/11/22/portada_2555084.jpg` |
+| Gran Teatro Nacional | `645335e3aae3a86c7beb7747` | `https://cdn.www.gob.pe/uploads/document/file/3354669/standard_IMG_0089.jpg.jpg` |
+| ICPNA Miraflores | `68ce0001a1b2c3d4e5f60005` | `https://www.icpna.edu.pe/uploads/shares/institucional/fotos-sedes-interiores/Miraflores/1.jpg` |
+| La Noche de Barranco | `681ab7db4d065d0a489de313` | `https://www.lanoche.com.pe/wp-content/uploads/2020/02/IMG-20191216-WA0013-1-1024x682.jpg` |
+| La Punta, Callao | `b6d1540c8e8c1fdba6c4506b` | `https://portal.andina.pe/EDPfotografia3/Thumbnail/2024/01/08/001027517W.jpg` |
+| Lurin Live | `67e80d47b7596ab3a93ee9dd` | `https://cdn.getcrowder.com/images/834a9e4c-f3f8-4771-bfa8-edc09a3ff3d6-image-1125.jpg` |
+| MALI | `680e64b6fd23ead6b0ca6c49` | `https://mali.pe/es/wp-content/uploads/2022/02/slide3.jpg` |
+| No anunciado | `63e7b5bb5b520b8feeb889b7` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Parque de la Exposición | `63e47ef3a2364c17d03756ea` | `https://tvrobles.lamula.pe/media/uploads/da661989-425a-4ec7-bd7f-0067b77d1b96.jpg` |
+| Parque Kennedy | `680e556dfd23ead6b0ca6c07` | `https://portal.andina.pe/EDPfotografia3/Thumbnail/2019/07/07/000598878W.jpg` |
+| Parque Las Lomas, San Borja | `68ce0001a1b2c3d4e5f60008` | `https://www.centralinmobiliaria.pe/wp-content/uploads/2024/02/central-inmobiliaria-blog-parques-en-san-borja.webp` |
+| Parque Los Heroes | `699269c76725336cb5f11e89` | `https://imgmedia.larepublica.pe/1000x590/larepublica/original/2025/03/17/67d8ac7c81bc3651622f3646.webp` |
+| Parque Mariscal Ramón Castilla | `699273da6725336cb5f11ede` | `https://cdn.abril.pe/2019/03/parques-Lince-disfrutar-junto-a-familia-mariscal-ramon-castilla-768x402.jpg` |
+| Parque Pentagonito | `67fb8035842ed656c38da88e` | `https://dirigeteasanborja.wordpress.com/wp-content/uploads/2012/10/317680_289756567806316_846319683_n.jpg` |
+| Plaza de Armas, Lima | `681d2ece32cfcf770e5a5cc7` | `https://portal.andina.pe/EDPfotografia3/Thumbnail/2024/07/28/001086717W.jpg` |
+| Sargento Pimienta | `68ce0001a1b2c3d4e5f60001` | `https://indiehoy.com/wp-content/uploads/2015/09/Sargento-Pimienta-de-Barranco.jpg` |
+| Teatro Británico | `68ce0001a1b2c3d4e5f60007` | `https://britanico.edu.pe/wp-content/uploads/2024/08/video-1.jpg` |
+| Teatro Centro Español | `75535bfee2fa690575e1b569` | `https://infoartes.pe/sites/default/files/wp-files/uploads/2013/10/teatro01.jpg` |
+| Teatro Kantaro | `64bcd027a22189a26979c710` | `https://indiehoy.com/wp-content/uploads/2015/09/Centro-Convenciones-Festiva.jpg` |
+| Teatro Manuel A. Segura | `68ce0001a1b2c3d4e5f60002` | `https://portal.andina.pe/EDPfotografia3/Thumbnail/2022/09/15/000898738W.jpg` |
+| Teatro Marsano | `68ce0001a1b2c3d4e5f60006` | `https://enlima.pe/sites/default/files/teatro-marsano-lima.jpg` |
+| Teatro NOS PUCP | `680e7230fd23ead6b0ca76ae` | `https://static.wixstatic.com/media/8e4cad_5e6e9adfb8d34a649a550038d3121c7a%7Emv2.jpg/v1/fit/w_2500,h_1330,al_c/8e4cad_5e6e9adfb8d34a649a550038d3121c7a%7Emv2.jpg` |
+| Universidad de Lima | `68ce0001a1b2c3d4e5f60003` | `https://www.ulima.edu.pe/sites/default/files/jfu-images/ULima_Video%20institucional.jpg` |
+| Vichama Conciertos | `681ac91ac443cf7a1821a080` | `https://enlima.pe/sites/default/files/vichama_conciertos.jpg` |
+| Yield Rock | `63d9d704627ffe83a2e34381` | `https://enlima.pe/sites/default/files/yield-rock.jpg` |
 
 ### 4c. Events — `name` · `date` · `venue` · `state` · `oid`
 

@@ -116,7 +116,7 @@ Same as the table at the top. Extra rules:
 4. Scan group A for the window (see **Default window**). **Lima + Callao**.
 5. Classify new finds; **promote** watchlist / IN_REVIEW rows that are now solid (Confirmed, drop IN_REVIEW, remove from §3).
 6. **Write new JSON only** for objects not in §4 (`events-YYYY-MM-DD.json` + optional cats/venues/activities/states).
-7. **Images:** shape-check real poster; else default by category (see Images). Prefer default over `""`.
+7. **Images:** try event/headliner/venue poster with accept/reject rules (Images); default only if none pass. Prefer default over `""`.
 7b. **About i18n:** always set non-empty `about.es` **and** `about.en` (translate; never leave one null/blank).
 8. Times: UTC (Lima UTC−5).
 9. **Update `LAST-SYNC-REPORT.md`:** Last sync, §1–3, **§4** (append · drop past · sort §4c).
@@ -142,7 +142,7 @@ Same as the table at the top. Extra rules:
 ## 3. Watchlist — needs manual approval
 ## 4. DB inventory (dedupe + link)
 ### 4a. Categories — key · oid
-### 4b. Venues — name · oid
+### 4b. Venues — name · oid · imageUrl
 ### 4c. Events — name · date · venue · state · oid
 ### 4d. Activities — name · oid
 ### 4e. States — name en/es · oid
@@ -156,12 +156,13 @@ Same as the table at the top. Extra rules:
 | Collection | Columns | Dedupe key |
 |------------|---------|------------|
 | **categories** | key + oid | key |
-| **venues** | name + oid | name |
+| **venues** | name + oid + imageUrl | name |
 | **events** | name + date + venue + state + oid (+ headliner when known) | see **Event dedupe** below |
 | **activities** | name + oid | name |
 | **states** | name en/es + oid | English name |
 
-Reuse §4 oids when writing event JSON. Never invent an oid for a name already in §4.
+Reuse §4 oids when writing event JSON. Never invent an oid for a name already in §4.  
+Venue **`imageUrl`** in §4b is the event-poster fallback (skill image flow step 3) when ticketer/headliner image is missing — refresh from admin dump / `input/hornsAppDB.venues.json` when venues change.
 
 ### Event dedupe
 
@@ -188,41 +189,74 @@ Only if important and/or repeats across events. Skip one-offs.
 
 ### Images (`headliner.url`) — must work on iOS/Android
 
-Client uses `headliner.url` in `AsyncImage` / equivalent. **Broken URL = blank UI.**
+Client uses `headliner.url` in `AsyncImage` / equivalent (`URLSession` / OkHttp-style HTTPS GET). **Broken, redirected, or expired URL = blank UI.**
+
+**Goal:** store a URL the **mobile client can load directly** as an image — not an HTML page, not a redirect hop, not a signed link that dies later. Default image is last resort only (placeholder until admin paste).
 
 **Flow (priority):**  
-1. **Event** poster (ticketing / official event page image)  
-2. Else **headliner** press/official image (same shape rules)  
-3. Else **venue** `imageUrl` (use `name.es` for venue labels in the report)  
-4. Else **category default** (for now all kinds share the same Vecteezy JPEG; per-category defaults later)  
+1. **Event** poster (ticketing / official event page — prefer `og:image` / main hero)  
+2. Else **headliner** press/official image (same checks)  
+3. Else **venue** `imageUrl` from §4b (same checks)  
+4. Else **category default** (JPEG below)
 
-Shape-check every candidate. Never leave blank if a default exists.
+Never leave `headliner.url` blank if a default exists. **Do not** skip the hunt and jump to Default image when a ticketer page has a usable poster.
 
-#### 1) Real poster — cheap URL-shape check (no network)
+#### Accept / reject (probe before write)
 
-Pass only if **all**:
+Before writing `headliner.url`, **probe** the candidate (HEAD preferred; short GET range OK if HEAD blocked). Use a normal browser-like `User-Agent` if the CDN requires it.
 
-1. `https://`
-2. Path ends with `.jpg` / `.jpeg` / `.png` (optional `.webp`)
-3. **No** `?` query and **no** `#`
-4. Host not in reject list
-5. Length ≲ **200** chars
+**Must pass all:**
 
-**Reject → do not use** (fall through to defaults):
+| Rule | Why |
+|------|-----|
+| Absolute `https://` URL | ATS / cleartext blocked on iOS; Android cleartext off by default |
+| **No 3XX** on the URL we store | Clients often mishandle or strip cookies on redirects; store a URL that answers **200** directly |
+| Response **`Content-Type` starts with `image/`** | Proves it is an image for AsyncImage / Coil / Glide — not `text/html` |
+| Preferred types: `image/jpeg`, `image/png`, `image/webp` | Widely supported on iOS + Android; avoid exotic types |
+| Host not on reject list | Unstable / gated / expire |
+| No **expiry / signing** query signals | Blank weeks later in the app |
+
+**3XX policy**
+
+- If the candidate returns **301 / 302 / 303 / 307 / 308** → **do not store that URL**.
+- Optional: follow redirects **once** only to discover the final URL, then **re-run the full accept check on the final URL** (https, 200, `image/*`, no signing). Store the **final** URL only if it passes; never store the intermediate redirecting URL.
+- If final also redirects, fails, or is HTML → reject → try next candidate / default.
+
+**Looks like an image (cheap pre-filter before probe)** — any of:
+
+1. Path ends with `.jpg` / `.jpeg` / `.png` / `.webp` (query after extension OK), **or**
+2. Host/path looks like media/CDN (`…/image…`, `…/media…`, `…/uploads…`, Cloudinary, Imgix, ticketer CDN)
+
+Pre-filter alone is **not enough** — the probe (`200` + `Content-Type: image/*`, no 3XX on stored URL) is required for new sync writes when network is available. If probe is impossible in-environment, fall through to default rather than guessing.
+
+**Query strings**
+
+| Allow | Reject |
+|-------|--------|
+| Harmless resize/cache: `w`, `h`, `width`, `height`, `quality`, `fit`, `auto`, `v` (version) | Signing / session: `token`, `Expires`, `Signature`, `X-Amz-*`, `sig`, `Policy`, `Key-Pair-Id`, `AWSAccessKeyId`, `ossAccessKeyId`, similar |
+
+You **may** strip only known-harmless resize params if that yields a cleaner URL; **never** invent a host or path. After stripping, **probe again**.
+
+**Reject hosts / patterns (fall through):**
 
 | Signal | Why |
 |--------|-----|
-| any `?` query | signed / session (`token`, `Expires`, `X-Amz-`, …) |
 | `wikipedia` / `wikimedia` | unstable |
 | `instagram` / `fbcdn` / `cdninstagram` | expire |
 | `googleusercontent` / `ggpht` | gated |
-| no image extension | HTML page |
-| `http://` | ATS risk |
-| very long URL | usually signed |
+| `http://` | ATS / cleartext risk |
+| ticketer **homepage / listing HTML** URL used as image | not an image |
+| signed / expiring query (table above) | dies later |
+| `Content-Type: text/html` (or non-`image/*`) | mobile shows blank |
+| Store URL that only works via **3XX** chain | unreliable on clients |
 
-#### 2) Defaults by kind (when real image missing/fails)
+#### Sync duty
 
-Use a **simple** `https://…/….png` with **no query**. Pick from the event’s primary content category.
+On each new event: try ticketer/official **og:image** (or equivalent) → probe (200, `image/*`, no 3XX on stored URL) → use it. Only then headliner → venue → default. Same image for every event in a pack = skill skipped the hunt; fix before hand-off when posters were available.
+
+#### Defaults by kind (when real image missing/fails)
+
+Use a **simple** `https://…/….jpeg` with **no signing** (known-good direct image). Pick from the event’s primary content category.
 
 | Kind (category key) | Default `headliner.url` |
 |---------------------|-------------------------|
@@ -237,7 +271,7 @@ Use a **simple** `https://…/….png` with **no query**. Pick from the event’
 
 If `isLiveMusicEvent: true` and categories are only CONCERT + genre, prefer the **genre** row (METAL/ROCK/…) over CONCERT.
 
-These are **temporary placeholders** until you paste a real poster in admin. Same shape rules apply (https, `.png`, no `?`).
+These are **temporary placeholders** until you paste a real poster in admin.
 
 ---
 
@@ -304,7 +338,7 @@ When Group A shows an event is **fully ready** (Confirmed-quality):
 2. **Do not insert a duplicate.** Prefer an **update** pack (or Compass note) that:
    - sets state → **Confirmed**
    - **removes** category **IN_REVIEW**
-   - fills any missing ticketing / venue / image (shape-OK or default)
+   - fills any missing ticketing / venue / image (pass Images checks or default)
 3. **Remove** that row from §3 (status was open → gone after promote).
 4. Refresh §4c state to Confirmed for that oid.
 
