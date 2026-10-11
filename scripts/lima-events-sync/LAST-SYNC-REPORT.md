@@ -2,8 +2,8 @@
 
 | | |
 |--|--|
-| **Last sync** | 2026-09-21 |
-| **Window** | 2026-09-21 → 2027-12-31 (default: today → 31 Dec next year) |
+| **Last sync** | 2026-10-10 (pass 3 — cleaned skill / Group 2 → group-1 hunt) |
+| **Window** | 2026-10-10 → 2027-12-31 (default: today → 31 Dec next year) |
 | **Next** | `/sync-lima-events` |
 
 Tracked: this file (`scripts/lima-events-sync/LAST-SYNC-REPORT.md`). `*.json` under `lima-events-sync/` stay local (gitignored).
@@ -14,23 +14,25 @@ Tracked: this file (`scripts/lima-events-sync/LAST-SYNC-REPORT.md`). `*.json` un
 
 | | |
 |--|--|
-| Sources | Teleticket (primary this run) |
-| Already in DB (§4c before run) | 55 upcoming (incl. prior same-day pack: Jaze, Hardwell, Karol G, …) |
-| **New this run** | **6** Confirmed → `events-2026-09-21.json` |
-| New categories / venues / states / activities | none |
-| Needs your OK | §3: W15 Anime Perú Fest (EntradaLibre still 2025 only) |
-| Note | Prior pack cleared at start (assumed imported). Urban / regional → `isLiveMusicEvent: false`. Venue `imageUrl` in §4b (38/38) for event poster fallback. |
+| Sources scanned | Rockmetalperu · Ticketmaster PE · Teleticket · Joinnus · Eventrid deportivo (browser) · EntradaLibre · Running4Peru (403) |
+| Broken / blocked list_url | **Running4Peru** 403 · **Passline** not scanned (Cloudflare). Joinnus list is JS shell — deep links hunted via TM instead. |
+| Already in DB (§4c before run) | prior packs assumed imported |
+| **New this run** | **11** inserts → `events-2026-10-10c.json` (6 Confirmed TM + 4 Announced/`FOLLOW_UP` Joinnus-TBA + 1 Eventrid sport) |
+| **Updates this run** | none (existing `FOLLOW_UP` races still venue-TBA) |
+| New categories / venues | none |
+| Needs your OK | none (§3 empty) |
+| Note | New Group 2 rule: Rockmetalperu rows with Ticketmaster → Confirmed; Joinnus-named without event page → TBA+`FOLLOW_UP`. Phone-only / non–group-1 discarded. Posters probed 200 + `image/*`. |
 
 ---
 
 ## 2. Ready for Compass (this run only)
 
-**Order:** states → categories → venues → activities → events.  
-Previous JSON packs were cleared at sync start (assumed already imported).
+**Order:** **insert** events.  
+Prior `*b.json` packs assumed imported; cleared at start of this pass.
 
 | File | Status |
 |------|--------|
-| `events-2026-09-21.json` | **Import** — 6 Confirmed (Zayn, Grupo Frontera, Humbe, Bunbury, Dimash, BABYMETAL) |
+| `events-2026-10-10c.json` | **Import** — 11 new (Ill Niño, Tierra Santa, Elefante, My Dying Bride, Gorillaz, Kreator, BTBAM, Coti, Viva los 90s, Aterciopelados, Santa Maria Swim) |
 
 ---
 
@@ -40,7 +42,7 @@ Only **open** rows stay here.
 
 | ID | Event | Tentative | Why blocked | Recheck | Status |
 |----|-------|-----------|-------------|---------|--------|
-| W15 | Anime Perú Fest 2026 | ~Oct | EntradaLibre page still 2025; no 2026 Group A date | EntradaLibre / IG | open |
+| — | *(empty)* | | | | |
 
 **Statuses:** `open` · `approved` → next sync writes JSON · `rejected` · `imported` (then removed) · `closed`
 
@@ -80,6 +82,9 @@ Names + oids. Agent extracts oids from dumps / new JSON — you don’t type the
 | PETS | `68ce2001a1b2c3d4e5f60205` |
 | CRAFT | `68ce2001a1b2c3d4e5f60206` |
 | IN_REVIEW | `68cf4001a1b2c3d4e5f60401` |
+| FOLLOW_UP | `68cf5001a1b2c3d4e5f60501` |
+| ART | `68cf6001a1b2c3d4e5f60601` |
+| FILM | `68cf6001a1b2c3d4e5f60602` |
 
 ### 4b. Venues — `name` · `oid` · `imageUrl`
 
@@ -87,85 +92,82 @@ Event poster fallback when ticketer/headliner image is missing (skill image flow
 
 | name | oid | imageUrl |
 |------|-----|----------|
-| Agua Dulce Beach, Chorrillos | `699e058a9e62c48e8be7b029` | `https://portal.andina.pe/EDPfotografia3/Thumbnail/2023/01/07/000924460W.jpg` |
+| Agua Dulce Beach, Chorrillos | `699e058a9e62c48e8be7b029` | `https://portal.munichorrillos.gob.pe/sites/default/files/portfolio-images/complejo-turistico-agua-dulce-14.jpg` |
 | Arena 1 | `5f4579bef64840ec4b382c6a` | `https://static.wixstatic.com/media/01f0f2_fa6bde2dc7c14587b54afadecf376d04%7Emv2.jpg/v1/fit/w_2500,h_1330,al_c/01f0f2_fa6bde2dc7c14587b54afadecf376d04%7Emv2.jpg` |
 | Arena Bar | `645343dbaae3a86c7beb775e` | `https://indiehoy.com/wp-content/uploads/2018/11/Centro-de-Convenciones-Barranco-Arena-1280x720.jpg` |
-| Asociación Peruano China (APCH) | `68ce0001a1b2c3d4e5f60009` | `https://apch.com.pe/wp-content/uploads/2024/12/descarga.jpg` |
-| CC Barranco | `5e8a68e063b0f505de950181` | `https://indiehoy.com/wp-content/uploads/2014/09/cc-barranco-lima.jpg` |
-| CC Embassy | `5f456a3af64840ec4b382c69` | `https://indiehoy.com/wp-content/uploads/2016/03/Centro-de-Convenciones-Embassy.jpg` |
+| Asociación Peruano China (APCH) | `68ce0001a1b2c3d4e5f60009` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| CC Barranco | `5e8a68e063b0f505de950181` | `https://www.ccbarranco.com/img/espacios/salon1.png` |
+| CC Embassy | `5f456a3af64840ec4b382c69` | `https://enlima.pe/sites/default/files/embassy.jpg` |
 | CC Festiva | `5fd6d8699cc97b061bc02243` | `https://indiehoy.com/wp-content/uploads/2015/09/Centro-Convenciones-Festiva.jpg` |
-| CC Leguía | `643eb8b9b76f0e727ce05e4a` | `https://i.ytimg.com/vi/vgZzADlQ2ng/maxresdefault.jpg` |
+| CC Leguía | `643eb8b9b76f0e727ce05e4a` | `https://cdn.getcrowder.com/images/3d21a672-9361-4f94-b809-b0b2dbe85a5c-fondo-teatro-leguia.jpg` |
+| Auditorio Colegio San Agustín *new* | `68e8c001a1b2c3d4e5f70702` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Círculo Militar de Jesús María | `68e8b001a1b2c3d4e5f70602` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
 | Club Cultural Lima | `68ce0001a1b2c3d4e5f60004` | `https://clubculturaldeportivolima.pe/assets/img/all-images/service/service-grill3.png` |
-| Costa 21 | `67be4416e7cef6acc7a629ef` | `https://www.costa21.pe/uploads/countries/principal/11a2c5722669850612813a9.jpg` |
-| Estadio Monumental de Ate | `6451a4c7aae3a86c7beb7730` | `https://portal.andina.pe/EDPfotografia3/Thumbnail/2019/11/23/000635804W.jpg` |
+| Coliseo Eduardo Dibós | `68e8b001a1b2c3d4e5f70601` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Costa 21 | `67be4416e7cef6acc7a629ef` | `https://i0.wp.com/conciertos.com.pe/wp-content/uploads/2024/12/Costa-21-2.png` |
+| La Cúpula de las Artes *new* | `68e8c001a1b2c3d4e5f70703` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Estadio Monumental de Ate | `6451a4c7aae3a86c7beb7730` | `https://www.tvperu.gob.pe/sites/default/files/styles/note/public/noche_crema_2026_universitario_entradas.jpg` |
 | Estadio Municipal Chipoco, Barranco | `680e6c98fd23ead6b0ca6cd4` | `https://thumbs.dreamstime.com/b/barranco-estadio-chipoco-imagen-a%C3%A9rea-lima-per%C3%BA-de-octubre-ciudad-durante-la-pandemia-covid-los-domingos-el-transporte-privado-198691426.jpg` |
-| Estadio Nacional | `6242ac79d6f0f34fa510a08c` | `https://portal.andina.pe/EDPfotografia3/Thumbnail/2021/10/27/000819093W.jpg` |
-| Estadio San Marcos | `5e8a68e063b0f505de950180` | `https://f.rpp-noticias.io/2024/11/22/portada_2555084.jpg` |
+| Estadio Nacional | `6242ac79d6f0f34fa510a08c` | `https://livesystemperu.com/wp-content/uploads/2024/07/1-20.jpg` |
+| Estadio San Marcos | `5e8a68e063b0f505de950180` | `https://cloudfront-us-east-1.images.arcpublishing.com/infobae/Q3SP3WSSA5AJ5FOMKKOQNPK3Q4.png` |
 | Gran Teatro Nacional | `645335e3aae3a86c7beb7747` | `https://cdn.www.gob.pe/uploads/document/file/3354669/standard_IMG_0089.jpg.jpg` |
-| ICPNA Miraflores | `68ce0001a1b2c3d4e5f60005` | `https://www.icpna.edu.pe/uploads/shares/institucional/fotos-sedes-interiores/Miraflores/1.jpg` |
-| La Noche de Barranco | `681ab7db4d065d0a489de313` | `https://www.lanoche.com.pe/wp-content/uploads/2020/02/IMG-20191216-WA0013-1-1024x682.jpg` |
-| La Punta, Callao | `b6d1540c8e8c1fdba6c4506b` | `https://portal.andina.pe/EDPfotografia3/Thumbnail/2024/01/08/001027517W.jpg` |
+| ICPNA Miraflores | `68ce0001a1b2c3d4e5f60005` | `https://www.icpna.edu.pe/thumbs/1031x580_fit/uploads/shares/institucional/fotos-sedes-interiores/Miraflores/3.jpg` |
+| La Noche de Barranco | `681ab7db4d065d0a489de313` | `https://www.lanoche.com.pe/wp-content/uploads/2020/02/IMG-20191216-WA0013-1024x682.jpg` |
+| La Punta, Callao | `b6d1540c8e8c1fdba6c4506b` | `https://i.pinimg.com/736x/92/f0/a5/92f0a5c69103d7541bb8fadaccb85ff4.jpg` |
 | Lurin Live | `67e80d47b7596ab3a93ee9dd` | `https://cdn.getcrowder.com/images/834a9e4c-f3f8-4771-bfa8-edc09a3ff3d6-image-1125.jpg` |
-| MALI | `680e64b6fd23ead6b0ca6c49` | `https://mali.pe/es/wp-content/uploads/2022/02/slide3.jpg` |
-| No anunciado | `63e7b5bb5b520b8feeb889b7` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
-| Parque de la Exposición | `63e47ef3a2364c17d03756ea` | `https://tvrobles.lamula.pe/media/uploads/da661989-425a-4ec7-bd7f-0067b77d1b96.jpg` |
-| Parque Kennedy | `680e556dfd23ead6b0ca6c07` | `https://portal.andina.pe/EDPfotografia3/Thumbnail/2019/07/07/000598878W.jpg` |
-| Parque Las Lomas, San Borja | `68ce0001a1b2c3d4e5f60008` | `https://www.centralinmobiliaria.pe/wp-content/uploads/2024/02/central-inmobiliaria-blog-parques-en-san-borja.webp` |
+| MALI | `680e64b6fd23ead6b0ca6c49` | `https://cosas.pe/efsfiles/2026-04/la-noche-del-mali.jpg` |
+| TBA | `63e7b5bb5b520b8feeb889b7` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Parque de la Exposición | `63e47ef3a2364c17d03756ea` | `https://livesystemperu.com/wp-content/uploads/2022/11/GRUPO-5-4.jpg` |
+| Parque Kennedy | `680e556dfd23ead6b0ca6c07` | `https://www.incatrailmachu.com/img/kennedy-park-the-central-park-of-miraflores-in-lima-277.jpg` |
+| Parque Las Lomas, San Borja | `68ce0001a1b2c3d4e5f60008` | `https://i.pinimg.com/736x/97/c7/e9/97c7e9b463543ba93d8c69e6bc54161d.jpg` |
 | Parque Los Heroes | `699269c76725336cb5f11e89` | `https://imgmedia.larepublica.pe/1000x590/larepublica/original/2025/03/17/67d8ac7c81bc3651622f3646.webp` |
 | Parque Mariscal Ramón Castilla | `699273da6725336cb5f11ede` | `https://cdn.abril.pe/2019/03/parques-Lince-disfrutar-junto-a-familia-mariscal-ramon-castilla-768x402.jpg` |
-| Parque Pentagonito | `67fb8035842ed656c38da88e` | `https://dirigeteasanborja.wordpress.com/wp-content/uploads/2012/10/317680_289756567806316_846319683_n.jpg` |
+| Parque Pentagonito | `67fb8035842ed656c38da88e` | `https://i.pinimg.com/736x/97/c7/e9/97c7e9b463543ba93d8c69e6bc54161d.jpg` |
 | Plaza de Armas, Lima | `681d2ece32cfcf770e5a5cc7` | `https://portal.andina.pe/EDPfotografia3/Thumbnail/2024/07/28/001086717W.jpg` |
 | Sargento Pimienta | `68ce0001a1b2c3d4e5f60001` | `https://indiehoy.com/wp-content/uploads/2015/09/Sargento-Pimienta-de-Barranco.jpg` |
-| Teatro Británico | `68ce0001a1b2c3d4e5f60007` | `https://britanico.edu.pe/wp-content/uploads/2024/08/video-1.jpg` |
+| Teatro Británico | `68ce0001a1b2c3d4e5f60007` | `https://applications-media.feverup.com/image/upload/f_auto/fever2/plan/photo/8c301b42-5476-11f1-ad1b-8200bfc15269.jpg` |
 | Teatro Centro Español | `75535bfee2fa690575e1b569` | `https://infoartes.pe/sites/default/files/wp-files/uploads/2013/10/teatro01.jpg` |
-| Teatro Kantaro | `64bcd027a22189a26979c710` | `https://indiehoy.com/wp-content/uploads/2015/09/Centro-Convenciones-Festiva.jpg` |
+| Teatro Kantaro | `64bcd027a22189a26979c710` | `https://cdn.getcrowder.com/images/3d21a672-9361-4f94-b809-b0b2dbe85a5c-fondo-teatro-leguia.jpg` |
 | Teatro Manuel A. Segura | `68ce0001a1b2c3d4e5f60002` | `https://portal.andina.pe/EDPfotografia3/Thumbnail/2022/09/15/000898738W.jpg` |
 | Teatro Marsano | `68ce0001a1b2c3d4e5f60006` | `https://enlima.pe/sites/default/files/teatro-marsano-lima.jpg` |
-| Teatro NOS PUCP | `680e7230fd23ead6b0ca76ae` | `https://static.wixstatic.com/media/8e4cad_5e6e9adfb8d34a649a550038d3121c7a%7Emv2.jpg/v1/fit/w_2500,h_1330,al_c/8e4cad_5e6e9adfb8d34a649a550038d3121c7a%7Emv2.jpg` |
+| Teatro Municipal de Surco *new* | `68e8c001a1b2c3d4e5f70701` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro NOS PUCP | `680e7230fd23ead6b0ca76ae` | `https://files.pucp.education/puntoedu/wp-content/uploads/2022/07/14103324/1.-abre-hector-jara.jpg` |
 | Universidad de Lima | `68ce0001a1b2c3d4e5f60003` | `https://www.ulima.edu.pe/sites/default/files/jfu-images/ULima_Video%20institucional.jpg` |
 | Vichama Conciertos | `681ac91ac443cf7a1821a080` | `https://enlima.pe/sites/default/files/vichama_conciertos.jpg` |
-| Yield Rock | `63d9d704627ffe83a2e34381` | `https://enlima.pe/sites/default/files/yield-rock.jpg` |
+| Yield Rock | `63d9d704627ffe83a2e34381` | `https://media-cdn.tripadvisor.com/media/photo-s/0f/10/ea/95/desenchufados-yield.jpg` |
 
 ### 4c. Events — `name` · `date` · `venue` · `state` · `oid`
 
-Dedupe: **name + date(day)**; headliner only as tie-break (see skill). Venue is for display/link, not the hard key. Today + future only, sorted by date.
-Rows marked *new* come from this run’s `events-2026-09-21.json`.
+Dedupe: **name + date(day)**; headliner only as tie-break (see skill). Venue is for display/link, not the hard key. Today + future only, sorted by date.  
+Rows marked *new* come from this run’s `events-2026-10-10c.json`.
 
 | name | date | venue | state | oid |
 |------|------|-------|-------|-----|
-| BritPop | 2026-09-23 | Arena 1 | Confirmed | `68ce1001a1b2c3d4e5f60101` |
-| La Cabaña | 2026-09-23 | Teatro Marsano | Confirmed | `68ce3001a1b2c3d4e5f60308` |
-| BritPop | 2026-09-24 | Arena 1 | Confirmed | `699cb6609e62c48e8be7affe` |
-| La mujer de negro | 2026-09-24 | Teatro Británico | Confirmed | `68ce3001a1b2c3d4e5f60309` |
-| ¡Funado! | 2026-09-24 | Teatro NOS PUCP | Confirmed | `68ce3001a1b2c3d4e5f6030a` |
-| 30th Anniversary World Tour | 2026-09-25 | CC Leguía | Confirmed | `6997adddb42ea53dbaa0b154` |
-| Brutal Sinfónico | 2026-09-26 | Parque de la Exposición | Confirmed | `68ce1001a1b2c3d4e5f60102` |
-| El Plan de la Mariposa | 2026-09-26 | Sargento Pimienta | Confirmed | `68ce1001a1b2c3d4e5f60103` |
-| Genshin Lima: El Tour Iridiscente | 2026-09-26 | CC Festiva | Confirmed | `68ce3001a1b2c3d4e5f60305` |
-| Bimbo Global Race | 2026-09-27 | Parque Las Lomas, San Borja | Confirmed | `68ce3001a1b2c3d4e5f60306` |
-| Everyone's a Star! World Tour | 2026-09-27 | Costa 21 | Confirmed | `68ce1001a1b2c3d4e5f60104` |
-| Gánale la Carrera al Cáncer | 2026-09-27 | Parque Pentagonito | Confirmed | `68ce3001a1b2c3d4e5f60307` |
-| Unseen Horror Scenes | 2026-09-30 | Vichama Conciertos | Confirmed | `68ce1001a1b2c3d4e5f60105` |
-| TURR4ZO World Tour | 2026-10-01 | Arena 1 | Confirmed | `68ce1001a1b2c3d4e5f60106` |
-| Euforia Tour | 2026-10-03 | CC Festiva | Confirmed | `68ce1001a1b2c3d4e5f60107` |
-| Plays Metallica Vol. 2 | 2026-10-03 | Teatro Manuel A. Segura | Confirmed | `68ce1001a1b2c3d4e5f60108` |
-| TEDxLima 2026 | 2026-10-03 | Universidad de Lima | Confirmed | `68ce1001a1b2c3d4e5f60109` |
-| Raphaelísimo Tour | 2026-10-03 | Parque de la Exposición | Announced | `ca6f8b6ce8bb7da53553ee6c` |
-| BTS World Tour ARIRANG | 2026-10-07 | Estadio San Marcos | Confirmed | `c3fa85dd63b08354b53cc6bb` |
-| Cultura Profética | 2026-10-08 | Costa 21 | Announced | `0d08e1c6b0b7a68af9b16170` |
-| BTS World Tour ARIRANG | 2026-10-09 | Estadio San Marcos | Confirmed | `47f05e26e5b015cf2efe61af` |
-| Chyno y Nacho | 2026-10-09 | Costa 21 | Announced | `f756f96075da7e0c5bfadd69` |
 | BTS World Tour ARIRANG | 2026-10-10 | Estadio San Marcos | Confirmed | `0095b5f35a0f9b0f1f073bd9` |
 | Queen Sinfónico | 2026-10-10 | Teatro Centro Español | Announced | `b02f183d1c736a490141face` |
 | This Is Michael | 2026-10-10 | Parque de la Exposición | Confirmed | `fb20f425e801ae5884bf241e` |
+| Punk en el Kennedy | 2026-10-10 | Parque Kennedy | Confirmed | `68e8b001a1b2c3d4e5f70508` |
+| APDAYC Fest II — Suena Perú | 2026-10-10 | Parque de la Exposición | Confirmed | `68e8b001a1b2c3d4e5f7050b` |
+| La Bella Durmiente — Ballet | 2026-10-10 | La Cúpula de las Artes | Confirmed | `68e8c001a1b2c3d4e5f70803` |
+| Annie — El Musical | 2026-10-10 | Teatro Municipal de Surco | Confirmed | `68e8c001a1b2c3d4e5f70801` |
+| Between the Buried and Me *new* | 2026-10-11 | Yield Rock | Announced + FOLLOW_UP | `68e8d001a1b2c3d4e5f70907` |
+| Carrera de Princesas 2026 | 2026-10-11 | TBA | Announced + FOLLOW_UP | `68e8c001a1b2c3d4e5f70806` |
 | Gruesome | 2026-10-13 | Yield Rock | Confirmed | `699286386725336cb5f12035` |
-| Zayn — The Konnakol Tour *new* | 2026-10-14 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70201` |
+| Zayn — The Konnakol Tour | 2026-10-14 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70201` |
+| Nicole Zignago — Tour (enamorada) | 2026-10-15 | CC Barranco | Confirmed | `68e4a001a1b2c3d4e5f70402` |
 | Kidd Voodoo | 2026-10-16 | CC Barranco | Announced | `07a5c7a13cdff51c75145f73` |
-| Grupo Frontera — Triste Pero Bien *new* | 2026-10-17 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70202` |
+| Grupo Frontera — Triste Pero Bien | 2026-10-17 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70202` |
 | Run For Your Lives | 2026-10-17 | Estadio Nacional | Confirmed | `6992825f6725336cb5f11ffb` |
+| Festival de Lima — Día de la Salsa | 2026-10-17 | Círculo Militar de Jesús María | Confirmed | `68e8b001a1b2c3d4e5f70507` |
+| Iron Maiden en Lima *new* | 2026-10-17 | Estadio Nacional | Confirmed | `68e8c001a1b2c3d4e5f70804` |
+| ASICS Golden Run Lima | 2026-10-18 | TBA | Announced + FOLLOW_UP | `68e8b001a1b2c3d4e5f70509` |
+| Trote del Milagro 10K 2026 *new* | 2026-10-18 | TBA | Announced + FOLLOW_UP | `68e8c001a1b2c3d4e5f70807` |
+| Gosper Fest 2.0 | 2026-10-19 | Costa 21 | Confirmed | `68e8b001a1b2c3d4e5f70506` |
 | Zelda Symphonic Legends | 2026-10-22 | Teatro Manuel A. Segura | Announced | `a100c5f9f5da439b330364e9` |
 | Río Roma | 2026-10-24 | Costa 21 | Announced | `ed1701eefcfad288d5d6b7d4` |
-| Media Maratón del Callao & 10K | 2026-10-25 | La Punta, Callao | Announced | `5c0e9f1bf041fa894763d30f` |
+| Media Maratón del Callao & 10K | 2026-10-25 | La Punta, Callao | Confirmed | `5c0e9f1bf041fa894763d30f` |
+| Carrera Avon por Ellas *new* | 2026-10-25 | TBA | Announced + FOLLOW_UP | `68e8c001a1b2c3d4e5f70808` |
+| The Rasmus — Weirdo Tour | 2026-10-27 | CC Leguía | Confirmed | `68e4a001a1b2c3d4e5f70403` |
 | Jaze — QNEPT Tour II | 2026-10-28 | CC Barranco | Confirmed | `68d1a001a1b2c3d4e5f70103` |
 | Hombres G | 2026-10-29 | Estadio Nacional | Confirmed | `32bb8834a6bc5aac6eb96b89` |
 | Jaze — QNEPT Tour II | 2026-10-29 | CC Barranco | Confirmed | `68d1a001a1b2c3d4e5f70104` |
@@ -174,26 +176,56 @@ Rows marked *new* come from this run’s `events-2026-09-21.json`.
 | Jesse y Joy | 2026-10-31 | Costa 21 | Confirmed | `7504b778cbeb59b55fd90c0e` |
 | Reggaetón Lima Festival 7 | 2026-10-31 | Costa 21 | Confirmed | `d19ae6c10dd1ec7a0b601890` |
 | Expofolk 5.ª | 2026-10-31 | Parque de la Exposición | Announced | `a90aeec114509ffb83c13a13` |
-| Humbe — Dueño de los Cielos *new* | 2026-11-01 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70203` |
+| Humbe — Dueño de los Cielos | 2026-11-01 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70203` |
+| María Becerra — Quimera Tour | 2026-11-04 | Costa 21 | Confirmed | `68e4a001a1b2c3d4e5f70404` |
 | Taemin — LiMiNaL World Tour | 2026-11-06 | Estadio Monumental de Ate | Confirmed | `68d1a001a1b2c3d4e5f7010a` |
 | Myriam Hernández | 2026-11-06 | Parque de la Exposición | Confirmed | `ea02c022e0146ef47db5973c` |
-| Bunbury — Nuevas Mutaciones Tour *new* | 2026-11-07 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70206` |
+| Coti en Lima *new* | 2026-11-06 | CC Barranco | Announced + FOLLOW_UP | `68e8d001a1b2c3d4e5f70908` |
+| Bunbury — Nuevas Mutaciones Tour | 2026-11-07 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70206` |
+| APP Touring 10K & 5K | 2026-11-08 | TBA | Announced + FOLLOW_UP | `68e8b001a1b2c3d4e5f7050a` |
+| Timø en Lima | 2026-11-08 | CC Barranco | Confirmed | `68e4a001a1b2c3d4e5f70405` |
+| Ill Niño en Lima *new* | 2026-11-10 | Yield Rock | Confirmed | `68e8d001a1b2c3d4e5f70901` |
+| Camilo — Para Cuando Sean Mayores Tour | 2026-11-10 | Costa 21 | Confirmed | `68e4a001a1b2c3d4e5f70406` |
 | Hardwell — South America World Tour | 2026-11-13 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70102` |
+| Tierra Santa en Lima *new* | 2026-11-13 | Teatro Kantaro | Confirmed | `68e8d001a1b2c3d4e5f70902` |
+| Cypress Hill en Lima | 2026-11-13 | Coliseo Eduardo Dibós | Confirmed | `68e8b001a1b2c3d4e5f70504` |
 | Airbag | 2026-11-14 | Estadio San Marcos | Confirmed | `ee36cb510db6a1bd6c6702af` |
+| Santa Maria Swim & Grill *new* | 2026-11-14 | TBA | Announced + FOLLOW_UP | `68e8d001a1b2c3d4e5f7090b` |
+| Ser Como Blippi Tour | 2026-11-15 | Auditorio Colegio San Agustín | Confirmed | `68e8c001a1b2c3d4e5f70802` |
+| ¡Viva los 90s! *new* | 2026-11-15 | Parque de la Exposición | Announced + FOLLOW_UP | `68e8d001a1b2c3d4e5f70909` |
+| Elefante — 30 Aniversario Tour *new* | 2026-11-18 | CC Barranco | Confirmed | `68e8d001a1b2c3d4e5f70903` |
 | The Strokes | 2026-11-20 | Estadio San Marcos | Confirmed | `a68fa8d78639172f5c416743` |
 | The Hayley Williams Show | 2026-11-21 | Costa 21 | Announced | `25bf35051ec12ee970245358` |
+| Amanda Miguel — El Me Mintió World Tour | 2026-11-21 | Parque de la Exposición | Confirmed | `68e8b001a1b2c3d4e5f70503` |
+| Easykid — Soy Un Fatalista | 2026-11-21 | CC Festiva | Confirmed | `68e8b001a1b2c3d4e5f70505` |
+| My Dying Bride en Lima *new* | 2026-11-22 | Yield Rock | Confirmed | `68e8d001a1b2c3d4e5f70904` |
+| Ancón Trail Fest 2026 | 2026-11-22 | TBA | Announced + FOLLOW_UP | `68e8c001a1b2c3d4e5f70809` |
+| Gorillaz en Lima *new* | 2026-11-23 | Arena 1 | Confirmed | `68e8d001a1b2c3d4e5f70905` |
 | CA7RIEL & Paco Amoroso — Free Spirits | 2026-11-27 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70109` |
 | Lima Latin Pop Fest Vol. 3 | 2026-11-28 | Costa 21 | Announced | `77eb20f1a2e05db4b5a28402` |
 | Flor Bertotti | 2026-11-29 | Gran Teatro Nacional | Announced | `32e2609dc4f3ee2c417a3cd6` |
-| Dimash — Dimensions World Tour *new* | 2026-12-01 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70204` |
+| Dimash — Dimensions World Tour | 2026-12-01 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70204` |
 | Maná | 2026-12-02 | Costa 21 | Confirmed | `cd9897f94ec7bbbb42b20398` |
-| BABYMETAL *new* | 2026-12-07 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70205` |
+| Sleeping With Sirens en Lima | 2026-12-06 | Costa 21 | Confirmed | `68e4a001a1b2c3d4e5f70407` |
+| BABYMETAL | 2026-12-07 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70205` |
+| Kreator — Latin American Tour *new* | 2026-12-08 | CC Leguía | Confirmed | `68e8d001a1b2c3d4e5f70906` |
+| Daniel Caesar — Son of Spergy Tour | 2026-12-08 | Costa 21 | Confirmed | `68e8b001a1b2c3d4e5f70502` |
 | Super Arte — Lenny Tavárez & Justin Quiles | 2026-12-12 | Arena 1 | Confirmed | `68d1a001a1b2c3d4e5f70101` |
 | The Jacksons | 2026-12-15 | Costa 21 | Confirmed | `c02f1311ff0199a114894162` |
+| Aterciopelados en Lima *new* | 2026-12-17 | CC Leguía | Announced + FOLLOW_UP | `68e8d001a1b2c3d4e5f7090a` |
 | Karol G — Tropitour | 2027-01-22 | Estadio San Marcos | Confirmed | `68d1a001a1b2c3d4e5f70105` |
+| Foo Fighters en Lima *new* | 2027-03-03 | Estadio Nacional | Confirmed | `68e8c001a1b2c3d4e5f70805` |
 | Ha*Ash — No Me Hablen de Amor | 2027-03-05 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70108` |
 | Sin Bandera — Escenas Tour 25 años | 2027-03-06 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70107` |
 | La Oreja de Van Gogh — Tantas Cosas | 2027-03-14 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70106` |
+| Jungle — World Tour 2027 | 2027-03-24 | Costa 21 | Confirmed | `68e4a001a1b2c3d4e5f70408` |
+| Una Noche de Salsa 15 | 2027-04-02 | Estadio San Marcos | Confirmed | `68e4a001a1b2c3d4e5f70409` |
+| Una Noche de Salsa 15 | 2027-04-03 | Estadio San Marcos | Confirmed | `68e4a001a1b2c3d4e5f7040a` |
+| Caifanes en Lima | 2027-04-17 | Costa 21 | Confirmed | `68e4a001a1b2c3d4e5f7040b` |
+| Jay Wheeler — La Voz Favorita | 2027-05-01 | Costa 21 | Confirmed | `68e8b001a1b2c3d4e5f70501` |
+| Kase.O — Camisa de Fuerza Tour | 2027-05-13 | Parque de la Exposición | Confirmed | `68e4a001a1b2c3d4e5f7040c` |
+| Salsa Lima Festival 2027 | 2027-05-29 | Estadio San Marcos | Confirmed | `68e4a001a1b2c3d4e5f7040d` |
+| Slipknot en Lima | 2027-09-14 | Estadio Nacional | Confirmed | `68e4a001a1b2c3d4e5f7040e` |
 
 ### 4d. Activities — `name` · `oid`
 
@@ -217,9 +249,38 @@ Rows marked *new* come from this run’s `events-2026-09-21.json`.
 
 ---
 
-## 5. How to run
+## 5. How to run / import
 
 1. Agent reads this file (Step 0). Missing/corrupt → ask for all 5 dumps (categories, venues, events, activities, states) and recreate
-2. Sync clears `output/*.json`, scans window, writes new JSON, updates this report
-3. You import Compass: **events** from §2
+2. Sync clears `output/*.json`, scans window, writes JSON, updates this report
+3. You import from §2 (order: states → categories → venues → activities → **insert** events → **update** events)
 4. Next sync assumes that import is done and deletes those JSON files again
+
+### Insert (`events-YYYY-MM-DD.json`)
+
+Compass → `events` → **Add Data → Import JSON** (normal insert). New `_id`s only.
+
+### Updates (`events-YYYY-MM-DD-updates.json`)
+
+Compass Import does **not** upsert (same `_id` → duplicate key). Use a temp collection + Mongosh:
+
+1. Create temp collection `events_updates_tmp`
+2. **Add Data → Import JSON** the updates file into `events_updates_tmp`
+3. Mongosh (same DB):
+
+```js
+db.events_updates_tmp.aggregate([
+  {
+    $merge: {
+      into: "events",
+      on: "_id",
+      whenMatched: "replace",
+      whenNotMatched: "discard",
+    },
+  },
+]);
+```
+
+4. Drop `events_updates_tmp`
+
+**CLI alternative:** `mongoimport --db=hornsAppDB --collection=events --mode=upsert --file=events-YYYY-MM-DD-updates.json`
