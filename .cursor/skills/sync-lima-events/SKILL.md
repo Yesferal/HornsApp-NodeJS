@@ -386,22 +386,25 @@ JSON template for each insert/update. Fill fields using the rules above:
 
 | Field | Rule |
 |-------|------|
+| `name` | **Event title** (what the show/listing is called) |
+| `headliner` | **Main activity / artist** (`headliner.name`) + poster (`headliner.url` → **Images**) |
 | `ticketing` | **Ticketing CTA** |
-| `headliner.url` | **Images** |
 | `isLiveMusicEvent` | **Product split** (Horns vs Muvin) |
 | `about.es` + `about.en` | Both required (translate if the source has only one language) |
+
+**`name` vs `headliner.name` — avoid duplicate wording**
 
 ```json
 {
   "_id": { "$oid": "NEVER_REUSE_EXISTING" },
-  "name": "Short title",
+  "name": "Event title",
   "about": {
     "es": "Descripción en español…",
     "en": "Description in English…"
   },
   "dateTime": { "$date": "2026-09-28T00:15:00.000Z" },
   "totalDays": null,
-  "headliner": { "name": "<Main Activity (or Short Title by defaul)>", "url": "<Main Activity image>" },
+  "headliner": { "name": "Main artist or activity", "url": "<poster url>" },
   "ticketing": { "name": "Teleticket", "url": "https://teleticket.com.pe/event-slug" },
   "isLiveMusicEvent": true,
   "links": [],
