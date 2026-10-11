@@ -19,14 +19,14 @@ Additive Compass JSON only. Do **not** wipe collections.
 | **0** | Gate | Open `LAST-SYNC-REPORT.md`. If missing/corrupt → stop and ask for the 5 Compass dumps (recreate). |
 | **1** | Clear JSON | Delete all `output/*.json` (prior run assumed imported). Keep the report. |
 | **2** | Dedupe | Compare finds vs §4 events: **name + date** (+ **headliner** if both set). |
-| **3** | Watchlist | Read §3 **and** §4 Announced/IN_REVIEW rows — candidates to **promote** this run. |
-| **4** | Scan | Group A for the **default window** (or user range). **Lima + Callao**. |
-| **5** | Classify | New → Confirmed / Announced+IN_REVIEW / §3. **Also:** if a watchlist or IN_REVIEW event is now solid → promote (see below). |
-| **6** | Write JSON | Only **new** objects → `events-YYYY-MM-DD.json` (+ cats/venues/activities/states if new). |
+| **3** | Watchlist | Read §3 **and** §4 `FOLLOW_UP` / `IN_REVIEW`. Re-check; **promote complete `FOLLOW_UP`** → Confirmed; **`IN_REVIEW`** wait for your accept / reject. |
+| **4** | Scan | Trusted **list_url**s only (groups **1–4**). Report broken lists / unknown ticket hosts (see **Trusted navigation**). **Lima + Callao**. |
+| **5** | Classify | New → Confirmed / Announced+`FOLLOW_UP` / `IN_REVIEW` / §3. Complete `FOLLOW_UP` → Confirmed (drop tag). |
+| **6** | Write JSON | **Inserts** → `events-YYYY-MM-DD.json`. **Updates** (same oid, e.g. `FOLLOW_UP`→Confirmed) → `events-YYYY-MM-DD-updates.json`. (+ cats/venues/… if new). |
 | **7** | Images + about | Image: **event → headliner → venue → default**. Always non-empty **about.es** + **about.en**. |
 | **8** | Times | UTC (Lima UTC−5). |
 | **9** | Update report | Refresh `LAST-SYNC-REPORT.md` §1–§4 (append oids · drop past events · sort §4c). |
-| **10** | Hand off | Tell user what to import: **states → categories → venues → activities → events**. |
+| **10** | Hand off | Import order + **`IN_REVIEW`** accept/reject + any **broken list_url**s + **unknown ticket hosts** (for you to validate). |
 
 When running, say e.g. “Step 1 — clearing output JSON…” so the path is visible in chat.
 
@@ -53,18 +53,21 @@ scripts/lima-events-sync/
   LAST-SYNC-REPORT.md         ← primary input/output each sync (tracked)
   input/                      ← Compass table dumps (*.json gitignored) — rebuild backup
   output/
-    events-YYYY-MM-DD.json    ← new events this run (gitignored) — cleared at start
-    categories-*.json         ← only if new keys (gitignored)
-    venues-*.json             ← only if new venues (gitignored)
-    activities-*.json         ← only if new activities (gitignored)
-    states-*.json             ← only if new states (gitignored)
+    events-YYYY-MM-DD.json           ← INSERT only — new oids (gitignored)
+    events-YYYY-MM-DD-updates.json   ← UPDATE/REPLACE only — existing oids (gitignored)
+    categories-*.json                ← only if new keys (gitignored)
+    venues-*.json                    ← only if new venues (gitignored)
+    activities-*.json                ← only if new activities (gitignored)
+    states-*.json                    ← only if new states (gitignored)
 ```
 
 | Path | Git | Role |
 |------|-----|------|
 | `scripts/lima-events-sync/LAST-SYNC-REPORT.md` | yes | **Required** — §1–5 + §4 oids |
 | `input/*.json` | no | Backup dumps to recreate report |
-| `output/*.json` | no | New Compass paste for **this** run only |
+| `output/*.json` | no | Compass paste for **this** run only |
+
+**Compass hand-off (agent):** tell user which insert / update files exist; point them to **LAST-SYNC-REPORT §5** for how to import (insert vs updates). Skip either file when empty / not written.
 
 Process = **this skill**. Oids live **only** in `LAST-SYNC-REPORT.md` §4.  
 Ignore `**/*.json` under this folder (except the report is `.md`).
@@ -105,25 +108,6 @@ Write `LAST-SYNC-REPORT.md` from the skeleton below; §4c = Lima today+future on
 
 ---
 
-## Weekly sync steps (detail)
-
-Same as the table at the top. Extra rules:
-
-0. **Gate:** read `LAST-SYNC-REPORT.md` (Step 0 section below).
-1. **Clear stale output JSON:** delete all `output/*.json`. Keep `LAST-SYNC-REPORT.md` (one level up from `output/`).
-2. Dedupe against **§4** (see event dedupe key below).
-3. Read §3 **and** §4 Announced/IN_REVIEW (promotion candidates).
-4. Scan group A for the window (see **Default window**). **Lima + Callao**.
-5. Classify new finds; **promote** watchlist / IN_REVIEW rows that are now solid (Confirmed, drop IN_REVIEW, remove from §3).
-6. **Write new JSON only** for objects not in §4 (`events-YYYY-MM-DD.json` + optional cats/venues/activities/states).
-7. **Images:** try event/headliner/venue poster with accept/reject rules (Images); default only if none pass. Prefer default over `""`.
-7b. **About i18n:** always set non-empty `about.es` **and** `about.en` (translate; never leave one null/blank).
-8. Times: UTC (Lima UTC−5).
-9. **Update `LAST-SYNC-REPORT.md`:** Last sync, §1–3, **§4** (append · drop past · sort §4c).
-10. Tell user import order; next sync will clear those JSON files again.
-
----
-
 ## Report skeleton
 
 ```markdown
@@ -146,7 +130,7 @@ Same as the table at the top. Extra rules:
 ### 4c. Events — name · date · venue · state · oid
 ### 4d. Activities — name · oid
 ### 4e. States — name en/es · oid
-## 5. How to run
+## 5. How to run / import
 ```
 
 ---
@@ -175,13 +159,28 @@ That alone catches almost every duplicate (tour titles are distinctive; multi-ni
 
 | Web finding | State | Also |
 |-------------|--------|------|
-| Tickets + date + venue solid | **Confirmed** | — |
-| Announced / press / soft / incomplete | **Announced** | always add category **`IN_REVIEW`** |
+| Complete: date + **real venue** (not TBA) + ticketing (group-1 CTA or **Free**) | **Confirmed** | no `FOLLOW_UP` |
+| Has **date** + venue (or TBA venue) + ticketing (group-1 CTA, **Free**, or **TBA**); some fields still soft | **Announced** | add **`FOLLOW_UP`** — **visible** on clients |
+| Looks ready but some data sounds wrong / conflicting — raise a hand | keep showable state (usually Announced/Confirmed fields) | add **`IN_REVIEW`** — **hidden** from client lists until you remove it |
 | Official delay | **Postponed** | — |
 | Official cancel | **Cancelled** | — |
 | Sold out | **Sold Out** | — |
 
-**`IN_REVIEW`:** ops category for admin filter. Client **list** endpoints (`/event`, `/concert`) exclude those events; **GET by id** still returns them. After manual fix, remove `IN_REVIEW` (and usually set state Confirmed).
+**Admin labels** (only these two; stored on `categories` as workflow tags):
+
+| Key | Client lists | Who owns it | When | Next action |
+|-----|--------------|-------------|------|-------------|
+| **`FOLLOW_UP`** | **Shown** (as Announced) | **Agent** | Incomplete but usable: calendar **date** required. Soft fields: **venue TBA** → venue oid **TBA** `63e7b5bb5b520b8feeb889b7`; **ticketing TBA** → `{ "name": "TBA", "url": "" }` (see **Ticketing CTA**) | Next sync: agent re-searches; when **date + venue + ticketing** are complete → drop `FOLLOW_UP`, set **Confirmed**, write update JSON |
+| **`IN_REVIEW`** | **Hidden** until you clear the tag | **You** (accept / reject) | Data sounds weird / doubtful — agent raises a hand | Agent lists **what to double-check in chat**; **you** accept or reject (below) |
+
+### Your accept / reject (`IN_REVIEW` only)
+
+`FOLLOW_UP` is agent-managed. For **`IN_REVIEW`**, you decide in chat (and mirror in admin). Agent updates the report to match.
+
+| You say | You do in admin | Agent does in report / tracking |
+|---------|-----------------|----------------------------------|
+| **Accept** | Remove `IN_REVIEW` (keep or Confirm the event) | Drop `IN_REVIEW` tracking for that event; refresh §4c to match |
+| **Reject** | Delete the event from DB | Remove the event from §4c (and §3 if listed) |
 
 ### Activities (optional UX)
 
@@ -250,28 +249,13 @@ You **may** strip only known-harmless resize params if that yields a cleaner URL
 | `Content-Type: text/html` (or non-`image/*`) | mobile shows blank |
 | Store URL that only works via **3XX** chain | unreliable on clients |
 
-#### Sync duty
+#### Default image (when hunt fails)
 
-On each new event: try ticketer/official **og:image** (or equivalent) → probe (200, `image/*`, no 3XX on stored URL) → use it. Only then headliner → venue → default. Same image for every event in a pack = skill skipped the hunt; fix before hand-off when posters were available.
+Use this known-good HTTPS JPEG (no signing) as temporary placeholder until admin pastes a real poster:
 
-#### Defaults by kind (when real image missing/fails)
+`https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg`
 
-Use a **simple** `https://…/….jpeg` with **no signing** (known-good direct image). Pick from the event’s primary content category.
-
-| Kind (category key) | Default `headliner.url` |
-|---------------------|-------------------------|
-| METAL / ROCK / PUNK / POP | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
-| FEST / FREE / CONCERT (fallback live) | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
-| THEATER / MUSICAL / MUSEUM | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
-| FOOD / COFFEE / CRAFT | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
-| ANIME / BOOKS / PETS | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
-| SPORT | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
-| HOTEL / IN_REVIEW| `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
-| anything else | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
-
-If `isLiveMusicEvent: true` and categories are only CONCERT + genre, prefer the **genre** row (METAL/ROCK/…) over CONCERT.
-
-These are **temporary placeholders** until you paste a real poster in admin.
+Same image on every event in a pack usually means the poster hunt was skipped — fix before hand-off when ticketer posters existed.
 
 ---
 
@@ -279,43 +263,109 @@ These are **temporary placeholders** until you paste a real poster in admin.
 
 | Flag | Feed | Types |
 |------|------|-------|
-| `isLiveMusicEvent: true` | Horns `/concert` | metal, rock, jazz, blues, pop, punk + similar fests |
-| `isLiveMusicEvent: false` | Muvin `/event` | food, coffee, anime, books, pets, craft, sport, theater, urban, EDM, K-pop, tropical, TEDx, … |
+| `isLiveMusicEvent: true` | Horns `/concert` | **Only** metal, rock, jazz, blues, pop, punk + similar fests (same vibe) — also tag genre (`METAL`/`ROCK`/…) + usually `CONCERT` |
+| `isLiveMusicEvent: false` | Muvin `/event` | Everything else — theater, art, film, food, sport, `CONCERT`(salsa/tropical/reggaeton/urban/) that isn’t Horns |
+
+A ticketer **concert** list row does **not** auto-set `isLiveMusicEvent: true`. Categories: use the list row’s §4a key as primary, then any other keys that fit; free → also `FREE`.
 
 ## Sources
 
-### A — Weekly
+Four trusted groups. Scan each **list_url** every weekly sync for Lima + Callao in the window.  
+Events may come from any group. **`ticketing` CTAs may only use group-1 hosts** (see **Ticketing CTA**).
 
-**Ticketing (authoritative — required to pick / write a paid event):**  
-Joinnus · Teleticket · Ticketmaster PE · Passline · Eventrid · EntradaLibre
+### Trusted navigation
 
-A **paid** event enters the sync pack only when it appears on (or is confirmed by) one of these with a usable date + enough detail. Prefer the **event page** URL (never homepage / events / search — see **Ticketing**).
+Open / fetch **only** URLs that appear in this Sources section:
 
-**Leads / calendars (reference — not enough alone for paid events):**  
-Enlima · Running4Peru · Infobae · La República · El Comercio · Peru Travel eventos  
+| Allowed | Examples |
+|---------|----------|
+| **list_url** rows | Group 1–4 tables below |
+| **Event / ticket pages** on group-1 allowed CTA hosts | `teleticket.com.pe`, `joinnus.com`, … |
+| **Image URLs** that already passed the Images probe rules | posters for `headliner.url` |
 
-Use these to **discover leads** or fill context (`about`, venue hints). For **paid** events: **do not** add or Confirm from a lead alone — verify on a Group A **ticketer** first. If a lead says it’s on sale but no ticketer page yet → §3 watchlist or Announced+IN_REVIEW with `ticketing.url: ""` (name only), never a listing URL.
+Stay on those hosts/paths. If a page only *mentions* a ticket seller on a host **not** in **Allowed CTA hosts**, do **not** open that link — note host + event name in the hand-off so you can decide whether to add it.
 
-**Exception — FREE / libre:**  
-If the event is clearly **free** (entrada libre / FREE / no ticket sale), you **may** write it from a lead/calendar alone (no ticketer required). Prefer category **`FREE`** when that key exists in §4a. Omit `ticketing` or leave `url: ""` — do not invent a ticketer homepage.
+**Broken list_url:** if a Sources `list_url` returns **404**, **5xx**, or is otherwise unreachable during the sync → say so in the hand-off (source, category, URL, status). Continue with the other lists.
 
-## Confirmed / Announced vs §3
+### 1 — Ticketing
 
-**Confirmed:** tickets + **date** + venue solid → write event JSON (no `IN_REVIEW`).  
-**Announced:** real event but incomplete → write JSON with state Announced **and** category `IN_REVIEW`.
+Buy-ticket platforms. Primary place to find events and the **only** allowed source for `ticketing.name` / `ticketing.url`.
 
-**Date vs venue TBA**
-- **Date TBA** → **do not** write the event (skip; optional §3 note only if you want a reminder). No calendar day = no import.
-- **Venue unknown** → **write** the event; use venue **TBA / No anunciado** (`63e7b5bb5b520b8feeb889b7`). Update the venue later when known.
+**Allowed CTA hosts:** `teleticket.com.pe` · `joinnus.com` · `ticketmaster.pe` · `passline.com` · `passline.com` · `eventrid.pe` · `pacifictiming.com`
 
-### §3 Watchlist (parking lot — not JSON yet)
+| Source | Category (§4a) | list_url |
+|--------|----------------|----------|
+| Teleticket | `CONCERT` | `https://teleticket.com.pe/conciertos` |
+| Teleticket | `THEATER` | `https://teleticket.com.pe/teatro` |
+| Joinnus | `CONCERT` | `https://www.joinnus.com/search?cat=concerts` |
+| Joinnus | `THEATER` | `https://www.joinnus.com/search?cat=stand-up&cat=theater` |
+| Joinnus | `FOOD` | `https://www.joinnus.com/search?cat=food-drinks` |
+| Joinnus | `FEST` | `https://www.joinnus.com/search?cat=festivales` |
+| Joinnus | `ART` | `https://www.joinnus.com/search?cat=art-culture&cat=cursos-talleres` |
+| Joinnus | `FILM` | `https://www.joinnus.com/search?cat=cine` |
+| Ticketmaster | `CONCERT` | `https://www.ticketmaster.pe/page/categoria-conciertos` |
+| Ticketmaster | `THEATER` | `https://www.ticketmaster.pe/page/teatros` |
+| Passline | `CONCERT` | `https://home.passline.com/eventos.php?category=17&pais=peru&category_name=Musica` |
+| Passline | `FEST` | `https://home.passline.com/eventos.php?category=26&pais=peru&category_name=Festivales` |
+| Passline | `THEATER` | `https://home.passline.com/eventos.php?q=&category=11&pais=peru&category_name=Teatro%20y%20Musicales` |
+| Eventrid | `SPORT` | `https://www.eventrid.pe/eventos?event_type=deportivo` |
+| Eventrid | `CONCERT` | `https://www.eventrid.pe/eventos?event_type=espectaculo` |
+| Pacific Timing | `SPORT` | `https://eventsv2.pacifictiming.com/` |
 
-Use **§3** when the skill should **not** write import JSON yet, for example:
-- sources disagree on the **date**
-- **date** still TBA (no day yet)
-- you need to **choose** before import  
+Prefer each event’s **ticket page** URL as the CTA (same host family as above).
 
-Do **not** park an event in §3 only because the venue is unknown — **write** it with venue **TBA / No anunciado** (`63e7b5bb5b520b8feeb889b7`) and Announced+IN_REVIEW (or Confirmed if the rest is solid).
+### 2 — Guides / experts (by category)
+
+Discovery lists (not buy CTAs). Scan each **list_url** for Lima + Callao in the window.  
+Keep a row only if it’s **free** or the guide points at a **group-1** seller — then apply **Ticketing CTA**. No group-1 seller → discard. Never use the guide host as `ticketing.url`.
+
+| Source | Host | Category (§4a) | list_url |
+|--------|------|----------------|----------|
+| Running4Peru | `running4peru.com` | `SPORT` | `https://www.running4peru.com/calendarios/calendario-peru-running` |
+| Rockmetalperu | `rockmetalperu.com` | `CONCERT` | `https://rockmetalperu.com/agenda/` |
+
+Add more guide rows when you approve them.
+
+### 3 — General event lists
+
+| Source | Host | Category (§4a) | list_url |
+|--------|------|----------------|----------|
+| EntradaLibre | `entradalibre.me` | `CONCERT` | `https://entradalibre.me/event_cat/musica/` |
+| EntradaLibre | `entradalibre.me` | `THEATER` | `https://entradalibre.me/event_cat/teatro/` |
+| EntradaLibre | `entradalibre.me` | `FEST` | `https://entradalibre.me/event_cat/feria/` |
+| EntradaLibre | `entradalibre.me` | `FILM` | `https://entradalibre.me/event_cat/cine/` |
+
+**Ticketing:** same as group 2 → **Ticketing CTA**.
+
+### 4 — News / informative
+
+Coverage of what to do in Lima (special days, seasons, city moments). Useful for discovery and `about` copy.
+
+| Source | Host | list_url |
+|--------|------|----------|
+| Infobae | `infobae.com` | `https://www.infobae.com/peru/` |
+| La República | `larepublica.pe` | `https://larepublica.pe/` |
+| El Comercio | `elcomercio.pe` | `https://elcomercio.pe/` |
+
+**Ticketing:** same as group 2 → **Ticketing CTA**.
+
+### Ticketing CTA
+
+`ticketing.url` is an **event page** on a **group-1** allowed CTA host (above), except Free / TBA labels (no buy link yet). Use the event’s ticket page — not a homepage, search, or category list URL.
+
+| Situation | What to write |
+|-----------|----------------|
+| Group-1 **event** ticket page found | `{ "name": "Teleticket", "url": "https://teleticket.com.pe/…-event-slug" }` |
+| Free / entrada libre | `{ "name": "Free", "url": "" }` (+ category `FREE` when in §4a) |
+| Tickets only on an **unknown** host (not in Allowed CTA hosts) | `{ "name": "TBA", "url": "" }` + **`FOLLOW_UP`**; **report the host** in hand-off — do not open it |
+| Seller TBA / no ticket page yet | `{ "name": "TBA", "url": "" }` + **`FOLLOW_UP`** |
+
+## §3 Watchlist (parking lot — not JSON yet)
+
+State / `FOLLOW_UP` / `IN_REVIEW` (including **venue TBA** / **ticketing TBA**): see **Event `state`**, **Admin labels**, and **Ticketing CTA** — do not restate here.  
+**Date TBA** (only §3-specific gate) → stay in §3 (or omit); do not write JSON without a calendar day.
+
+Use **§3** only when the skill should **not** write import JSON yet, e.g. sources disagree on the **date**, date still TBA, or you need to **choose** before import.
 
 | Status | Who sets it | Meaning |
 |--------|-------------|---------|
@@ -324,52 +374,22 @@ Do **not** park an event in §3 only because the venue is unknown — **write** 
 | `imported` | **you** say so in chat (“imported”) **or** you edit the report — *not* auto-detected from Compass | Done in DB → skill **deletes** the row on the next sync (or immediately if you ask) |
 | `rejected` / `closed` | **you** | Won’t do — **delete** the row |
 
-Compass import is **manual**. The skill never “sees” the DB unless you paste dumps or say you imported. After you import a §2 pack (or an approved §3 row that was written), tell the skill (e.g. “imported”) or the next sync assumes prior `output/*.json` was imported when clearing those files — then drop matching §3 rows.
+Compass import is **manual**. After you import a pack (or an approved §3 row), say so (“imported”) or the next sync assumes prior `output/*.json` was imported when clearing those files — then drop matching §3 rows. Each sync: write `approved` rows; leave only `open` (and unwritten `approved`); drop `imported` / `rejected` / `closed`.
 
-**On each sync the skill updates §3:** write JSON for `approved` rows, then leave only `open` (and any `approved` not written yet). Do not keep `imported` / `rejected` / `closed` rows — that keeps the watchlist short.
+**Geography:** Lima **and Callao** are both in scope.
 
-**Geography:** Lima **and Callao** are both in product scope (Callao is not a reason to reject or park an event).
-
-### Promote on a later scan (do not forget)
-
-When Group A shows an event is **fully ready** (Confirmed-quality):
-
-1. **Match** it to §3 (open/approved) and/or §4c (same name + date; often already Announced + IN_REVIEW).
-2. **Do not insert a duplicate.** Prefer an **update** pack (or Compass note) that:
-   - sets state → **Confirmed**
-   - **removes** category **IN_REVIEW**
-   - fills any missing ticketing / venue / image (pass Images checks or default)
-3. **Remove** that row from §3 (status was open → gone after promote).
-4. Refresh §4c state to Confirmed for that oid.
-
-If it was only on §3 and never imported, write it once as Confirmed (no IN_REVIEW) and do not leave it on the watchlist.
-
-## Ticketing
-
-**Never** put a ticketer homepage / search event / all events as `ticketing.url` (it opens the wrong place in the app).
-
-| Situation | What to write |
-|-----------|----------------|
-| Found the **event** ticket page | `{ "name": "Teleticket", "url": "https://teleticket.com.pe/…-event-slug" }` |
-| Seller announced, **no** event URL yet | `{ "name": "Joinnus", "url": "" }` — name only |
-| No seller / no sale info | omit `ticketing` or leave unset — do **not** invent a homepage |
-
-### Fix existing DB (homepage ticketing urls)
-
-Paste `output/fix-ticketing-urls.mongosh.js` into Compass → Mongosh.
-
-```bash
-node scripts/lima-events-sync/fix-ticketing-urls.mjs \
-  --from-dump ~/Downloads/hornsAppDB.events.json
-```
-
----
+**Later syncs (file mechanics):** promote complete `FOLLOW_UP` → full doc in `events-YYYY-MM-DD-updates.json` (same oid), refresh §4c, hand off replace-by-`_id`. Still incomplete → keep Announced + `FOLLOW_UP`. `IN_REVIEW`: wait for accept/reject (table above).
 
 ## Event shape
 
-Ticketing: event-page URL or name-only with `url: ""` — never a homepage (see **Ticketing**).
+JSON template for each insert/update. Fill fields using the rules above:
 
-`about.es` and `about.en` are **both required** (non-empty strings). Never ship `null` / `""` for either language. Write real copy in each language when possible; if a source only has one, translate before import (do not leave the other blank).
+| Field | Rule |
+|-------|------|
+| `ticketing` | **Ticketing CTA** |
+| `headliner.url` | **Images** |
+| `isLiveMusicEvent` | **Product split** (Horns vs Muvin) |
+| `about.es` + `about.en` | Both required (translate if the source has only one language) |
 
 ```json
 {
