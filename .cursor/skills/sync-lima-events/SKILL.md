@@ -161,7 +161,7 @@ That alone catches almost every duplicate (tour titles are distinctive; multi-ni
 |-------------|--------|------|
 | Complete: date + **real venue** (not TBA) + ticketing (group-1 CTA or **Free**) | **Confirmed** | no `FOLLOW_UP` |
 | Has **date** + venue (or TBA venue) + ticketing (group-1 CTA, **Free**, or **TBA**); some fields still soft | **Announced** | add **`FOLLOW_UP`** — **visible** on clients |
-| Looks ready but some data sounds wrong / conflicting — raise a hand | keep showable state (usually Announced/Confirmed fields) | add **`IN_REVIEW`** — **hidden** from client lists until you remove it |
+| Looks ready but some data sounds wrong / conflicting — raise a hand | keep showable state (usually Announced fields) | add **`IN_REVIEW`** — **hidden** until you remove it. If ticketing/venue is also incomplete → **also** add **`FOLLOW_UP`** (both tags allowed) |
 | Official delay | **Postponed** | — |
 | Official cancel | **Cancelled** | — |
 | Sold out | **Sold Out** | — |
@@ -171,7 +171,7 @@ That alone catches almost every duplicate (tour titles are distinctive; multi-ni
 | Key | Client lists | Who owns it | When | Next action |
 |-----|--------------|-------------|------|-------------|
 | **`FOLLOW_UP`** | **Shown** (as Announced) | **Agent** | Incomplete but usable: calendar **date** required. Soft fields: **venue TBA** → venue oid **TBA** `63e7b5bb5b520b8feeb889b7`; **ticketing TBA** → `{ "name": "TBA", "url": "" }` (see **Ticketing CTA**) | Next sync: agent re-searches; when **date + venue + ticketing** are complete → drop `FOLLOW_UP`, set **Confirmed**, write update JSON |
-| **`IN_REVIEW`** | **Hidden** until you clear the tag | **You** (accept / reject) | Data sounds weird / doubtful — agent raises a hand | Agent lists **what to double-check in chat**; **you** accept or reject (below) |
+| **`IN_REVIEW`** | **Hidden** until you clear the tag | **You** (accept / reject) | Data sounds weird / doubtful — agent raises a hand | Agent lists **what to double-check in chat**; **you** accept or reject (below). Stack with **`FOLLOW_UP`** when CTA/venue still incomplete so the next sync still hunts the deep link after Accept |
 
 ### Your accept / reject (`IN_REVIEW` only)
 
