@@ -3,7 +3,7 @@ import { IScreenRender, screenRenderModel } from '../models/render/screen.render
 import { ViewRender } from '../models/render/view.render.model'
 import { categoryModel, ICategory } from '../models/category.model'
 import { cardViewModel } from '../models/render/view.render.model'
-import { IN_REVIEW_CATEGORY_KEY } from '../constants/categories'
+import { OPS_CATEGORY_KEYS } from '../constants/categories'
 
 export class ScreenGeneratorController {
 
@@ -38,7 +38,7 @@ export class ScreenGeneratorController {
 
     private async buildViews(): Promise<ViewRender[]> {
         const categories = await categoryModel
-            .find<ICategory>({ key: { $ne: IN_REVIEW_CATEGORY_KEY } })
+            .find<ICategory>({ key: { $nin: [...OPS_CATEGORY_KEYS] } })
             .exec() as ICategory[]
         const upcomingImageCards = this.builUpcomingImageCardViews(categories)
         const upcomingCards = this.buildUpcomingCardViews(categories)

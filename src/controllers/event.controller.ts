@@ -2,25 +2,26 @@ import { Request, Response } from 'express'
 import { BaseController } from './base.controller'
 import { categoryModel, eventModel } from '../models'
 import { IEvent } from '../models/event.model'
-import { IN_REVIEW_CATEGORY_KEY } from '../constants/categories'
+import { CLIENT_HIDDEN_CATEGORY_KEYS } from '../constants/categories'
 
 export class EventController extends BaseController {
-    /** Exclude events tagged IN_REVIEW from client list responses. Detail by id is allowed. */
+    /** Exclude IN_REVIEW from client list responses. FOLLOW_UP stays visible (Announced). Detail by id is allowed. */
     private async clientEventFilter(
         extra: Record<string, unknown> = {}
     ): Promise<Record<string, unknown>> {
-        const inReview = await categoryModel
-            .findOne({ key: IN_REVIEW_CATEGORY_KEY })
+        const hidden = await categoryModel
+            .find({ key: { $in: [...CLIENT_HIDDEN_CATEGORY_KEYS] } })
             .select('_id')
             .lean()
 
-        if (!inReview?._id) {
+        const hiddenIds = hidden.map((c) => c._id).filter(Boolean)
+        if (hiddenIds.length === 0) {
             return { ...extra }
         }
 
         return {
             ...extra,
-            categories: { $nin: [inReview._id] },
+            categories: { $nin: hiddenIds },
         }
     }
 
