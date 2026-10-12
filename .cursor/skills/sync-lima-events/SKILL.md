@@ -316,13 +316,16 @@ Prefer each event’s **ticket page** URL as the CTA (same host family as above)
 
 ### 2 — Guides / experts (by category)
 
-Discovery lists (not buy CTAs). Scan each **list_url** for Lima + Callao in the window.  
+Discovery lists (not buy CTAs). Scan **every** **list_url** row for Lima + Callao in the window.  
+**Notes** = how to filter that page (leave blank = scan the full list as usual).
+
 Keep a row only if it’s **free** or the guide points at a **group-1** seller — then apply **Ticketing CTA**. No group-1 seller → discard. Never use the guide host as `ticketing.url`.
 
-| Source | Host | Category (§4a) | list_url |
-|--------|------|----------------|----------|
-| Running4Peru | `running4peru.com` | `SPORT` | `https://www.running4peru.com/calendarios/calendario-peru-running` |
-| Rockmetalperu | `rockmetalperu.com` | `CONCERT` | `https://rockmetalperu.com/agenda/` |
+| Source | Host | Category (§4a) | Notes | list_url |
+|--------|------|----------------|-------|----------|
+| Running4Peru | `running4peru.com` | `SPORT` | Sync **Destacado** + **Saturday** + **Sunday** (Lima + Callao; skip `¡Gratis!` municipal trots / outside metro) | `https://www.running4peru.com/calendarios/calendario-peru-running` |
+| Running4Peru | `running4peru.com` | `SPORT` | Sync **Destacado** + **Saturday** + **Sunday** (Lima + Callao; skip `¡Gratis!` municipal trots / outside metro) | `https://www.running4peru.com/calendarios/calendario-peru-running-2027` |
+| Rockmetalperu | `rockmetalperu.com` | `CONCERT` | | `https://rockmetalperu.com/agenda/` |
 
 Add more guide rows when you approve them.
 
