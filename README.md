@@ -48,6 +48,8 @@ Weekly additive import of Lima / Callao events into MongoDB via Compass JSON.
 
 After you paste a pack, say **imported** in chat (or the next `/sync-lima-events` assumes the prior `output/*.json` was imported and deletes it).
 
+**Roadmap:** [`docs/ROADMAP.md`](docs/ROADMAP.md) (API / data — e.g. venue maps `#data-1-venue-maps`).
+
 More detail: [`scripts/lima-events-sync/README.md`](scripts/lima-events-sync/README.md).
 
 ---
