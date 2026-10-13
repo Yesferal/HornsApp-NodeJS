@@ -13,6 +13,11 @@ const EventSchema: Schema = new Schema({
         es: { type: String }
     },
     dateTime: { type: Date },
+    /**
+     * End of visibility / last moment of the event (required for upcoming lists).
+     * One-night: dateTime + known duration, else +2h. Multi-day: last show.
+     */
+    endDate: { type: Date },
     totalDays: { type: Number },
     headliner: {
         name: { type: String },

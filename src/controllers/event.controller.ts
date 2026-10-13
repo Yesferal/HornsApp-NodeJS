@@ -25,6 +25,14 @@ export class EventController extends BaseController {
         }
     }
 
+    /**
+     * Still listed while endDate >= now.
+     * Every event must have endDate (one-night = dateTime + duration or +2h).
+     */
+    private upcomingDateFilter(now: Date): Record<string, unknown> {
+        return { endDate: { $gte: now } }
+    }
+
     public async findAll(
         request: Request,
         response: Response
@@ -46,10 +54,9 @@ export class EventController extends BaseController {
         response: Response
     ): Promise<void> => {
         try {
-            const currentDate = new Date()
-            const filter = await this.clientEventFilter({
-                dateTime: { $gte: currentDate },
-            })
+            const filter = await this.clientEventFilter(
+                this.upcomingDateFilter(new Date())
+            )
             const items: IEvent[] = await eventModel.find(filter)
 
             response.status(200).send(items)
@@ -66,9 +73,8 @@ export class EventController extends BaseController {
         response: Response
     ): Promise<void> => {
         try {
-            const currentDate = new Date()
             const filter = await this.clientEventFilter({
-                dateTime: { $gte: currentDate },
+                ...this.upcomingDateFilter(new Date()),
                 isLiveMusicEvent: true,
             })
             const items: IEvent[] = await eventModel.find(filter)

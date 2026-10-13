@@ -2,7 +2,7 @@
 
 Ops + data quality for HornsApp / Muvin. Prefer additive Compass fixes; clients consume via HTTPS.
 
-**Updated:** 2026-10-12
+**Updated:** 2026-10-13
 
 ### How to use
 
@@ -32,7 +32,7 @@ Ops + data quality for HornsApp / Muvin. Prefer additive Compass fixes; clients 
 
 | ID | Kind | Item | Effort | Depends on |
 |----|------|------|--------|------------|
-| `#feat-8-end-date` | Feat | Optional event `endDate` for multi-day runs. **Done in repo:** schema + upcoming filter + sync skill + theater pack backfill. **Left:** deploy API + Compass import of theater updates | Small | Deploy + import |
+| `#feat-8-end-date` | Feat | **`endDate` required**; upcoming = `endDate >= now`. **Backfill order:** import real-range packs → audit theater/season suspects → only then +2h for the rest ([`BACKFILL-ENDDATE.md`](../scripts/lima-events-sync/BACKFILL-ENDDATE.md)). Blind +2h alone would hide multi-day runs. **Left:** audit current DB · deploy API | Small | Audit before +2h · deploy |
 
 ---
 
@@ -40,4 +40,4 @@ Ops + data quality for HornsApp / Muvin. Prefer additive Compass fixes; clients 
 
 | ID | Note |
 |----|------|
-| `#feat-8-end-date` (code) | `endDate` on event model; upcoming `$or` filter; skill date rules; theater JSON endDates |
+| `#feat-8-end-date` (code) | `endDate` always; filter `{ endDate: { $gte: now } }`; skill +2h default; backfill doc |
