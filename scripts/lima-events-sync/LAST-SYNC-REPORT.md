@@ -2,8 +2,8 @@
 
 | | |
 |--|--|
-| **Last sync** | 2026-10-11 (weekly — TM + Rockmetalperu + Pacific Timing) |
-| **Window** | 2026-10-11 → 2027-12-31 (default: today → 31 Dec next year) |
+| **Last sync** | 2026-10-12 (theater / musical sources pass) |
+| **Window** | 2026-10-12 → 2027-12-31 (default: today → 31 Dec next year) |
 | **Next** | `/sync-lima-events` |
 
 Tracked: this file (`scripts/lima-events-sync/LAST-SYNC-REPORT.md`). `*.json` under `lima-events-sync/` stay local (gitignored).
@@ -14,14 +14,14 @@ Tracked: this file (`scripts/lima-events-sync/LAST-SYNC-REPORT.md`). `*.json` un
 
 | | |
 |--|--|
-| Sources scanned | Rockmetalperu · Ticketmaster PE · Teleticket · Pacific Timing · Joinnus (deep-link hunt) · Eventrid (FOLLOW_UP recheck) |
-| Broken / blocked list_url | **Running4Peru** (prior 403) · **Passline** Cloudflare — not scanned. Joinnus list still JS-heavy. |
+| Sources scanned | **Teleticket /teatro** · **Ticketmaster /teatros** · **EntradaLibre /teatro** · Joinnus theater (blocked) · Passline theater (403) |
+| Broken / blocked list_url | **Passline** theater `403` Cloudflare · **Joinnus** best-effort (CloudFront / “Navegador no compatible”) · Ticketmaster OK — resolve relative `../event/…` against `ticketmaster.pe` |
 | Already in DB (§4c before run) | prior `*b*` / `*c*` packs assumed imported |
-| **New this run** | **10** inserts → `events-2026-10-11.json` (8 Confirmed + 2 Announced/`FOLLOW_UP`; Floor Jansen promoted after your Teleticket OK) |
-| **Updates this run** | **2** → `events-2026-10-11-updates.json` (ASICS + Floor Jansen → Confirmed Teleticket) |
-| New categories / venues | **1** venue → `venues-2026-10-11.json` (Parque Marina de Guerra, Magdalena) |
+| **New this run** | **65** → `events-2026-10-12-theater.json` (Teleticket Confirmed + TM FOLLOW_UP + EntradaLibre Free; `THEATER`/`MUSICAL` tags) |
+| **Updates this run** | theater pack: **25** multi-day runs got `endDate` (+ debut `dateTime` corrected where source had a range) |
+| New categories / venues | **19** → `venues-2026-10-12-theater.json` (theater halls); events re-linked off TBA |
 | Needs your OK | none (§3 empty; Floor Jansen accepted → Confirmed Teleticket) |
-| Note | Quiet Riot recovered from Rockmetalperu typo. HammerFall + 5K Ilumina created with seller name + empty CTA (`FOLLOW_UP`). Posters probed 200 + `image/*`. |
+| Note | **`endDate`:** Node lists keep events while `endDate >= now` (else `dateTime`). Skill maps published ranges → debut + `endDate`. Theater JSON: e.g. Annie 20 Sep–8 Nov · Irresponsables 16 Oct–6 Dec · HH through 17 Oct. **Theater pass:** venues backfilled; TM relative URLs; Joinnus best-effort; `THEATER`/`MUSICAL`. **R4P 2027** Notes OK. |
 
 ---
 
@@ -34,6 +34,14 @@ Tracked: this file (`scripts/lima-events-sync/LAST-SYNC-REPORT.md`). `*.json` un
 | `venues-2026-10-11.json` | **Import** — Parque Marina de Guerra, Magdalena |
 | `events-2026-10-11.json` | **Import** — 10 new (Roy Khan, Six Feet Under, Ghost Dance, Dying Fetus, Hellripper, Alcest, Quiet Riot, Floor Jansen, HammerFall, 5K Ilumina) |
 | `events-2026-10-11-updates.json` | **Replace by `_id`** — ASICS Golden Run Lima · Floor Jansen → Confirmed (Teleticket) |
+| `venues-2026-10-12.json` | **Import** — Costa Verde, San Miguel |
+| `events-2026-10-12.json` | **Import** — 3 Running4Peru Destacado (Color Run Confirmed · Olympikus + Amancay FOLLOW_UP) |
+| `events-2026-10-12-weekend.json` | **Import** — 22 Sat/Sun Lima+Callao (Infancia Feliz Confirmed · 21 FOLLOW_UP) |
+| `events-2026-10-12-r4p-2027.json` | **Import** — 7 Running4Peru **2027** Destacado/Sat/Sun Lima+Callao (all FOLLOW_UP) |
+| `venues-2026-10-12-theater.json` | **Import first** — 20 theater halls (incl. **Teatro Municipal de Surco** — was missing from DB) |
+| `events-2026-10-12-theater.json` | **Insert** only if not imported yet — 65 theater/musical (**25** with `endDate`) |
+| `events-2026-10-12-theater-updates.json` | **Replace by `_id`** if theater pack already imported — same 65 oids: venues + TM CTAs + **`endDate` / debut fixes** |
+| `venues-2026-10-12-shape-updates.json` | **Replace whole doc by `_id`** — 7 venues (Dibós, Círculo Militar, Surco, San Agustín, Cúpula, Parque Marina, Costa Verde): `name` object + `latitude`/`longitude` + `mapSearchName`; drops `geolocation` |
 
 ---
 ## 3. Watchlist — needs manual approval
@@ -105,6 +113,7 @@ Event poster fallback when ticketer/headliner image is missing (skill image flow
 | Club Cultural Lima | `68ce0001a1b2c3d4e5f60004` | `https://clubculturaldeportivolima.pe/assets/img/all-images/service/service-grill3.png` |
 | Coliseo Eduardo Dibós | `68e8b001a1b2c3d4e5f70601` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
 | Costa 21 | `67be4416e7cef6acc7a629ef` | `https://i0.wp.com/conciertos.com.pe/wp-content/uploads/2024/12/Costa-21-2.png` |
+| Costa Verde, San Miguel *new* | `68e8f001a1b2c3d4e5f70c01` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
 | La Cúpula de las Artes | `68e8c001a1b2c3d4e5f70703` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
 | Estadio Monumental de Ate | `6451a4c7aae3a86c7beb7730` | `https://www.tvperu.gob.pe/sites/default/files/styles/note/public/noche_crema_2026_universitario_entradas.jpg` |
 | Estadio Municipal Chipoco, Barranco | `680e6c98fd23ead6b0ca6cd4` | `https://thumbs.dreamstime.com/b/barranco-estadio-chipoco-imagen-a%C3%A9rea-lima-per%C3%BA-de-octubre-ciudad-durante-la-pandemia-covid-los-domingos-el-transporte-privado-198691426.jpg` |
@@ -117,6 +126,25 @@ Event poster fallback when ticketer/headliner image is missing (skill image flow
 | Lurin Live | `67e80d47b7596ab3a93ee9dd` | `https://cdn.getcrowder.com/images/834a9e4c-f3f8-4771-bfa8-edc09a3ff3d6-image-1125.jpg` |
 | MALI | `680e64b6fd23ead6b0ca6c49` | `https://cosas.pe/efsfiles/2026-04/la-noche-del-mali.jpg` |
 | Parque Marina de Guerra, Magdalena *new* | `68e8e001a1b2c3d4e5f70b01` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Asociación Cultural Campo Abierto *new* | `68e8f001a1b2c3d4e5f71213` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Auditorio Derrama Magisterial *new* | `68e8f001a1b2c3d4e5f71201` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Auditorio San Antonio de Padua *new* | `68e8f001a1b2c3d4e5f71202` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| CC Parque de la Amistad, Surco *new* | `68e8f001a1b2c3d4e5f71203` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Capital Restobar *new* | `68e8f001a1b2c3d4e5f71204` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Centro Cultural CAFAE-SE *new* | `68e8f001a1b2c3d4e5f71205` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Centro Cultural Ricardo Palma *new* | `68e8f001a1b2c3d4e5f71206` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Estación de Barranco *new* | `68e8f001a1b2c3d4e5f71207` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Jazz Zone *new* | `68e8f001a1b2c3d4e5f71208` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Multiteatro Movistar *new* | `68e8f001a1b2c3d4e5f71209` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro Auditorio Miraflores *new* | `68e8f001a1b2c3d4e5f7120a` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro Canout *new* | `68e8f001a1b2c3d4e5f7120b` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro Mario Vargas Llosa *new* | `68e8f001a1b2c3d4e5f7120c` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro Municipal de Lima *new* | `68e8f001a1b2c3d4e5f7120d` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro Peruano Japonés *new* | `68e8f001a1b2c3d4e5f7120e` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro Plaza Norte *new* | `68e8f001a1b2c3d4e5f7120f` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro Ricardo Blume *new* | `68e8f001a1b2c3d4e5f71210` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro San Camilo *new* | `68e8f001a1b2c3d4e5f71211` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro Unifé *new* | `68e8f001a1b2c3d4e5f71212` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
 | TBA | `63e7b5bb5b520b8feeb889b7` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
 | Parque de la Exposición | `63e47ef3a2364c17d03756ea` | `https://livesystemperu.com/wp-content/uploads/2022/11/GRUPO-5-4.jpg` |
 | Parque Kennedy | `680e556dfd23ead6b0ca6c07` | `https://www.incatrailmachu.com/img/kennedy-park-the-central-park-of-miraflores-in-lima-277.jpg` |
@@ -148,86 +176,183 @@ Rows marked come from this run’s `events-2026-10-10c.json`.
 | Carrera de Princesas 2026 | 2026-10-11 | TBA | Announced + FOLLOW_UP | `68e8c001a1b2c3d4e5f70806` |
 | Roy Khan — The Black Halo And Beyond *new* | 2026-10-13 | Yield Rock | Confirmed | `68e8e001a1b2c3d4e5f70a01` |
 | Gruesome | 2026-10-13 | Yield Rock | Confirmed | `699286386725336cb5f12035` |
+| Informe Para Una Academia *new* | 2026-10-13 | Teatro Ricardo Blume | Confirmed | `68e8f001a1b2c3d4e5f71031` |
+| PIRUETTA Circo de salón *new* | 2026-10-13 | Teatro Ricardo Blume | Confirmed | `68e8f001a1b2c3d4e5f71032` |
 | Zayn — The Konnakol Tour | 2026-10-14 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70201` |
+| Una Muerte Light *new* | 2026-10-14 | TBA | Confirmed | `68e8f001a1b2c3d4e5f7103f` |
 | Nicole Zignago — Tour (enamorada) | 2026-10-15 | CC Barranco | Confirmed | `68e4a001a1b2c3d4e5f70402` |
+| Los Hombres No Lloran *new* | 2026-10-15 | Teatro Municipal de Surco | Confirmed | `68e8f001a1b2c3d4e5f71005` |
+| Queríamos cambiarlo todo *new* | 2026-10-15 | Teatro Ricardo Blume | Confirmed | `68e8f001a1b2c3d4e5f71030` |
+| Radojka - Miraflores *new* | 2026-10-15 | Teatro Auditorio Miraflores | Confirmed | `68e8f001a1b2c3d4e5f71006` |
 | Kidd Voodoo | 2026-10-16 | CC Barranco | Announced | `07a5c7a13cdff51c75145f73` |
+| Annie *new* | 2026-09-20 → 2026-11-08 | Teatro Municipal de Surco | Confirmed | `68e8f001a1b2c3d4e5f71001` |
+| El Jefe Del Jefe *new* | 2026-10-16 | Multiteatro Movistar | Confirmed | `68e8f001a1b2c3d4e5f71002` |
+| Hablando Huevadas — Nueva Temporada *new* | 2026-09-06 → 2026-10-17 | Teatro Canout | Confirmed | `68e8f001a1b2c3d4e5f71007` |
+| Hogar Dulce Hogar *new* | 2026-10-16 | Centro Cultural Ricardo Palma | Confirmed | `68e8f001a1b2c3d4e5f71008` |
+| La Cena *new* | 2026-10-16 | Teatro Auditorio Miraflores | Confirmed | `68e8f001a1b2c3d4e5f71009` |
 | Grupo Frontera — Triste Pero Bien | 2026-10-17 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70202` |
 | Run For Your Lives | 2026-10-17 | Estadio Nacional | Confirmed | `6992825f6725336cb5f11ffb` |
 | Festival de Lima — Día de la Salsa | 2026-10-17 | Círculo Militar de Jesús María | Confirmed | `68e8b001a1b2c3d4e5f70507` |
 | Iron Maiden en Lima | 2026-10-17 | Estadio Nacional | Confirmed | `68e8c001a1b2c3d4e5f70804` |
+| Electro Showck – La Comedia De Alto Voltaje *new* | 2026-10-17 | Capital Restobar | Confirmed | `68e8f001a1b2c3d4e5f7100a` |
+| Grease El Musical *new* | 2026-10-17 | TBA | Confirmed | `68e8f001a1b2c3d4e5f71040` |
+| Las Irresponsables *new* | 2026-10-16 → 2026-12-06 | Teatro NOS PUCP | Confirmed | `68e8f001a1b2c3d4e5f7100b` |
 | ASICS Golden Run Lima | 2026-10-18 | Parque Marina de Guerra, Magdalena | Confirmed | `68e8b001a1b2c3d4e5f70509` |
 | Trote del Milagro 10K 2026 | 2026-10-18 | TBA | Announced + FOLLOW_UP | `68e8c001a1b2c3d4e5f70807` |
+| Carrera Aniversario Legión Runners 2026 *new* | 2026-10-18 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e13` |
+| Corriendo por una Infancia Feliz 2026 *new* | 2026-10-18 | Parque Pentagonito | Confirmed | `68e8f001a1b2c3d4e5f70e01` |
+| GepeTrail 2026 *new* | 2026-10-18 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e14` |
+| Aladino Y La Lampara Maravillosa - Arlequin Teatro *new* | 2026-10-18 | Teatro Auditorio Miraflores | Confirmed | `68e8f001a1b2c3d4e5f7100f` |
+| Chisti Raymi en Lima *new* | 2026-10-18 | Teatro Plaza Norte | Confirmed | `68e8f001a1b2c3d4e5f71033` |
+| El Baile Del Olvido *new* | 2026-10-18 | Teatro Auditorio Miraflores | Confirmed | `68e8f001a1b2c3d4e5f71011` |
+| Eres Bueno Charlie Brown, El Musical Familiar De Broadway *new* | 2026-10-18 | Multiteatro Movistar | Confirmed | `68e8f001a1b2c3d4e5f7100e` |
+| Las Eternas - Jesus Maria *new* | 2026-10-18 | Auditorio San Antonio de Padua | Confirmed | `68e8f001a1b2c3d4e5f71010` |
+| Los 3 Cerditos - Arlequin Teatro *new* | 2026-10-18 | Teatro Auditorio Miraflores | Confirmed | `68e8f001a1b2c3d4e5f7100c` |
+| Villasucia *new* | 2026-10-18 | Centro Cultural CAFAE-SE | Confirmed | `68e8f001a1b2c3d4e5f7100d` |
 | Gosper Fest 2.0 | 2026-10-19 | Costa 21 | Confirmed | `68e8b001a1b2c3d4e5f70506` |
+| El Club De Las Viudas *new* | 2026-10-19 | Teatro Auditorio Miraflores | Confirmed | `68e8f001a1b2c3d4e5f71016` |
+| Giselle *new* | 2026-10-19 | Teatro Unifé | Confirmed | `68e8f001a1b2c3d4e5f71034` |
+| Hansel Y Gretel *new* | 2026-10-19 | Auditorio San Antonio de Padua | Confirmed | `68e8f001a1b2c3d4e5f71014` |
+| ISMO *new* | 2026-10-19 | TBA | Confirmed | `68e8f001a1b2c3d4e5f7103e` |
+| La Banda Del Lobo Feroz *new* | 2026-10-19 | Asociación Cultural Campo Abierto | Confirmed | `68e8f001a1b2c3d4e5f71012` |
+| Los Tres Chanchitos Y El Lobo Feroz En Teatro Padua *new* | 2026-10-19 | Auditorio San Antonio de Padua | Confirmed | `68e8f001a1b2c3d4e5f71013` |
+| Pareja Abierta Jesus Maria *new* | 2026-10-19 | Auditorio San Antonio de Padua | Confirmed | `68e8f001a1b2c3d4e5f71015` |
+| 6 Días, El Final De Un Poeta *new* | 2026-10-20 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f71035` |
 | Zelda Symphonic Legends | 2026-10-22 | Teatro Manuel A. Segura | Announced | `a100c5f9f5da439b330364e9` |
+| La Prueba De Merlín *new* | 2026-10-22 | Teatro Peruano Japonés | Confirmed | `68e8f001a1b2c3d4e5f71017` |
 | Six Feet Under en Lima *new* | 2026-10-23 | Teatro Kantaro | Confirmed | `68e8e001a1b2c3d4e5f70a02` |
+| Nosotras Que Nos Queremos Tanto Miraflores *new* | 2026-10-23 | Teatro Auditorio Miraflores | Confirmed | `68e8f001a1b2c3d4e5f71018` |
 | Río Roma | 2026-10-24 | Costa 21 | Announced | `ed1701eefcfad288d5d6b7d4` |
+| Beer Run Oktoedition — Caños del Santero *new* | 2026-10-24 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e02` |
+| Nosotras Que Nos Queremos Tanto Jesus Maria *new* | 2026-10-24 | TBA | Confirmed | `68e8f001a1b2c3d4e5f71019` |
 | Media Maratón del Callao & 10K | 2026-10-25 | La Punta, Callao | Confirmed | `5c0e9f1bf041fa894763d30f` |
 | Carrera Avon por Ellas | 2026-10-25 | TBA | Announced + FOLLOW_UP | `68e8c001a1b2c3d4e5f70808` |
+| Carrera New Start 2026 *new* | 2026-10-25 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e03` |
+| HYROX Simulation Experience 2026 *new* | 2026-10-25 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e16` |
+| Remada Rosada 2026 *new* | 2026-10-25 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e15` |
+| La Magia De Ser Diferentes *new* | 2026-10-25 | Teatro Mario Vargas Llosa | Confirmed | `68e8f001a1b2c3d4e5f7101a` |
+| Mujer Que No Jode Es Hombre - Edición 2026 *new* | 2026-10-25 | Estación de Barranco | Confirmed | `68e8f001a1b2c3d4e5f7101b` |
+| NOS CASAMOS LA CAGAMOS - Show de Comedia en Pareja *new* | 2026-10-25 | Jazz Zone | Confirmed | `68e8f001a1b2c3d4e5f7101c` |
+| Blancanieves Y Los 7 Enanitos *new* | 2026-10-26 | Auditorio San Antonio de Padua | Confirmed | `68e8f001a1b2c3d4e5f7101d` |
+| El Perú en un solo canto *new* | 2026-10-26 | Gran Teatro Nacional | Confirmed | `68e8f001a1b2c3d4e5f71036` |
+| Escena Escolar | I Edición *new* | 2026-10-26 | TBA | Confirmed | `68e8f001a1b2c3d4e5f71041` |
 | The Rasmus — Weirdo Tour | 2026-10-27 | CC Leguía | Confirmed | `68e4a001a1b2c3d4e5f70403` |
 | Jaze — QNEPT Tour II | 2026-10-28 | CC Barranco | Confirmed | `68d1a001a1b2c3d4e5f70103` |
 | Hombres G | 2026-10-29 | Estadio Nacional | Confirmed | `32bb8834a6bc5aac6eb96b89` |
 | Jaze — QNEPT Tour II | 2026-10-29 | CC Barranco | Confirmed | `68d1a001a1b2c3d4e5f70104` |
+| Palacio De Los Sueños En Surco *new* | 2026-10-29 | CC Parque de la Amistad, Surco | Confirmed | `68e8f001a1b2c3d4e5f7101e` |
 | Hombres G | 2026-10-30 | Estadio Nacional | Confirmed | `ff87daadbb81d75f9bd78155` |
 | Ken-Y Round 2 | 2026-10-30 | Arena 1 | Announced | `5aa0d3b10750f89092021fc3` |
+| Mensajes Del Alma *new* | 2026-10-30 | Teatro Manuel A. Segura | Confirmed | `68e8f001a1b2c3d4e5f7101f` |
+| Pareja Abierta - Miraflores *new* | 2026-10-30 | Teatro Auditorio Miraflores | Confirmed | `68e8f001a1b2c3d4e5f71020` |
+| Un Océano Para Todos *new* | 2026-10-30 | Teatro Peruano Japonés | Confirmed | `68e8f001a1b2c3d4e5f71003` |
 | Jesse y Joy | 2026-10-31 | Costa 21 | Confirmed | `7504b778cbeb59b55fd90c0e` |
 | Reggaetón Lima Festival 7 | 2026-10-31 | Costa 21 | Confirmed | `d19ae6c10dd1ec7a0b601890` |
 | Expofolk 5.ª | 2026-10-31 | Parque de la Exposición | Announced | `a90aeec114509ffb83c13a13` |
+| Festival Arpa Peru *new* | 2026-10-31 | Teatro San Camilo | Confirmed | `68e8f001a1b2c3d4e5f71021` |
 | Humbe — Dueño de los Cielos | 2026-11-01 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70203` |
+| Carrera Independencia Race 2026 *new* | 2026-11-01 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e05` |
+| Cerro Colorado Race Trail 2026 *new* | 2026-11-01 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e06` |
+| Marathon Ekiden by Grupo Gloria *new* | 2026-11-01 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e04` |
+| Truco O Trato – Halloween Para Niños *new* | 2026-11-01 | Multiteatro Movistar | Confirmed | `68e8f001a1b2c3d4e5f71022` |
 | María Becerra — Quimera Tour | 2026-11-04 | Costa 21 | Confirmed | `68e4a001a1b2c3d4e5f70404` |
 | Taemin — LiMiNaL World Tour | 2026-11-06 | Estadio Monumental de Ate | Confirmed | `68d1a001a1b2c3d4e5f7010a` |
 | Myriam Hernández | 2026-11-06 | Parque de la Exposición | Confirmed | `ea02c022e0146ef47db5973c` |
 | Coti en Lima | 2026-11-06 | CC Barranco | Announced + FOLLOW_UP | `68e8d001a1b2c3d4e5f70908` |
+| Felipe Avello *new* | 2026-11-06 | Teatro Canout | Confirmed | `68e8f001a1b2c3d4e5f71023` |
 | Bunbury — Nuevas Mutaciones Tour | 2026-11-07 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70206` |
+| Los Dioses Del Teatro *new* | 2026-11-07 | Teatro Municipal de Surco | Confirmed | `68e8f001a1b2c3d4e5f71004` |
+| Theodora, de Georg Friedrich Handel *new* | 2026-11-07 | Teatro Manuel A. Segura | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f71037` |
 | APP Touring 10K & 5K | 2026-11-08 | TBA | Announced + FOLLOW_UP | `68e8b001a1b2c3d4e5f7050a` |
 | Timø en Lima | 2026-11-08 | CC Barranco | Confirmed | `68e4a001a1b2c3d4e5f70405` |
+| Carrera Aniversario de Rímac Runners *new* | 2026-11-08 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e07` |
+| Hybrid Race Magdalena 2026 *new* | 2026-11-08 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e08` |
+| adidas Lima Training Fest by LesMills *new* | 2026-11-08 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e09` |
+| Amy Gutierrez - Mi Primer Gran Teatro *new* | 2026-11-08 | Gran Teatro Nacional | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f71038` |
+| Gran Homenaje Ayacucho En Mi Corazón *new* | 2026-11-08 | Auditorio Derrama Magisterial | Confirmed | `68e8f001a1b2c3d4e5f71025` |
+| Los Rocosaurios Y El Misterio De Rocolandia - Rocosaurios Y El Misterio De Rocolandia *new* | 2026-11-08 | Multiteatro Movistar | Confirmed | `68e8f001a1b2c3d4e5f71024` |
+| La Herencia *new* | 2026-11-09 | Teatro Auditorio Miraflores | Confirmed | `68e8f001a1b2c3d4e5f71026` |
 | Ill Niño en Lima | 2026-11-10 | Yield Rock | Confirmed | `68e8d001a1b2c3d4e5f70901` |
 | Camilo — Para Cuando Sean Mayores Tour | 2026-11-10 | Costa 21 | Confirmed | `68e4a001a1b2c3d4e5f70406` |
+| Gran Gala Lirica Solistas De La Opera Del Teatro Colon *new* | 2026-11-11 | Gran Teatro Nacional | Confirmed | `68e8f001a1b2c3d4e5f71027` |
+| Cosi Fan Tutte *new* | 2026-11-12 | Teatro Manuel A. Segura | Confirmed | `68e8f001a1b2c3d4e5f71039` |
 | Hardwell — South America World Tour | 2026-11-13 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70102` |
 | Tierra Santa en Lima | 2026-11-13 | Teatro Kantaro | Confirmed | `68e8d001a1b2c3d4e5f70902` |
 | Cypress Hill en Lima | 2026-11-13 | Coliseo Eduardo Dibós | Confirmed | `68e8b001a1b2c3d4e5f70504` |
+| Se Busca Amor (Urgente) *new* | 2026-11-13 | Teatro Auditorio Miraflores | Confirmed | `68e8f001a1b2c3d4e5f71028` |
 | Airbag | 2026-11-14 | Estadio San Marcos | Confirmed | `ee36cb510db6a1bd6c6702af` |
 | Santa Maria Swim & Grill | 2026-11-14 | TBA | Announced + FOLLOW_UP | `68e8d001a1b2c3d4e5f7090b` |
 | Ghost Dance en Lima *new* | 2026-11-14 | Teatro Kantaro | Confirmed | `68e8e001a1b2c3d4e5f70a03` |
 | Ser Como Blippi Tour | 2026-11-15 | Auditorio Colegio San Agustín | Confirmed | `68e8c001a1b2c3d4e5f70802` |
 | ¡Viva los 90s! | 2026-11-15 | Parque de la Exposición | Announced + FOLLOW_UP | `68e8d001a1b2c3d4e5f70909` |
+| Media Maratón Las Palmas 2026 *new* | 2026-11-15 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e0a` |
+| The Color Run Geely 2026 *new* | 2026-11-15 | Costa Verde, San Miguel | Confirmed | `68e8f001a1b2c3d4e5f70d01` |
+| Broadway In Concert From Spain - Live in Lima *new* | 2026-11-16 | Teatro Unifé | Confirmed | `68e8f001a1b2c3d4e5f7103a` |
+| Caos En Familia *new* | 2026-11-16 | TBA | Confirmed | `68e8f001a1b2c3d4e5f71029` |
 | Elefante — 30 Aniversario Tour | 2026-11-18 | CC Barranco | Confirmed | `68e8d001a1b2c3d4e5f70903` |
 | The Strokes | 2026-11-20 | Estadio San Marcos | Confirmed | `a68fa8d78639172f5c416743` |
+| Venga Que Si Es Pa´Eso | Andrés Parra *new* | 2026-11-20 | Teatro Canout | Confirmed | `68e8f001a1b2c3d4e5f7102a` |
+| Ópera Iolanta *new* | 2026-11-20 | Teatro Municipal de Lima | Confirmed | `68e8f001a1b2c3d4e5f7103b` |
 | The Hayley Williams Show | 2026-11-21 | Costa 21 | Announced | `25bf35051ec12ee970245358` |
 | Amanda Miguel — El Me Mintió World Tour | 2026-11-21 | Parque de la Exposición | Confirmed | `68e8b001a1b2c3d4e5f70503` |
 | Easykid — Soy Un Fatalista | 2026-11-21 | CC Festiva | Confirmed | `68e8b001a1b2c3d4e5f70505` |
 | My Dying Bride en Lima | 2026-11-22 | Yield Rock | Confirmed | `68e8d001a1b2c3d4e5f70904` |
 | Ancón Trail Fest 2026 | 2026-11-22 | TBA | Announced + FOLLOW_UP | `68e8c001a1b2c3d4e5f70809` |
+| Dame Esos 5K 2026 *new* | 2026-11-22 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e0b` |
+| Travesía El Reto Olaya Inverso 2026 *new* | 2026-11-22 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e0c` |
 | Gorillaz en Lima | 2026-11-23 | Arena 1 | Confirmed | `68e8d001a1b2c3d4e5f70905` |
+| Gran Gala Lírica Rusa *new* | 2026-11-24 | Teatro Municipal de Lima | Confirmed | `68e8f001a1b2c3d4e5f7103c` |
 | CA7RIEL & Paco Amoroso — Free Spirits | 2026-11-27 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70109` |
 | Dying Fetus en Lima *new* | 2026-11-28 | Teatro Kantaro | Confirmed | `68e8e001a1b2c3d4e5f70a04` |
 | Lima Latin Pop Fest Vol. 3 | 2026-11-28 | Costa 21 | Announced | `77eb20f1a2e05db4b5a28402` |
 | Flor Bertotti | 2026-11-29 | Gran Teatro Nacional | Announced | `32e2609dc4f3ee2c417a3cd6` |
+| Copa Nadar es Vida 2026 *new* | 2026-11-29 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e0d` |
+| Glow Inspiration Race powered by Olympikus *new* | 2026-11-29 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70d02` |
+| Rosaflor Celebra 46 Años De Trayectoria Con ´´Mestiza *new* | 2026-11-29 | TBA | Confirmed | `68e8f001a1b2c3d4e5f7102b` |
 | Dimash — Dimensions World Tour | 2026-12-01 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70204` |
 | Maná | 2026-12-02 | Costa 21 | Confirmed | `cd9897f94ec7bbbb42b20398` |
+| The Last Five Years *new* | 2026-12-04 | Teatro Ricardo Blume | Confirmed | `68e8f001a1b2c3d4e5f7103d` |
 | Sleeping With Sirens en Lima | 2026-12-06 | Costa 21 | Confirmed | `68e4a001a1b2c3d4e5f70407` |
+| Carrera Aniversario Comas Runners 2026 *new* | 2026-12-06 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e0e` |
 | BABYMETAL | 2026-12-07 | Costa 21 | Confirmed | `68d1b001a1b2c3d4e5f70205` |
 | Kreator — Latin American Tour | 2026-12-08 | CC Leguía | Confirmed | `68e8d001a1b2c3d4e5f70906` |
 | 5K Ilumina El Mundo 2026 *new* | 2026-12-09 | TBA | Announced + FOLLOW_UP | `68e8e001a1b2c3d4e5f70a0a` |
 | Daniel Caesar — Son of Spergy Tour | 2026-12-08 | Costa 21 | Confirmed | `68e8b001a1b2c3d4e5f70502` |
 | Super Arte — Lenny Tavárez & Justin Quiles | 2026-12-12 | Arena 1 | Confirmed | `68d1a001a1b2c3d4e5f70101` |
+| La Ruta del Pejerrey 2026 *new* | 2026-12-12 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e0f` |
+| Carrera de Niños — Edición Navideña 2026 *new* | 2026-12-13 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e10` |
+| La Vuelta 8K & 4K Miraflores 2026 *new* | 2026-12-13 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e11` |
+| Fraude - Jaime Ferraro - Fraude *new* | 2026-12-13 | Teatro Canout | Confirmed | `68e8f001a1b2c3d4e5f7102d` |
+| Navidad Maricarmen 10 Años - Por Primera Vez En El Teatro *new* | 2026-12-13 | Gran Teatro Nacional | Confirmed | `68e8f001a1b2c3d4e5f7102c` |
 | The Jacksons | 2026-12-15 | Costa 21 | Confirmed | `c02f1311ff0199a114894162` |
 | Aterciopelados en Lima | 2026-12-17 | CC Leguía | Announced + FOLLOW_UP | `68e8d001a1b2c3d4e5f7090a` |
+| Desafío Jicamarca 2026 *new* | 2026-12-27 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70e12` |
+| Carrera Venecia Run 10K 2027 *new* | 2027-01-03 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70f01` |
 | Hellripper en Lima *new* | 2027-01-21 | Vichama Conciertos | Confirmed | `68e8e001a1b2c3d4e5f70a05` |
 | Karol G — Tropitour | 2027-01-22 | Estadio San Marcos | Confirmed | `68d1a001a1b2c3d4e5f70105` |
+| Desafío Independencia 2027 *new* | 2027-01-24 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70f02` |
+| El Invencible Verano De Liliana *new* | 2027-01-29 | Teatro Canout | Confirmed | `68e8f001a1b2c3d4e5f7102e` |
+| Pacha Wild Trail by Merrell — Summer Season 2027 *new* | 2027-02-06 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70f03` |
 | Alcest en Lima *new* | 2027-02-13 | Teatro Kantaro | Confirmed | `68e8e001a1b2c3d4e5f70a06` |
+| Chungo´ - Luis Zahera *new* | 2027-02-20 | Teatro Canout | Confirmed | `68e8f001a1b2c3d4e5f7102f` |
 | Foo Fighters en Lima | 2027-03-03 | Estadio Nacional | Confirmed | `68e8c001a1b2c3d4e5f70805` |
 | Ha*Ash — No Me Hablen de Amor | 2027-03-05 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70108` |
+| Amancay Trail 2027 *new* | 2027-03-05 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70d03` |
 | Sin Bandera — Escenas Tour 25 años | 2027-03-06 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70107` |
+| Running Corporates Games Lima 2027 *new* | 2027-03-07 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70f04` |
 | La Oreja de Van Gogh — Tantas Cosas | 2027-03-14 | Costa 21 | Confirmed | `68d1a001a1b2c3d4e5f70106` |
 | Jungle — World Tour 2027 | 2027-03-24 | Costa 21 | Confirmed | `68e4a001a1b2c3d4e5f70408` |
 | Una Noche de Salsa 15 | 2027-04-02 | Estadio San Marcos | Confirmed | `68e4a001a1b2c3d4e5f70409` |
 | Una Noche de Salsa 15 | 2027-04-03 | Estadio San Marcos | Confirmed | `68e4a001a1b2c3d4e5f7040a` |
 | Caifanes en Lima | 2027-04-17 | Costa 21 | Confirmed | `68e4a001a1b2c3d4e5f7040b` |
 | Quiet Riot — Metal Health Latin American Tour *new* | 2027-04-18 | CC Leguía | Confirmed | `68e8e001a1b2c3d4e5f70a07` |
+| Lima Aqua Fest 2027 *new* | 2027-04-18 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70f05` |
+| IRONMAN 70.3 Perú 2027 *new* | 2027-04-25 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70f06` |
 | Floor Jansen en Lima *new* | 2027-04-27 | CC Leguía | Confirmed | `68e8e001a1b2c3d4e5f70a08` |
 | HammerFall en Lima *new* | 2027-05-01 | Teatro Kantaro | Announced + FOLLOW_UP | `68e8e001a1b2c3d4e5f70a09` |
 | Jay Wheeler — La Voz Favorita | 2027-05-01 | Costa 21 | Confirmed | `68e8b001a1b2c3d4e5f70501` |
 | Kase.O — Camisa de Fuerza Tour | 2027-05-13 | Parque de la Exposición | Confirmed | `68e4a001a1b2c3d4e5f7040c` |
+| Maratón adidas Rímac Lima 42K 2027 *new* | 2027-05-23 | TBA | Announced + FOLLOW_UP | `68e8f001a1b2c3d4e5f70f07` |
 | Salsa Lima Festival 2027 | 2027-05-29 | Estadio San Marcos | Confirmed | `68e4a001a1b2c3d4e5f7040d` |
 | Slipknot en Lima | 2027-09-14 | Estadio Nacional | Confirmed | `68e4a001a1b2c3d4e5f7040e` |
 
