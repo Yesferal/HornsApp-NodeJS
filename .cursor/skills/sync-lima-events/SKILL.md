@@ -24,7 +24,7 @@ Additive Compass JSON only. Do **not** wipe collections.
 | **5** | Classify | New → Confirmed / Announced+`FOLLOW_UP` / `IN_REVIEW` / §3. Complete `FOLLOW_UP` → Confirmed (drop tag). |
 | **6** | Write JSON | **Inserts** → `events-YYYY-MM-DD.json`. **Updates** (same oid, e.g. `FOLLOW_UP`→Confirmed) → `events-YYYY-MM-DD-updates.json`. (+ cats/venues/… if new). |
 | **7** | Images + about | Image: **event → headliner → venue → default**. Always non-empty **about.es** + **about.en**. |
-| **8** | Times | UTC (Lima UTC−5). `dateTime` = debut; multi-day → also `endDate` (last show). |
+| **8** | Times | UTC (Lima UTC−5). Always set `dateTime` + `endDate` (see Event shape). |
 | **9** | Update report | Refresh `LAST-SYNC-REPORT.md` §1–§4 (append oids · drop past events · sort §4c). |
 | **10** | Hand off | Import order + **`IN_REVIEW`** accept/reject + any **broken list_url**s + **unknown ticket hosts** (for you to validate). |
 
@@ -44,7 +44,7 @@ That picks up early next-year announcements without a huge backlog of past dates
 
 User can narrow (“next 8 weeks”) or widen; otherwise use this default.
 
-**(Separate) §4c inventory:** when refreshing the report, drop rows whose **run is over** — `endDate` before today when set, else `dateTime` before today. Mid-run seasons stay (debut may be before today).
+**(Separate) §4c inventory:** when refreshing the report, drop rows whose **`endDate` is before today**. Mid-run seasons stay even if debut was before today.
 
 ---
 
@@ -106,7 +106,7 @@ Healthy = sections §1–§5 present, and §4a–4e tables with name/key + oid.
 
 Requires **all five** dumps above.
 
-Write `LAST-SYNC-REPORT.md` from the skeleton below; §4c = still-active only (see **Default window** §4c rule: `endDate` else `dateTime`), sorted by debut date; strip about/tickets/images/geo. Start §3 empty (or keep recoverable open watchlist rows only if the corrupt file still has a readable §3).
+Write `LAST-SYNC-REPORT.md` from the skeleton below; §4c = still-active only (`endDate` ≥ today), sorted by debut date; strip about/tickets/images/geo. Start §3 empty (or keep recoverable open watchlist rows only if the corrupt file still has a readable §3).
 
 ---
 
@@ -409,19 +409,15 @@ JSON template for each insert/update. Fill fields using the rules above:
 | `ticketing` | **Ticketing CTA** |
 | `isLiveMusicEvent` | **Product split** (Horns vs Muvin) |
 | `about.es` + `about.en` | Both required (translate if the source has only one language) |
-| `dateTime` | **First** performance (debut), UTC. Never rewrite to “today” mid-run. |
-| `endDate` | **Last** performance (same clock rules as `dateTime`), UTC. **Omit** / `null` for one-night events. Plays, musicals, seasons, fests with a published range → set both. |
-| `totalDays` | Optional legacy; prefer `endDate` for visibility. Leave `null` on new writes unless you already compute it. |
-
-**Dates — one night vs run**
+| `dateTime` | **Required.** First performance (debut), UTC. Sort / list day / calendar start. Never rewrite to “today” mid-run. |
+| `endDate` | **Required.** End of visibility / last moment of the event, UTC. Always ≥ `dateTime`. API upcoming = `endDate >= now`. |
+| `totalDays` | Optional legacy; prefer `endDate`. Leave `null` on new writes unless you already compute it. |
 
 | Source says | Write |
 |-------------|--------|
-| Single night / single showtime | `dateTime` only |
-| Range (“del 10 al 30 de nov”, “hasta el 15”, season end) | `dateTime` = first show · `endDate` = last show (same local time-of-day when known) |
-| Open-ended / TBA end | `dateTime` only + `FOLLOW_UP` if needed — do **not** invent `endDate` |
-
-Clients keep the event in upcoming lists while `endDate >= now` (or `dateTime >= now` when `endDate` is absent).
+| Single night / single showtime | `dateTime` = start · `endDate` = start + **known duration**, else **+2 hours** |
+| Range (“del 10 al 30 de nov”, “hasta el 15”, season end) | `dateTime` = first show · `endDate` = last show (same local time-of-day when known; if last showtime unknown, last day + same clock as debut or +2h) |
+| Open-ended / TBA end | `dateTime` = first known · `endDate` = that show +2h (or last published night) + `FOLLOW_UP` — do **not** invent a far-future season end |
 
 **`name` vs `headliner.name` — avoid duplicate wording**
 
@@ -434,7 +430,7 @@ Clients keep the event in upcoming lists while `endDate >= now` (or `dateTime >=
     "en": "Description in English…"
   },
   "dateTime": { "$date": "2026-09-28T00:15:00.000Z" },
-  "endDate": null,
+  "endDate": { "$date": "2026-09-28T02:15:00.000Z" },
   "totalDays": null,
   "headliner": { "name": "Main artist or activity", "url": "<poster url>" },
   "ticketing": { "name": "Teleticket", "url": "https://teleticket.com.pe/event-slug" },
