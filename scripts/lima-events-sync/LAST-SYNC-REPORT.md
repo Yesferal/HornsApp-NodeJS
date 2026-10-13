@@ -2,7 +2,7 @@
 
 | | |
 |--|--|
-| **Last sync** | 2026-10-12 (theater / musical sources pass) |
+| **Last sync** | 2026-10-13 (Puroteatro cartelera only) |
 | **Window** | 2026-10-12 → 2027-12-31 (default: today → 31 Dec next year) |
 | **Next** | `/sync-lima-events` |
 
@@ -42,6 +42,10 @@ Tracked: this file (`scripts/lima-events-sync/LAST-SYNC-REPORT.md`). `*.json` un
 | `events-2026-10-12-theater.json` | **Insert** only if not imported yet — 65 theater/musical (**25** with `endDate`) |
 | `events-2026-10-12-theater-updates.json` | **Replace by `_id`** if theater pack already imported — same 65 oids: venues + TM CTAs + **`endDate` / debut fixes** |
 | `venues-2026-10-12-shape-updates.json` | **Replace whole doc by `_id`** — 7 venues (Dibós, Círculo Militar, Surco, San Agustín, Cúpula, Parque Marina, Costa Verde): `name` object + `latitude`/`longitude` + `mapSearchName`; drops `geolocation` |
+| `venues-2026-10-13-puroteatro.json` | **Import first** — **20** halls that were not in §4b (Alianza Francesa, Teatro de Lucía, Teatro La Plaza, ICPNA San Isidro, and others) |
+| `events-2026-10-13-puroteatro.json` | **Insert** if not imported yet — **64** new (63 Confirmed · Daniil Trifonov Announced + `FOLLOW_UP`). Posters: **54** Joinnus/Teleticket CDN, **1** Ticketmaster Crowder CDN, **9** signed Puroteatro (Passline + Ticketmaster; token through Sep–Oct 2031) |
+| `events-2026-10-13-puroteatro-venue-updates.json` | **Replace by `_id`** only if the 64 were already inserted — same oids, halls + posters filled |
+| `events-2026-10-13-puroteatro-image-updates.json` | **Replace by `_id`** — **28** shows already in the DB. **18** Teleticket CDN posters, **10** still the signed Puroteatro image |
 
 ---
 ## 3. Watchlist — needs manual approval
@@ -154,6 +158,26 @@ Event poster fallback when ticketer/headliner image is missing (skill image flow
 | Parque Pentagonito | `67fb8035842ed656c38da88e` | `https://i.pinimg.com/736x/97/c7/e9/97c7e9b463543ba93d8c69e6bc54161d.jpg` |
 | Plaza de Armas, Lima | `681d2ece32cfcf770e5a5cc7` | `https://portal.andina.pe/EDPfotografia3/Thumbnail/2024/07/28/001086717W.jpg` |
 | Sargento Pimienta | `68ce0001a1b2c3d4e5f60001` | `https://indiehoy.com/wp-content/uploads/2015/09/Sargento-Pimienta-de-Barranco.jpg` |
+| Anfiteatro de la Plaza Túpac Amaru *new* | `68e9d001a1b2c3d4e5f70012` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Ares Teatro *new* | `68e9d001a1b2c3d4e5f70009` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Auditorio ICPNA San Isidro *new* | `68e9d001a1b2c3d4e5f70004` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Centrum Petrus *new* | `68e9d001a1b2c3d4e5f70014` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Centro Cultural de Jesús María *new* | `68e9d001a1b2c3d4e5f7000b` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Centro Cultural de la Universidad del Pacífico *new* | `68e9d001a1b2c3d4e5f70008` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Fortaleza del Real Felipe *new* | `68e9d001a1b2c3d4e5f7000a` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| La Vaca Multicolor *new* | `68e9d001a1b2c3d4e5f70013` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Nuevo Teatro Julieta *new* | `68e9d001a1b2c3d4e5f70010` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Sala Quilla *new* | `68e9d001a1b2c3d4e5f70011` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Sala Roja – Centro Cultural PUCP *new* | `68e9d001a1b2c3d4e5f7000e` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro Barranco *new* | `68e9d001a1b2c3d4e5f70002` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro de la Alianza Francesa de Lima *new* | `68e9d001a1b2c3d4e5f70003` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro de Lucía *new* | `68e9d001a1b2c3d4e5f70001` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro Esencia *new* | `68e9d001a1b2c3d4e5f7000c` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro Juanita Tarnawiecki *new* | `68e9d001a1b2c3d4e5f7000f` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro La Plaza *new* | `68e9d001a1b2c3d4e5f7000d` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro Municipal Alejandro Granda Relayza *new* | `68e9d001a1b2c3d4e5f70007` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro Racional *new* | `68e9d001a1b2c3d4e5f70006` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
+| Teatro Ricardo Roca Rey (AAA) *new* | `68e9d001a1b2c3d4e5f70005` | `https://static.vecteezy.com/system/resources/thumbnails/070/677/281/small/energetic-crowd-enjoying-live-music-event-hands-raised-at-festival-concert-photo.jpeg` |
 | Teatro Británico | `68ce0001a1b2c3d4e5f60007` | `https://applications-media.feverup.com/image/upload/f_auto/fever2/plan/photo/8c301b42-5476-11f1-ad1b-8200bfc15269.jpg` |
 | Teatro Centro Español | `75535bfee2fa690575e1b569` | `https://infoartes.pe/sites/default/files/wp-files/uploads/2013/10/teatro01.jpg` |
 | Teatro Kantaro | `64bcd027a22189a26979c710` | `https://cdn.getcrowder.com/images/3d21a672-9361-4f94-b809-b0b2dbe85a5c-fondo-teatro-leguia.jpg` |
