@@ -24,7 +24,7 @@ Additive Compass JSON only. Do **not** wipe collections.
 | **5** | Classify | New → Confirmed / Announced+`FOLLOW_UP` / `IN_REVIEW` / §3. Complete `FOLLOW_UP` → Confirmed (drop tag). |
 | **6** | Write JSON | **Inserts** → `events-YYYY-MM-DD.json`. **Updates** (same oid, e.g. `FOLLOW_UP`→Confirmed) → `events-YYYY-MM-DD-updates.json`. (+ cats/venues/… if new). |
 | **7** | Images + about | Image: **event → headliner → venue → default**. Always non-empty **about.es** + **about.en**. |
-| **8** | Times | UTC (Lima UTC−5). |
+| **8** | Times | UTC (Lima UTC−5). `dateTime` = debut; multi-day → also `endDate` (last show). |
 | **9** | Update report | Refresh `LAST-SYNC-REPORT.md` §1–§4 (append oids · drop past events · sort §4c). |
 | **10** | Hand off | Import order + **`IN_REVIEW`** accept/reject + any **broken list_url**s + **unknown ticket hosts** (for you to validate). |
 
@@ -40,9 +40,11 @@ Unless the user names other dates:
 | **To** | **31 Dec of next calendar year** |
 
 Example: on 2026-09-21 → scan **2026-09-21 → 2027-12-31**.  
-That picks up early next-year announcements without a huge backlog of past dates. §4c still drops rows whose date is before today.
+That picks up early next-year announcements without a huge backlog of past dates.
 
 User can narrow (“next 8 weeks”) or widen; otherwise use this default.
+
+**(Separate) §4c inventory:** when refreshing the report, drop rows whose **run is over** — `endDate` before today when set, else `dateTime` before today. Mid-run seasons stay (debut may be before today).
 
 ---
 
@@ -104,7 +106,7 @@ Healthy = sections §1–§5 present, and §4a–4e tables with name/key + oid.
 
 Requires **all five** dumps above.
 
-Write `LAST-SYNC-REPORT.md` from the skeleton below; §4c = Lima today+future only, sorted by date; strip about/tickets/images/geo. Start §3 empty (or keep recoverable open watchlist rows only if the corrupt file still has a readable §3).
+Write `LAST-SYNC-REPORT.md` from the skeleton below; §4c = still-active only (see **Default window** §4c rule: `endDate` else `dateTime`), sorted by debut date; strip about/tickets/images/geo. Start §3 empty (or keep recoverable open watchlist rows only if the corrupt file still has a readable §3).
 
 ---
 
@@ -283,6 +285,8 @@ Open / fetch **only** URLs that appear in this Sources section:
 | **Event / ticket pages** on group-1 allowed CTA hosts | `teleticket.com.pe`, `joinnus.com`, … |
 | **Image URLs** that already passed the Images probe rules | posters for `headliner.url` |
 
+**Relative links on an allowed host:** if the page is already on a **group-1** host (or a Sources `list_url` host you’re allowed to open) and the href is relative (`../event/…`, `/evento/…`), **resolve it against that page’s origin** and treat it as a same-host navigation — do **not** drop it just because it isn’t an absolute `https://…` string in the HTML.
+
 Stay on those hosts/paths. If a page only *mentions* a ticket seller on a host **not** in **Allowed CTA hosts**, do **not** open that link — note host + event name in the hand-off so you can decide whether to add it.
 
 **Broken list_url:** if a Sources `list_url` returns **404**, **5xx**, or is otherwise unreachable during the sync → say so in the hand-off (source, category, URL, status). Continue with the other lists.
@@ -383,6 +387,17 @@ Compass import is **manual**. After you import a pack (or an approved §3 row), 
 
 **Later syncs (file mechanics):** promote complete `FOLLOW_UP` → full doc in `events-YYYY-MM-DD-updates.json` (same oid), refresh §4c, hand off replace-by-`_id`. Still incomplete → keep Announced + `FOLLOW_UP`. `IN_REVIEW`: wait for accept/reject (table above).
 
+## Venue shape
+
+Match existing Compass venues.
+
+| Field | Rule |
+|-------|------|
+| `name` | `{ "en": "…", "es": "…" }` (same string is fine when there is no translation) |
+| `latitude` / `longitude` | Numbers, or `null` if unknown use null |
+| `mapSearchName` | Required — string the app uses for map search (e.g. `"Teatro Canout, Lima"`) |
+| `imageUrl` | HTTPS image, or the known default poster |
+
 ## Event shape
 
 JSON template for each insert/update. Fill fields using the rules above:
@@ -394,6 +409,19 @@ JSON template for each insert/update. Fill fields using the rules above:
 | `ticketing` | **Ticketing CTA** |
 | `isLiveMusicEvent` | **Product split** (Horns vs Muvin) |
 | `about.es` + `about.en` | Both required (translate if the source has only one language) |
+| `dateTime` | **First** performance (debut), UTC. Never rewrite to “today” mid-run. |
+| `endDate` | **Last** performance (same clock rules as `dateTime`), UTC. **Omit** / `null` for one-night events. Plays, musicals, seasons, fests with a published range → set both. |
+| `totalDays` | Optional legacy; prefer `endDate` for visibility. Leave `null` on new writes unless you already compute it. |
+
+**Dates — one night vs run**
+
+| Source says | Write |
+|-------------|--------|
+| Single night / single showtime | `dateTime` only |
+| Range (“del 10 al 30 de nov”, “hasta el 15”, season end) | `dateTime` = first show · `endDate` = last show (same local time-of-day when known) |
+| Open-ended / TBA end | `dateTime` only + `FOLLOW_UP` if needed — do **not** invent `endDate` |
+
+Clients keep the event in upcoming lists while `endDate >= now` (or `dateTime >= now` when `endDate` is absent).
 
 **`name` vs `headliner.name` — avoid duplicate wording**
 
@@ -406,6 +434,7 @@ JSON template for each insert/update. Fill fields using the rules above:
     "en": "Description in English…"
   },
   "dateTime": { "$date": "2026-09-28T00:15:00.000Z" },
+  "endDate": null,
   "totalDays": null,
   "headliner": { "name": "Main artist or activity", "url": "<poster url>" },
   "ticketing": { "name": "Teleticket", "url": "https://teleticket.com.pe/event-slug" },
