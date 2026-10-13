@@ -330,6 +330,7 @@ Keep a row only if it’s **free** or the guide points at a **group-1** seller �
 | Running4Peru | `running4peru.com` | `SPORT` | Sync **Destacado** + **Saturday** + **Sunday** (Lima + Callao; skip `¡Gratis!` municipal trots / outside metro) | `https://www.running4peru.com/calendarios/calendario-peru-running` |
 | Running4Peru | `running4peru.com` | `SPORT` | Sync **Destacado** + **Saturday** + **Sunday** (Lima + Callao; skip `¡Gratis!` municipal trots / outside metro) | `https://www.running4peru.com/calendarios/calendario-peru-running-2027` |
 | Rockmetalperu | `rockmetalperu.com` | `CONCERT` | | `https://rockmetalperu.com/agenda/` |
+| Puroteatro | `puroteatro.pe` | `THEATER` | | `https://puroteatro.pe/cartelera` |
 
 Add more guide rows when you approve them.
 
